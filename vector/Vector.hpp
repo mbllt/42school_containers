@@ -12,6 +12,20 @@
 
 
 template<typename T>
+class VectorIterator::iterator {
+
+	private:
+
+
+	public:
+
+		VectorIterator()
+		~VectorIterator()
+
+};
+
+
+template<typename T>
 class Vector {
 
 	private :
@@ -73,9 +87,17 @@ class Vector {
 //	------------------------------------------------
 
 
+//	--------------->> ITERATORS <<------------------
+
+		// iterator	begin() const {return _tab[0];}
+		// const iterator	end() const {return _tab[_size - 1];}
+
+//	------------------------------------------------
+
+
 //	--------------->> FUNCTIONS <<------------------
 
-		unsigned int	size() const {return _size;}
+		const size_t	size() const {return _size;}
 
 //	------------------------------------------------
 

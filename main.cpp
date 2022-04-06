@@ -16,46 +16,29 @@ void	incrementVector(Vector<int> & arr) {
 
 int	main(void) {
 
-	std::cout << "test Vector constructor empty no leaks" << "\n";
+	std::cout << "\n\n\ntest constructors" << "\n";
 	Vector<int>	testLeaks;
 	(void)testLeaks;
 
-	Vector<int>	src(5, 10);
-	std::cout << "src :" << "\n";
-	displayVector(src);
+	Vector<int>	test1(5, 10);
+	std::cout << "test1 :" << "\n";
+	displayVector(test1);
 
-	std::cout << "\n-----------------\n" << std::endl;
+	std::cout << "\n" << std::endl;
 
-	std::cout << "dest copy of src :" << "\n";
-	Vector<int>	dest(src);
-	displayVector(dest);
-
-	std::cout << "\n-----------------\n" << std::endl;
-
-	std::cout << "change src[0]" << "\n";
-	src[0] = 5;
-	std::cout << "src :" << "\n";
-	displayVector(src);
-
-	std::cout << "\n-----------------\n" << std::endl;
-
-	std::cout << "dest :" << "\n";
-	displayVector(dest);
-
-	std::cout << "\n-----------------\n" << std::endl;
-
-	std::cout << "Incrementing src" << "\n";
-	incrementVector(src);
-	displayVector(src);
+	std::cout << "test2 copy of test1 :" << "\n";
+	Vector<int>	test2(test1);
+	displayVector(test2);
 
 	std::cout << "\n-----------------\n" << std::endl;
 
 	std::cout << "error invalid index test" << "\n";
 	try {
-		dest[50] = 2;
+		test2[50] = 2;
 	}
 	catch (std::exception &e) {
 		std::cout << e.what() << std::endl;
 	}
+	std::cout << "\n\n" << std::endl;
 	return 0;
 }
