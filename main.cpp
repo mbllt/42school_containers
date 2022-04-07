@@ -16,29 +16,40 @@ void	incrementVector(Vector<int> & arr) {
 
 int	main(void) {
 
-	std::cout << "\n\n\ntest constructors" << "\n";
+	std::cout << "\n\n\ntest: constructors" << "\n";
 	Vector<int>	testLeaks;
 	(void)testLeaks;
 
-	Vector<int>	test1(5, 10);
-	std::cout << "test1 :" << "\n";
-	displayVector(test1);
+	Vector<int>	container(8, 10);
+	std::cout << "container :";
+	displayVector(container);
 
-	std::cout << "\n" << std::endl;
-
-	std::cout << "test2 copy of test1 :" << "\n";
-	Vector<int>	test2(test1);
-	displayVector(test2);
+	std::cout << "change container:" ;
+	for (size_t i = 1;i < container.size(); ++i)
+		if (i > 0)
+			container[i] += container[i - 1];
+	displayVector(container);
 
 	std::cout << "\n-----------------\n" << std::endl;
+	std::cout << "test: error invalid index" << "\n";
 
-	std::cout << "error invalid index test" << "\n";
 	try {
-		test2[50] = 2;
+		container[50] = 2;
 	}
 	catch (std::exception &e) {
 		std::cout << e.what() << std::endl;
 	}
+
+	std::cout << "\n-----------------\n" << std::endl;
+	std::cout << "test: iterators" << "\n";
+
+	// container::VectorIterator it_test;
+	// VectorIterator test(container);
+	// typename VectorIterator test(container);
+	// VectorIterator until(container+5);
+	// for (VectorIterator it=from; it!=until; it++)
+	// 	std::cout << *it << ' ';
+
 	std::cout << "\n\n" << std::endl;
 	return 0;
 }

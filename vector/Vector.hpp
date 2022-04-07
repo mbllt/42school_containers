@@ -4,39 +4,37 @@
 #include <iostream>
 #include <string>
 #include <iterator>
+#include <algorithm>
 
 //	------------------------------------------- ITERATOR -------------------------------------------
 
 template<typename T>
-class VectorIterator:: std::iterator_traits {
+class VectorIterator {
 
 	public:
 		typedef T value_type;
-		typedef pointer* value_type;
-		typedef pointer const * value_type;
-		typedef reference& value_type;
-		typedef reference const & value_type;
+		typedef value_type * pointer;
+		typedef value_type & reference;
 		typedef std::ptrdiff_t diff_type;
 
 	private:
 
-		pointer _p;
+		pointer p;
 
 		void	_delete() {
-			delete [] _tab;
 		}
 
-		void	_copy(Vector const & copy) {
-			_p = cpy._p;
+		void	_copy(VectorIterator const & copy) {
+			p = copy.p;
 		}
 
 	public:
 
 //	--------------->> CONSTRUCTORS <<---------------
 
-		VectorIterator() : _p(NULL) {}
-		VectorIterator(pointer p) : _p(p) {}
-		VectorIterator(VectorIterator const & cpy) : _p(cpy._p) {}
+		VectorIterator() : p(NULL) {}
+		VectorIterator(pointer p) : p(p) {}
+		VectorIterator(VectorIterator const & copy) : p(copy.p) {}
 		~VectorIterator() {}
 
 //	------------------------------------------------
@@ -44,32 +42,23 @@ class VectorIterator:: std::iterator_traits {
 
 //	---------------->> OPERATORS <<-----------------
 
-		VectorIterator & operator=(Vector const & src) {
-			_delete();
-			_copy(src);
-			return *this;
-		}
+		VectorIterator& operator++() {++p;return *this;}
+		VectorIterator operator++(int) {VectorIterator tmp(*this); operator++(); return tmp;}
+		VectorIterator& operator--() {++p;return *this;}
+		VectorIterator operator--(int) {VectorIterator tmp(*this); operator++(); return tmp;}
+		bool operator==(const VectorIterator& src) const {return p==src.p;}
+		bool operator!=(const VectorIterator& src) const {return p!=src.p;}
+		pointer& operator*() {return *p;}
 
-		VectorIterator& operator++(void) {}
-		VectorIterator operator++(int) {}
-		VectorIterator& operator--(void) {}
-		VectorIterator operator--(int) {}
-
-		T & operator[](const unsigned int index) {
-			if (index >= this->_size)
-				throw AccessorVectorInvalidExcpetion("Index to access VectorIterator is invalid.");
-			return _tab[index];
-		}
-
-		T const & operator[](const unsigned int index) const {
-			T & ret = const_cast<Vector &>(*this).operator[](index);
-			return const_cast<T const &>(ret);
-		}
+		// VectorIterator& operator++(void) {}
+		// VectorIterator operator++(int) {}
+		// VectorIterator& operator--(void) {}
+		// VectorIterator operator--(int) {}
 
 //	------------------------------------------------
 
 
-//	---------------->> OPERATORS <<-----------------
+//	---------------->> FUNCTIONS <<-----------------
 
 		// VectorIterator & begin() {}
 		// VectorIterator const & begin() const {}
@@ -85,7 +74,8 @@ template<typename T>
 class Vector {
 
 	public:
-			typedef VectorIterator iterator;
+			typedef VectorIterator<T> iterator;
+			typedef VectorIterator<T> const_iterator;
 
 	private :
 
@@ -143,12 +133,15 @@ class Vector {
 			return const_cast<T const &>(ret);
 		}
 
+		Vector& operator++() {return ++(*this);}
+		Vector operator++(int) {Vector tmp(*this); ++(*tmp); return tmp;}
+
 //	------------------------------------------------
 
 
 //	---------------->> CAPACITY <<------------------
 
-		// size_t	size() const {return _size;}
+		size_t	size() const {return _size;}
 
 //	------------------------------------------------
 
