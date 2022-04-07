@@ -3,30 +3,89 @@
 
 #include <iostream>
 #include <string>
+#include <iterator>
 
-
-// typename au debut car je veux preciser
-//	au compilateur que mon template aura
-//	un type ::iterator.
-// typename T ::iterator ret = std::find(element.begin(), element.end(), nb);
-
+//	------------------------------------------- ITERATOR -------------------------------------------
 
 template<typename T>
-class VectorIterator::iterator {
+class VectorIterator:: std::iterator_traits {
+
+	public:
+		typedef T value_type;
+		typedef pointer* value_type;
+		typedef pointer const * value_type;
+		typedef reference& value_type;
+		typedef reference const & value_type;
+		typedef std::ptrdiff_t diff_type;
 
 	private:
 
+		pointer _p;
+
+		void	_delete() {
+			delete [] _tab;
+		}
+
+		void	_copy(Vector const & copy) {
+			_p = cpy._p;
+		}
 
 	public:
 
-		VectorIterator()
-		~VectorIterator()
+//	--------------->> CONSTRUCTORS <<---------------
+
+		VectorIterator() : _p(NULL) {}
+		VectorIterator(pointer p) : _p(p) {}
+		VectorIterator(VectorIterator const & cpy) : _p(cpy._p) {}
+		~VectorIterator() {}
+
+//	------------------------------------------------
+
+
+//	---------------->> OPERATORS <<-----------------
+
+		VectorIterator & operator=(Vector const & src) {
+			_delete();
+			_copy(src);
+			return *this;
+		}
+
+		VectorIterator& operator++(void) {}
+		VectorIterator operator++(int) {}
+		VectorIterator& operator--(void) {}
+		VectorIterator operator--(int) {}
+
+		T & operator[](const unsigned int index) {
+			if (index >= this->_size)
+				throw AccessorVectorInvalidExcpetion("Index to access VectorIterator is invalid.");
+			return _tab[index];
+		}
+
+		T const & operator[](const unsigned int index) const {
+			T & ret = const_cast<Vector &>(*this).operator[](index);
+			return const_cast<T const &>(ret);
+		}
+
+//	------------------------------------------------
+
+
+//	---------------->> OPERATORS <<-----------------
+
+		// VectorIterator & begin() {}
+		// VectorIterator const & begin() const {}
 
 };
+//	------------------------------------------------------------------------------------------------
 
+
+
+//	-------------------------------------------- VECTOR --------------------------------------------
 
 template<typename T>
 class Vector {
+
+	public:
+			typedef VectorIterator iterator;
 
 	private :
 
@@ -72,7 +131,7 @@ class Vector {
 			_copy(src);
 			return *this;
 		}
-		
+
 		T & operator[](const unsigned int index) {
 			if (index >= this->_size)
 				throw AccessorVectorInvalidExcpetion("Index to access Vector is invalid.");
@@ -87,7 +146,14 @@ class Vector {
 //	------------------------------------------------
 
 
-//	--------------->> ITERATORS <<------------------
+//	---------------->> CAPACITY <<------------------
+
+		// size_t	size() const {return _size;}
+
+//	------------------------------------------------
+
+
+//	----------------->> ACCESS <<-------------------
 
 		// iterator	begin() const {return _tab[0];}
 		// const iterator	end() const {return _tab[_size - 1];}
@@ -95,9 +161,10 @@ class Vector {
 //	------------------------------------------------
 
 
-//	--------------->> FUNCTIONS <<------------------
+//	--------------->> MODIFIERS <<------------------
 
-		const size_t	size() const {return _size;}
+//		void assign(inputIterator first, inputIterator last);
+//		void assign(size_t n, const T & val);
 
 //	------------------------------------------------
 
@@ -120,8 +187,7 @@ class Vector {
 				}
 		};
 
-//	------------------------------------------------
-
 };
+//	------------------------------------------------------------------------------------------------
 
 #endif
