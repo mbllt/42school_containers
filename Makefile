@@ -1,46 +1,56 @@
-#-------------- NAME-----------------
+#------------- NAME -----------------
 NAME=			containers
 #------------------------------------
 
 
-#-------------- SRCS-----------------
+#------------- SRCS -----------------
 SRCS=			main.cpp
 #------------------------------------
 
 
-#-------------- OBJS-----------------
+#-------------- TESTS ---------------
+TEST_DIR=		tests
+TEST_FILES=		vectorTest.cpp
+TEST_SRCS=		$(addprefix $(TEST_DIR)/,$(TEST_FILES))
+#------------------------------------
+
+
+#-------------- OBJS ----------------
 OBJS_DIR=		.objs
 OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
 #------------------------------------
 
 
-#-------------- COMPILER-------------
+#------------- COMPILER -------------
 CC=				c++
-FLAGS=			-Wall -Werror -Wextra  -std=c++98 -Ivector/
+FLAGS=			-Wall -Werror -Wextra -std=c++98
 #------------------------------------
 
 
-#-------------- INCS-----------------
-INC_VEC=		vector
-INC_FILES=		Vector.hpp
-INCLUDES=		$(addprefix $(INC_VEC)/,$(INC_FILES))
+#------------- INCS -----------------
+INCLUDES=		-Ivector/ -Iiterator/ -Itests/
 #------------------------------------
 
 
-#-------------- RM-------------------
+#-------------- RM ------------------
 RM=				/bin/rm -rf
 #------------------------------------
+
+
+ifeq ($(SAN), 1)
+FLAGS = -Wall -Werror -Wextra -std=c++98 -fsanitize=address -g3
+endif
 
 
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
 					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(NAME)$(END)"
-					$(CC) -fsanitize=address -g3 $(FLAGS) $(OBJS) -o $(NAME)
+					$(CC) $(FLAGS) $(INCLUDES) $(OBJS) -o $(NAME) $(TEST_VEC)
 
-$(OBJS_DIR)/%.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
+$(OBJS_DIR)/%.o:	%.cpp | $(OBJS_DIR)
 					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
-					$(CC) -fsanitize=address -g3 $(FLAGS) -o $@ -c $<
+					$(CC) $(FLAGS) $(INCLUDES) -o $@ -c $< $(TEST_VEC)
 
 $(OBJS_DIR):
 					@mkdir -p $(OBJS_DIR)
@@ -57,6 +67,7 @@ fclean:		clean
 re:			fclean all
 
 .PHONY:		all clean fclean re
+
 
 #-----------------------COLORS-----------------------
 GREEN	= \033[32m
