@@ -4,14 +4,12 @@ NAME=			containers
 
 
 #------------- SRCS -----------------
-SRCS=			main.cpp
-#------------------------------------
-
-
-#-------------- TESTS ---------------
-TEST_DIR=		tests
-TEST_FILES=		vectorTest.cpp
-TEST_SRCS=		$(addprefix $(TEST_DIR)/,$(TEST_FILES))
+SRCS_DIR=		tests
+SRCS_FILES=		main.cpp\
+				vectorTest.cpp
+SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
+# SRCS=			main.cpp\
+				vectorTest.cpp
 #------------------------------------
 
 
@@ -46,14 +44,15 @@ all:		$(NAME)
 
 $(NAME):	$(OBJS)
 					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(NAME)$(END)"
-					$(CC) $(FLAGS) $(INCLUDES) $(OBJS) -o $(NAME) $(TEST_VEC)
+					$(CC) $(FLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
 
 $(OBJS_DIR)/%.o:	%.cpp | $(OBJS_DIR)
-					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
-					$(CC) $(FLAGS) $(INCLUDES) -o $@ -c $< $(TEST_VEC)
+					$(CC) $(FLAGS) $(INCLUDES) -o $@ -c $<
 
 $(OBJS_DIR):
 					@mkdir -p $(OBJS_DIR)
+					@mkdir -p $(OBJS_DIR)/tests
+					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$(SRCS)$(END)"
 
 clean:
 					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)object files$(END)"
