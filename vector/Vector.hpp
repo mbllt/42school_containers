@@ -5,6 +5,8 @@
 #include <string>
 #include <iterator>
 #include <algorithm>
+#include <vector>
+#include <memory>
 
 //	------------------------------------------- ITERATOR -------------------------------------------
 
@@ -48,20 +50,12 @@ class VectorIterator {
 		VectorIterator operator--(int) {VectorIterator tmp(*this); operator++(); return tmp;}
 		bool operator==(const VectorIterator& src) const {return p==src.p;}
 		bool operator!=(const VectorIterator& src) const {return p!=src.p;}
-		pointer& operator*() {return *p;}
+		value_type& operator*() {return *p;}
 
 		// VectorIterator& operator++(void) {}
 		// VectorIterator operator++(int) {}
 		// VectorIterator& operator--(void) {}
 		// VectorIterator operator--(int) {}
-
-//	------------------------------------------------
-
-
-//	---------------->> FUNCTIONS <<-----------------
-
-		// VectorIterator & begin() {}
-		// VectorIterator const & begin() const {}
 
 };
 //	------------------------------------------------------------------------------------------------
@@ -70,39 +64,49 @@ class VectorIterator {
 
 //	-------------------------------------------- VECTOR --------------------------------------------
 
-template<typename T>
+template<typename T, class Alloc = std::allocator<T> >
 class Vector {
 
 	public:
-			typedef VectorIterator<T> iterator;
-			typedef VectorIterator<T> const_iterator;
+		typedef VectorIterator<T> iterator;
+		typedef VectorIterator<const T> const_iterator;
+		typedef VectorIterator<T> reverse_iterator;
+		typedef VectorIterator<const T> const_reverse_iterator;
+
+		typedef Alloc allocator_type;
+		typedef T value_type;
+		typedef value_type * pointer;
+		typedef value_type & reference;
 
 	private :
 
-		T *			_tab;
-		size_t		_size;
+		allocator_type	_alloc;
+		value_type *	_tab;
+		size_t			_size;
 
 		void	_delete() {
 			delete [] _tab;
 		}
 
 		void	_copy(Vector const & copy) {
-			_tab = new T[copy._size];
-			_size = copy._size;
-			for (size_t i = 0; i < _size; i++)
-				_tab[i] = copy._tab[i];
+			int i = 0;
+			_tab = _alloc.allocate(copy._size);
+			while (i++ < copy._size) {
+				_alloc.construct(_tab[i], &(copy._tab[i]));
+				_tab++;
+			}
 		}
 
 	public :
 
 //	--------------->> CONSTRUCTORS <<---------------
 
-		Vector() : _tab(), _size(0) {}
+		Vector(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _tab(), _size(0) {}
 
-		Vector(size_t n, const T & val) : _size(n) {
-			_tab = new T[_size];
-			for (size_t i = 0;i < _size;++i)
-				_tab[i] = val;
+		Vector(size_t n, const T & val, const allocator_type& alloc = allocator_type()) : _alloc(alloc), _size(n) {
+			_tab = _alloc.allocate(n);
+			for(size_t i = 0;i < n;i++)
+				_alloc.construct(&_tab[i], val);
 		}
 
 		// Vector(input iterator first, input iterator last) : _size(first - last) {_tab = new T[_size]}
@@ -139,6 +143,43 @@ class Vector {
 //	------------------------------------------------
 
 
+//	---------------->> ITERATORS <<-----------------
+
+		iterator begin() {
+			return iterator(_tab);
+		}
+
+		const_iterator begin() const {
+			return const_iterator(_tab);
+		}
+
+		iterator end() {
+			return iterator(&(_tab[_size]));
+		}
+
+		const_iterator end() const {
+			return const_iterator(&(_tab[_size]));
+		}
+
+		reverse_iterator rbegin() {
+			return reverse_iterator(&(_tab[_size - 1]));
+		}
+
+		const_reverse_iterator rbegin() const {
+			return const_reverse_iterator(&(_tab[_size - 1]));
+		}
+
+		reverse_iterator rend() {
+			return reverse_iterator(_tab - 1);
+		}
+
+		const_reverse_iterator rend() const {
+			return const_reverse_iterator(_tab - 1);
+		}
+
+//	------------------------------------------------
+
+
 //	---------------->> CAPACITY <<------------------
 
 		size_t	size() const {return _size;}
@@ -148,8 +189,8 @@ class Vector {
 
 //	----------------->> ACCESS <<-------------------
 
-		// iterator	begin() const {return _tab[0];}
-		// const iterator	end() const {return _tab[_size - 1];}
+		// front() const {return _tab[0];}
+		// back() const {return _tab[_size - 1];}
 
 //	------------------------------------------------
 

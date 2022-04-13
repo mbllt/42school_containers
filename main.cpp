@@ -1,17 +1,14 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Vector.hpp"
 
 template<typename T>
-void	displayVector(Vector<T> const & arr) {
-	for (unsigned int i = 0; i < arr.size(); i++)
-		std::cout << arr[i] << " ";
+void	displayVector(Vector<T> const & container) {
+	std::cout << "HERE !!!! size : " << container.size() << std::endl;
+	for (unsigned int i = 0; i < container.size(); i++)
+		std::cout << container[i] << " ";
 	std::cout << "\n";
-}
-
-void	incrementVector(Vector<int> & arr) {
-	for (unsigned int i = 0; i < arr.size(); i++)
-		arr[i]++;
 }
 
 int	main(void) {
@@ -43,13 +40,17 @@ int	main(void) {
 	std::cout << "\n-----------------\n" << std::endl;
 	std::cout << "test: iterators" << "\n";
 
-	// container::VectorIterator it_test;
-	// VectorIterator test(container);
-	// typename VectorIterator test(container);
-	// VectorIterator until(container+5);
-	// for (VectorIterator it=from; it!=until; it++)
-	// 	std::cout << *it << ' ';
+	// std::vector<const int> bonjour(5, 0);
+	Vector<int> bonjour(5, 0);
+	// int i = 0;
 
-	std::cout << "\n\n" << std::endl;
+	// Vector<const int>::iterator it = bonjour.begin();
+	// while (it != bonjour.end()) {
+	// 	++it;
+	// 	*it = ++i;
+	// }
+	// displayVector(bonjour);
+
+	std::cout << "rbegin : " << *(bonjour.rbegin()) << std::endl;
 	return 0;
 }
