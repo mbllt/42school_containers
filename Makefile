@@ -20,12 +20,15 @@ PATH_OBJS=		tests
 
 #------------- COMPILER -------------
 CC=				c++
-FLAGS=			-Wall -Werror -Wextra -std=c++98
+FLAGS=			-Wall -Werror -Wextra -std=c++98 -Ivector/ -Iiterator/ -Itests/
 #------------------------------------
 
 
 #------------- INCS -----------------
-INCLUDES=		-Ivector/ -Iiterator/ -Itests/
+INCLUDES=		vector/vector.hpp\
+				iterator/iterator.hpp\
+				iterator/reverse_iterator.hpp\
+				tests/tests.hpp
 #------------------------------------
 
 
@@ -45,11 +48,11 @@ all:		$(NAME)
 
 $(NAME):	$(OBJS)
 					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(NAME)$(END)"
-					$(CC) $(FLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
+					$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
-$(OBJS_DIR)/%.o:	%.cpp | $(OBJS_DIR)
+$(OBJS_DIR)/%.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
 					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
-					$(CC) $(FLAGS) $(INCLUDES) -o $@ -c $<
+					$(CC) $(FLAGS) -o $@ -c $<
 
 $(OBJS_DIR):
 					@mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))

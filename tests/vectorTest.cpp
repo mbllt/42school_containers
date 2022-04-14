@@ -9,11 +9,11 @@
 					else\
 						std::cout << std::setw(35) << "\033[31m ko\033[0m" << std::endl;
 
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 #define X std::rand() % 12
 #define Y std::rand() % 10
-#define V std::vector<int>
-#define MYV ft::vector<int>
+#define V std::vector<char>
+#define MYV ft::vector<char>
 
 template<typename T>
 void displayVec(T vec) {
@@ -41,7 +41,6 @@ void test_constructors() {
 	MYV::iterator myit = myvec.begin();
 	MYV mybis(myvec);
 	MYV mytres;
-	displayVec(myvec);
 
 	if (!DEBUG_MODE){
 		print_res(*it == *myit);}
