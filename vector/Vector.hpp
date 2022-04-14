@@ -117,11 +117,17 @@ class vector {
 		}
 
 		iterator end() {
-			return iterator(&(_tab[_size - 1]));
+			if (*_tab)
+				return iterator(&(_tab[_size - 1]));
+			else
+				return iterator(&(_tab[_size]));
 		}
 
 		const_iterator end() const {
-			return const_iterator(&(_tab[_size - 1]));
+			if (*_tab)
+				return const_iterator(&(_tab[_size - 1]));
+			else
+				return const_iterator(&(_tab[_size]));
 		}
 
 		reverse_iterator rbegin() {
