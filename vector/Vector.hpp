@@ -37,11 +37,10 @@ class vector {
 		}
 
 		void	_copy(vector const & copy) {
-			int i = 0;
+			_size = copy._size;
 			_tab = _alloc.allocate(copy._size);
-			while (i++ < copy._size) {
-				_alloc.construct(_tab[i], &(copy._tab[i]));
-				_tab++;
+			for (size_t i = 0;i < copy._size;i++){
+				_alloc.construct(&_tab[i], copy._tab[i]);
 			}
 		}
 
@@ -85,8 +84,24 @@ class vector {
 			return const_cast<T const &>(ret);
 		}
 
-		vector& operator++() {return ++(*this);}
-		vector operator++(int) {vector tmp(*this); ++(*tmp); return tmp;}
+		vector& operator++() {
+			return ++(*this);
+		}
+
+		vector operator++(int) {
+			vector tmp(*this);
+			++(*tmp); return tmp;
+		}
+
+		bool operator==(vector & cmp) {
+			iterator it = begin();
+			iterator it2 = cmp.begin();
+			while (it++ != end() && it2++ != cmp.end())
+				if (*it != *it2) 
+					return false;
+			return true;
+		}
+
 
 //	------------------------------------------------
 
@@ -102,11 +117,11 @@ class vector {
 		}
 
 		iterator end() {
-			return iterator(&(_tab[_size]));
+			return iterator(&(_tab[_size - 1]));
 		}
 
 		const_iterator end() const {
-			return const_iterator(&(_tab[_size]));
+			return const_iterator(&(_tab[_size - 1]));
 		}
 
 		reverse_iterator rbegin() {
