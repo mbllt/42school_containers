@@ -4,8 +4,11 @@
 #include <iostream>
 #include <string>
 
-#include <vector>
-#include "vector.hpp"
+// #include <vector>
+// #include "vector.hpp"
+
+#define DEBUG_MODE 1
+
 void testVector(void);
 
 #endif

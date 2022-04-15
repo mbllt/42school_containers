@@ -20,23 +20,24 @@ PATH_OBJS=		tests
 
 #------------- COMPILER -------------
 CC=				c++
-FLAGS=			-Wall -Werror -Wextra -std=c++98 -Ivector/ -Iiterator/ -Itests/
+FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/
 #------------------------------------
 
 
 #------------- INCS -----------------
-INCLUDES=		vector/vector.hpp\
-				iterator/iterator.hpp\
-				iterator/reverse_iterator.hpp\
-				tests/tests.hpp
+INC_DIR=		includes
+INC_FILES=		vector.hpp\
+				iterator.hpp\
+				reverse_iterator.hpp\
+				tests.hpp
+INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
+
 #------------------------------------
 
 
 #-------------- RM ------------------
 RM=				/bin/rm -rf
 #------------------------------------
-
-#probleme avec les includes : quand je les mets en dependance ca marche plus
 
 
 ifeq ($(SAN), 1)
