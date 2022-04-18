@@ -6,7 +6,10 @@ NAME=			containers
 #------------- SRCS -----------------
 SRCS_DIR=		tests
 SRCS_FILES=		main.cpp\
-				vectorTest.cpp
+				vector/vectorTest.cpp\
+				vector/test_constructors.cpp\
+				vector/test_operators.cpp\
+				vector/test_iterators.cpp
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
 
@@ -14,7 +17,7 @@ SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #-------------- OBJS ----------------
 OBJS_DIR=		.objs
 OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
-PATH_OBJS=		tests
+PATH_OBJS=		tests tests/vector
 #------------------------------------
 
 
