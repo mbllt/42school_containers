@@ -84,7 +84,7 @@ class vector {
 
 //	---------------->> OPERATORS <<-----------------
 
-		vector & operator=(vector const & src) {
+		vector & operator=(vector const &src) {
 			_delete();
 			_copy(src);
 			return *this;
@@ -114,33 +114,27 @@ class vector {
 		}
 
 		iterator end() {
-			if (*_tab)
-				return iterator(&(_tab[_size - 1]));
-			else
-				return iterator(&(_tab[_size]));
+			return iterator(&(_tab[_size + 1]));
 		}
 
 		const_iterator end() const {
-			if (*_tab)
-				return const_iterator(&(_tab[_size - 1]));
-			else
-				return const_iterator(&(_tab[_size]));
+			return const_iterator(&(_tab[_size + 1]));
 		}
 
 		reverse_iterator rbegin() {
-			return reverse_iterator(&(_tab[_size - 1]));
+			return reverse_iterator(end());
 		}
 
 		const_reverse_iterator rbegin() const {
-			return const_reverse_iterator(&(_tab[_size - 1]));
+			return const_reverse_iterator(end());
 		}
 
 		reverse_iterator rend() {
-			return reverse_iterator(_tab - 1);
+			return reverse_iterator(begin());
 		}
 
 		const_reverse_iterator rend() const {
-			return const_reverse_iterator(_tab - 1);
+			return const_reverse_iterator(begin());
 		}
 
 //	------------------------------------------------

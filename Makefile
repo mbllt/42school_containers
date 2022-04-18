@@ -35,6 +35,9 @@ INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 #------------------------------------
 
 
+TESTS=			res_myvector.txt\
+				res_vector.txt
+
 #-------------- RM ------------------
 RM=				/bin/rm -rf
 #------------------------------------
@@ -66,6 +69,7 @@ fclean:		clean
 					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)executable, objs_dir$(END)"
 					@$(RM) $(NAME)
 					@$(RM) $(OBJS_DIR)
+					@$(RM) $(TESTS)
 
 re:			fclean all
 

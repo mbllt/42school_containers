@@ -1,0 +1,21 @@
+------------------- TESTS VECTOR ------------------
+
+TEST CONSTRUCTORS
+display container : 10 10 10 10 10 0 
+display container : 10 10 10 10 10 0 
+
+TEST OPERATORS
+op ==
+
+TEST ITERATORS
+display container : 10 20 30 40 50 1414743380 
+it ++()
+1414743380
+it --()
+it *
+1163272275
+it ++(int)
+1380930627
+it --(int)
+error iterators
+it !=
