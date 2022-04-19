@@ -39,35 +39,33 @@ class iterator {
 		reference			operator*() {return *p;}
 		const_reference		operator*() const {return *p;}
 
-		pointer				operator->() {return *p;}
-		const_pointer		operator->() const {return *p;}
+		pointer				operator->() {return p;}
+		const_pointer		operator->() const {return p;}
 
-		reference			operator[](int val) {return *(p + val);}
-		const_reference		operator[](int val) const {return *(p + val);}
+		reference			operator[](difference_type n) {return *(p + n);}
+		const_reference		operator[](difference_type n) const {return *(p + n);}
 
 		iterator&			operator++() {++p;return *this;}
 
-		iterator			operator++(int val) {(void)val;iterator tmp(*this); operator++(); return tmp;}
+		iterator			operator++(const int n) {(void)n;iterator tmp(*this); operator++(); return tmp;}
 
 		iterator&			operator--() {--p;return *this;}
 
-		iterator			operator--(int val) {(void)val;iterator tmp(*this); operator++(); return tmp;}
+		iterator			operator--(const int n) {(void)n;iterator tmp(*this); operator++(); return tmp;}
 
-		reference			operator+(const reference src) {return *p + *(src.p);}
-		const_reference		operator+(const reference src) const {return *p + *(src.p);}
+		difference_type		operator-(const iterator& src) {return p - src.p;}
 
-		reference			operator-(const reference src) {return *p - *(src.p);}
-		const_reference		operator-(const reference src) const {return *p - *(src.p);}
+		iterator			operator+(difference_type n) {return p + n;}
 
-		reference			operator+=(const reference src) {return *p + *(src.p);}
-		const_reference		operator+=(const reference src) const {return *p + *(src.p);}
+		iterator			operator-(difference_type n) {return p - n;}
 
-		reference			operator-=(const reference src) {return *p - *(src.p);}
-		const_reference		operator-=(const reference src) const {return *p - *(src.p);}
+		friend iterator		operator+(difference_type n, const iterator& src);
 
-		iterator&			operator+(int val) {p + val;return *this;}
+		friend iterator		operator-(difference_type n, const iterator& src);
 
-		iterator&			operator-(int val) {p - val;return *this;}
+		iterator&			operator+=(difference_type n) {p += n; return *this;}
+
+		iterator&			operator-=(difference_type n) {p -= n; return *this;}
 
 		bool				operator==(const iterator& src) const {return p==src.p;}
 		
@@ -81,9 +79,19 @@ class iterator {
 
 		bool				operator>=(const iterator& src) const {return p>=src.p;}
 
-
-
 };
 
+template<typename T>
+ft::iterator<T>					operator+(typename ft::iterator<T>::difference_type n,
+											typename ft::iterator<T>& it)
+											{return it + n;}
+											// {return (&(*it) + n);}
+
+template<typename T>
+ft::iterator<T>					operator-(typename ft::iterator<T>::difference_type n,
+											typename ft::iterator<T>& it)
+											{return it - n;}
+
 }
+
 #endif

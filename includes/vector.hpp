@@ -89,16 +89,6 @@ class vector {
 			return *this;
 		}
 
-		bool operator==(vector & cmp) {
-			iterator it = begin();
-			iterator it2 = cmp.begin();
-			while (it++ != end() && it2++ != cmp.end())
-				if (*it != *it2) 
-					return false;
-			return true;
-		}
-
-
 //	------------------------------------------------
 
 
@@ -191,7 +181,29 @@ class vector {
 				}
 		};
 
+//	------------------------------------------------
+
 };
 
+//	---------------->> NON MEMBERS <<---------------
+// non-members == != < > <= >=
+
+template<typename T, class Alloc>
+bool		operator==(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
+				if (src.size() != cmp.size())
+					return false;
+				typename ft::vector<T>::const_iterator it = src.begin();
+				typename ft::vector<T>::const_iterator itbis = cmp.begin();
+				while(it != src.end()) {
+					if (itbis == cmp.end() || *it != *itbis)
+						return false;
+					++it;
+					++itbis;
+				}
+				return true;
+			}
+
 }
+
+
 #endif

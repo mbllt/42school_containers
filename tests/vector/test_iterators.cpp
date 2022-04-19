@@ -9,33 +9,24 @@ void test_iterators(std::ofstream& of, std::ofstream& myof) {
 
 	V vec(X, Y);
 	V::iterator it = vec.begin();
-	V::iterator itbis = vec.end();
+	V::iterator ite = vec.end();
 	MYV myvec(X, Y);
 	MYV::iterator myit = myvec.begin();
-	MYV::iterator myitbis = myvec.end();
+	MYV::iterator myite = myvec.end();
 
 	printof(of, myof, "it ++()");
-	for (int i = 1; it != itbis; ++it) {
+	for (int i = 1; it != ite; ++it) {
 	// std::cout << "vec[0] : " << vec[0] << std::endl;
-		vec[i] = 10 + vec[i - 1];
-		++i;
+		*it = i;
 	}
 	displayVec(of, vec);
-	for (size_t i = 1; myit != myitbis; ++myit) {
-	// std::cout << "bis : " << vec[0] << std::endl;
-		if (i && i < myvec.size())
-			myvec[i] = 10 + myvec[i - 1];
-		++i;
+	for (size_t i = 1; myit != myite; ++myit) {
+		*myit = i;
 	}
 	displayVec(myof, myvec);
 
-//	--()
-	of << "it : " << *it << " | ";
-	myof << "it : " << *myit << " | ";
-	--it;
-	--myit;
-	of << "--it : " << *it << "\n";
-	myof << "--it : " << *myit << "\n";
+	it = vec.begin(); // to avoid reading vec.end() -> undefined behavior
+	myit = myvec.begin();
 
 //	++(int)
 	of << "it : " << *it << " | ";
@@ -53,93 +44,134 @@ void test_iterators(std::ofstream& of, std::ofstream& myof) {
 	of << "it-- : " << *it << "\n";
 	myof << "it-- : " << *myit << "\n";
 
+//	++()
+	of << "it : " << *it << " | ";
+	myof << "it : " << *myit << " | ";
+	++it;
+	++myit;
+	of << "++it : " << *it << "\n";
+	myof << "++it : " << *myit << "\n";
+
+//	--()
+	of << "it : " << *it << " | ";
+	myof << "it : " << *myit << " | ";
+	--it;
+	--myit;
+	of << "--it : " << *it << "\n";
+	myof << "--it : " << *myit << "\n";
+
 //	==
-	if (*it == *itbis && *myit == *myitbis) {
-		printof(of, myof, "*it == *itbis : true");
+	if (*it == *myit) {
+		printof(of, myof, "*it == *myit : true");
 	}
-	else if (*it == *itbis) {
-		of << "*it == *itbis : true\n";
-		myof << "*it == *itbis : false\n";
+	else {
+		of << "*it == *myit : true\n";
+		myof << "*it == *itmy : false\n";
 	}
 
 //	!=
-	if (*it != *itbis && *myit != *myitbis) {
-		printof(of, myof, "*it != *itbis : true");
+	if (*it != *myit) {
+		printof(of, myof, "*it != *myit : true");
 	}
-	else if (*it != *itbis) {
-		of << "*it != *itbis : true\n";
-		myof << "*it != *itbis : false\n";
+	else {
+		of << "*it != *myit : true\n";
+		myof << "*it != *itmy : false\n";
 	}
 
 	it = vec.begin();
 	myit = myvec.begin();
 
 //	<
-	if (*it < *itbis && *myit < *myitbis) {
-		printof(of, myof, "*it < *itbis : true");
+	if (*it < *myit) {
+		printof(of, myof, "*it < *myit : true");
 	}
-	else if (*it < *itbis) {
-		of << "*it < *itbis : true\n";
-		myof << "*it < *itbis : false\n";
+	else {
+		of << "*it < *myit : true\n";
+		myof << "*it < *itmy : false\n";
 	}
 
 //	<=
-	if (*it <= *itbis && *myit <= *myitbis) {
-		printof(of, myof, "*it <= *itbis : true");
+	if (*it <= *myit) {
+		printof(of, myof, "*it <= *myit : true");
 	}
-	else if (*it <= *itbis) {
-		of << "*it <= *itbis : true\n";
-		myof << "*it <= *itbis : false\n";
+	else {
+		of << "*it <= *myit : true\n";
+		myof << "*it <= *itmy : false\n";
 	}
 
 //	>
-	if (*it > *itbis && *myit > *myitbis) {
-		printof(of, myof, "*it > *itbis : true");
+	if (*it > *myit) {
+		printof(of, myof, "*it > *myit : true");
 	}
-	else if (*it > *itbis) {
-		of << "*it > *itbis : true\n";
-		myof << "*it > *itbis : false\n";
+	else {
+		of << "*it > *myit : true\n";
+		myof << "*it > *itmy : false\n";
 	}
 
 //	>=
-	if (*it >= *itbis && *myit >= *myitbis) {
-		printof(of, myof, "*it >= *itbis : true");
+	if (*it >= *myit) {
+		printof(of, myof, "*it >= *myit : true");
 	}
-	else if (*it >= *itbis) {
-		of << "*it >= *itbis : true\n";
-		myof << "*it >= *itbis : false\n";
+	else {
+		of << "*it >= *myit : true\n";
+		myof << "*it >= *itmy : false\n";
 	}
 
-// +(int) +(it)
-	*it = (*it + 1) + (*it + 2);
-	of << "*it = (*it + 1) + (*it + 2) = " << *it << "\n";
+// +(int)
+	it = it + 1;
+	it = 1 + it;
+	of << "it = it + 1 = " << *it << "\n";
 
-	*myit = (*myit + 1) + (*myit + 2);
-	myof << "*it = (*it + 1) + (*it + 2) = " << *myit << "\n";
+	myit = myit + 1;
+	myit = 1 + myit;
+	myof << "it = it + 1 = " << *myit << "\n";
 
-// -(int) -(it)
-	*it = (*it - 1) + (*it - 2);
-	of << "*it = (*it - 1) + (*it - 2) = " << *it << "\n";
+// -(int)
+	it = it - 1;
+	of << "it = it + 1 = " << *it << "\n";
 
-	*myit = (*myit - 1) + (*myit - 2);
-	myof << "*it = (*it - 1) + (*it - 2) = " << *myit << "\n";
+	myit = myit - 1;
+	myof << "it = it + 1 = " << *myit << "\n";
 
- // +=(it)
-	*it += *itbis;
-	of << "*it += *itbis = " << *it << "\n";
+	V::iterator itit = vec.begin();
+	V::iterator tmp = itit + 3;
+	MYV::iterator myitit = myvec.begin();
+	MYV::iterator mytmp = myitit + 3;
 
-	*myit += *itbis;
-	myof << "*it += *itbis = " << *myit << "\n";
+	display(of, vec, myof, myvec);
+	std::cout << "tmp : " << *tmp << std::endl;
+	std::cout << "mytmp : " << *mytmp << std::endl;
+
+// -(it)
+	int i = itit - tmp;
+	of << "int i = itit - tmp = " << i << "\n";
+
+	int myi = myitit - mytmp;
+	myof << "int i = itit - tmp = " << myi << "\n";
+
+// +=(it)
+	it += 2;
+	of << "it += 2 = " << *it << "\n";
+
+	myit += 2;
+	myof << "it += 2 = " << *myit << "\n";
 
 // -=(int)
-	*it -= 15;
-	of << "*it -= 15 = " << *it << "\n";
+	it -= 2;
+	of << "it -= 2 = " << *it << "\n";
 
-	*myit -= 15;
-	myof << "*it -= 15 = " << *myit << "\n";
+	myit -= 2;
+	myof << "it -= 2 = " << *myit << "\n";
 
 // [] do i need to test [] out of range ?
 	display(of, vec, myof, myvec);
-	of << "it[0] : " << it[0] << " | it[3] : " << it[3] << " it[50] : " << it[50] << "\n";
-	myof << "it[0] : " << myit[0] << " | it[3] : " << myit[3] << " it[50] : " << myit[50] << "\n";
+	of << "it[0] : " << it[0] << " | it[3] : " << it[3] << "\n";
+	myof << "it[0] : " << myit[0] << " | it[3] : " << myit[3] << "\n";
+
+// -> SEG FAULT
+	// ft::vector<std::string> test(4, "pop");
+	// ft::vector<std::string>::iterator ittest = test.begin();
+	// std::cout << "ittest->c_str : " << ittest->c_str() << std::endl;
+	// std::cout << "test here\n";
+
 }
