@@ -33,7 +33,8 @@ class vector {
 		size_t			_size;
 
 		void	_delete() {
-			delete [] _tab;
+			if (_tab)
+				delete [] _tab;
 		}
 
 		void	_copy(vector const & copy) {
@@ -56,8 +57,10 @@ class vector {
 						_alloc(alloc), _tab(), _size(n)
 		{
 			_tab = _alloc.allocate(n);
-			for(size_type i = 0;i < n;i++)
-				_alloc.construct(&_tab[i], val);
+			for(size_type i = 0;i < n;i++){
+				std::cout << "val : " << val << " | i : " << i << std::endl;
+				_alloc.construct(&_tab[i], val);}
+			std::cout << "TEST !!!!\n";
 		}
 
 //	enable_if InuputIterator ft::is_iterator_traits
@@ -203,7 +206,44 @@ bool		operator==(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & 
 				return true;
 			}
 
-}
+template<typename T, class Alloc>
+bool		operator!=(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
+				return !(src == cmp);
+			}
 
+
+template<typename T, class Alloc>
+bool		operator<(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
+				typename ft::vector<T, Alloc>::const_iterator it1 = src.begin();
+				typename ft::vector<T, Alloc>::const_iterator ite1 = src.end();
+				typename ft::vector<T, Alloc>::const_iterator it2 = cmp.begin();
+				typename ft::vector<T, Alloc>::const_iterator ite2 = cmp.end();
+				while (it1 != ite1) {
+					if (it2 == ite2 || *it1 > *it2)
+						return false;
+					else if (*it1 < *it2)
+						return true;
+					++it1;
+					++it2;
+				}
+				return it2 != ite2;
+			}
+
+template<typename T, class Alloc>
+bool		operator<=(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
+				return !(src < cmp);
+			}
+
+template<typename T, class Alloc>
+bool		operator>(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
+				return cmp < src;
+			}
+
+template<typename T, class Alloc>
+bool		operator>=(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
+				return !(src < cmp);
+			}
+
+}
 
 #endif

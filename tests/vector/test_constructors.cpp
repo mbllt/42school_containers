@@ -2,7 +2,7 @@
 
 void test_constructors(std::ofstream& of, std::ofstream& myof) {
 
-	printof(of, myof, "TEST CONSTRUCTORS");
+	printof(of, myof, "test-constructors 👌");
 
 	V vec;
 	V bis(X, Y);

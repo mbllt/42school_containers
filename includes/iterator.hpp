@@ -51,7 +51,7 @@ class iterator {
 
 		iterator&			operator--() {--p;return *this;}
 
-		iterator			operator--(const int n) {(void)n;iterator tmp(*this); operator++(); return tmp;}
+		iterator			operator--(const int n) {(void)n;iterator tmp(*this); operator--(); return tmp;}
 
 		difference_type		operator-(const iterator& src) {return p - src.p;}
 

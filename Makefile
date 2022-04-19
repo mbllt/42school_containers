@@ -23,7 +23,7 @@ PATH_OBJS=		tests tests/vector
 
 #------------- COMPILER -------------
 CC=				c++
-FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/ #-fsanitize=address -g3
+FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/ -fsanitize=address -g3
 #------------------------------------
 
 
