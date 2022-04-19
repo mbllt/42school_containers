@@ -17,7 +17,7 @@ template<typename T>
 void displayVec(std::ofstream& out, T& vec) {
 
 	typename T::iterator it;
-	out << "display container : ";
+	out << "display : ";
 	for (it = vec.begin(); it != vec.end(); ++it){
 		out << *it << " ";
 	}

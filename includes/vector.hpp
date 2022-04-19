@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-// #include <iterator>
 #include <algorithm>
 #include <memory>
 #include "iterator.hpp"
@@ -114,11 +113,11 @@ class vector {
 		}
 
 		iterator end() {
-			return iterator(&(_tab[_size + 1]));
+			return iterator(&(_tab[_size]));
 		}
 
 		const_iterator end() const {
-			return const_iterator(&(_tab[_size + 1]));
+			return const_iterator(&(_tab[_size]));
 		}
 
 		reverse_iterator rbegin() {

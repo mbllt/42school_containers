@@ -32,8 +32,10 @@ class iterator {
 
 //	---------------->> OPERATORS <<-----------------
 
-//	= -> [] += -+ + -(int) -(iterator) < > <= >= and all with const variant
+//	++() ++(int) == != * --() --(int) -> [] < <= > >= +(it) -(it) += -=  +(int) -(int)
 
+
+//	diff pointer reference : pointer je peux modifier la valeure de base et reference non ?
 		reference			operator*() {return *p;}
 		const_reference		operator*() const {return *p;}
 
@@ -42,18 +44,44 @@ class iterator {
 
 		reference			operator[](int val) {return *(p + val);}
 		const_reference		operator[](int val) const {return *(p + val);}
-	
+
 		iterator&			operator++() {++p;return *this;}
-		
+
 		iterator			operator++(int val) {(void)val;iterator tmp(*this); operator++(); return tmp;}
-		
+
 		iterator&			operator--() {--p;return *this;}
-		
+
 		iterator			operator--(int val) {(void)val;iterator tmp(*this); operator++(); return tmp;}
-		
+
+		reference			operator+(const reference src) {return *p + *(src.p);}
+		const_reference		operator+(const reference src) const {return *p + *(src.p);}
+
+		reference			operator-(const reference src) {return *p - *(src.p);}
+		const_reference		operator-(const reference src) const {return *p - *(src.p);}
+
+		reference			operator+=(const reference src) {return *p + *(src.p);}
+		const_reference		operator+=(const reference src) const {return *p + *(src.p);}
+
+		reference			operator-=(const reference src) {return *p - *(src.p);}
+		const_reference		operator-=(const reference src) const {return *p - *(src.p);}
+
+		iterator&			operator+(int val) {p + val;return *this;}
+
+		iterator&			operator-(int val) {p - val;return *this;}
+
 		bool				operator==(const iterator& src) const {return p==src.p;}
 		
 		bool				operator!=(const iterator& src) const {return p!=src.p;}
+
+		bool				operator<(const iterator& src) const {return p<src.p;}
+
+		bool				operator<=(const iterator& src) const {return p<=src.p;}
+
+		bool				operator>(const iterator& src) const {return p>src.p;}
+
+		bool				operator>=(const iterator& src) const {return p>=src.p;}
+
+
 
 };
 

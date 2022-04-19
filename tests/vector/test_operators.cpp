@@ -15,5 +15,5 @@ void test_operators(std::ofstream& of, std::ofstream& myof) {
 	MYV mytmp = myvec;
 
 	if (myvec == mytmp)
-		printof(of, myof, "op ==");
+		printof(of, myof, "ft::vector<whatever> mytmp = myvec | myvec == mytmp : true");
 }
