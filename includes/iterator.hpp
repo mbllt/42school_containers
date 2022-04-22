@@ -32,10 +32,6 @@ class iterator {
 
 //	---------------->> OPERATORS <<-----------------
 
-//	++() ++(int) == != * --() --(int) -> [] < <= > >= +(it) -(it) += -=  +(int) -(int)
-
-
-//	diff pointer reference : pointer je peux modifier la valeure de base et reference non ?
 		reference			operator*() {return *p;}
 		const_reference		operator*() const {return *p;}
 
@@ -85,7 +81,6 @@ template<typename T>
 ft::iterator<T>					operator+(typename ft::iterator<T>::difference_type n,
 											typename ft::iterator<T>& it)
 											{return it + n;}
-											// {return (&(*it) + n);}
 
 template<typename T>
 ft::iterator<T>					operator-(typename ft::iterator<T>::difference_type n,

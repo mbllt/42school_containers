@@ -36,5 +36,6 @@ void test_constructors(std::ofstream& of, std::ofstream& myof);
 void test_operators(std::ofstream& of, std::ofstream& myof);
 void test_iterators(std::ofstream& of, std::ofstream& myof);
 void printof(std::ofstream& of, std::ofstream& myof, std::string str);
+void test_accessors(std::ofstream& of, std::ofstream& myof);
 
 #endif

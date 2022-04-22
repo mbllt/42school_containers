@@ -9,7 +9,8 @@ SRCS_FILES=		main.cpp\
 				vector/vectorTest.cpp\
 				vector/test_constructors.cpp\
 				vector/test_operators.cpp\
-				vector/test_iterators.cpp
+				vector/test_iterators.cpp\
+				vector/test_accessors.cpp
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
 

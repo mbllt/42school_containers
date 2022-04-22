@@ -166,20 +166,18 @@ void test_iterators(std::ofstream& of, std::ofstream& myof) {
 	}
 
 // ->
-//SEG FAULT
-	// std::vector<std::string> test(4, "pop");
-	// std::vector<std::string>::iterator ittest = test.begin();
-	// if (!strcmp(ittest->c_str(), "pop"))
-	// 	of << "test operator -> ok \n";
-	// else
-	// 	of << "test operator -> ko \n";
+	std::vector<std::string> test(4, "pop");
+	std::vector<std::string>::iterator ittest = test.begin();
+	if (!strcmp(ittest->c_str(), "pop"))
+		of << "test operator -> ok \n";
+	else
+		of << "test operator -> ko \n";
 
-	// ft::vector<std::string> mytest(3, "pop");
-	// ft::vector<std::string> mytest(4, "pop");
-	// ft::vector<std::string>::iterator myittest = mytest.begin();
-	// if (!strcmp(myittest->c_str(), "pop"))
-	// 	of << "test operator -> ok \n";
-	// else
-	// 	of << "test operator -> ko \n";
+	ft::vector<std::string> mytest(4, "pop");
+	ft::vector<std::string>::iterator myittest = mytest.begin();
+	if (!strcmp(myittest->c_str(), "pop"))
+		myof << "test operator -> ok \n";
+	else
+		myof << "test operator -> ko \n";
 
 }

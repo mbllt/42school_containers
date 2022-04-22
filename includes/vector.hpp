@@ -5,6 +5,7 @@
 #include <string>
 #include <algorithm>
 #include <memory>
+#include <stdexcept>
 #include "iterator.hpp"
 #include "reverse_iterator.hpp"
 
@@ -24,7 +25,9 @@ class vector {
 		typedef Alloc						allocator_type;
 		typedef T 							value_type;
 		typedef value_type *				pointer;
+		typedef value_type const *			const_pointer;
 		typedef value_type &				reference;
+		typedef value_type const &			const_reference;
 
 	private :
 
@@ -33,8 +36,10 @@ class vector {
 		size_t			_size;
 
 		void	_delete() {
-			if (_tab)
-				delete [] _tab;
+			for (size_type i = 0;i < _size;i++){
+				_alloc.destroy(&_tab[i]);
+			}
+			_alloc.deallocate(_tab, _size);
 		}
 
 		void	_copy(vector const & copy) {
@@ -57,10 +62,8 @@ class vector {
 						_alloc(alloc), _tab(), _size(n)
 		{
 			_tab = _alloc.allocate(n);
-			for(size_type i = 0;i < n;i++){
-				std::cout << "val : " << val << " | i : " << i << std::endl;
-				_alloc.construct(&_tab[i], val);}
-			std::cout << "TEST !!!!\n";
+			for(size_type i = 0;i < n;i++)
+				_alloc.construct(&_tab[i], val);
 		}
 
 //	enable_if InuputIterator ft::is_iterator_traits
@@ -134,26 +137,38 @@ class vector {
 
 //	---------------->> CAPACITY <<------------------
 
-		size_t	size() const {return _size;}
+		size_t size() const {return _size;}
 
 //	------------------------------------------------
 
 
 //	----------------->> ACCESS <<-------------------
 
-		T & operator[](const unsigned int index) {
-			if (index >= this->_size)
-				throw AccessorvectorInvalidExcpetion("Index to access vector is invalid.");
-			return _tab[index];
+		T & operator[](const unsigned int n) {
+			return _tab[n];
 		}
 
-		T const & operator[](const unsigned int index) const {
-			T & ret = const_cast<vector &>(*this).operator[](index);
+		T const & operator[](const unsigned int n) const {
+			T & ret = const_cast<vector &>(*this).operator[](n);
 			return const_cast<T const &>(ret);
+		}
+
+		reference at(size_type n) {
+			if (n >= this->_size)
+				std::out_of_range("Index to access vector is invalid.");
+			return _tab[n];
+			
+		}
+		
+		const_reference at(size_type n) const {
+			T & ret = const_cast<vector &>(*this).at(n);
+			return const_cast<T const &>(ret);
+
 		}
 
 		// front() const {return _tab[0];}
 		// back() const {return _tab[_size - 1];}
+		// data()
 
 //	------------------------------------------------
 
@@ -168,28 +183,27 @@ class vector {
 
 //	---------------->> EXCEPTIONS <<----------------
 
-		class AccessorvectorInvalidExcpetion : public std::exception {
+		// class AccessorvectorInvalidExcpetion : public std::exception {
 		
-			private :
+		// 	private :
 
-				std::string		_messageErr;
+		// 		std::string		_messageErr;
 
-			public :
+		// 	public :
 		
-				AccessorvectorInvalidExcpetion(std::string std) throw() : _messageErr(std) {};
-				virtual ~AccessorvectorInvalidExcpetion() throw() {};
+		// 		AccessorvectorInvalidExcpetion(std::string std) throw() : _messageErr(std) {};
+		// 		virtual ~AccessorvectorInvalidExcpetion() throw() {};
 		
-				virtual const char* what() const throw() {
-					return _messageErr.c_str();
-				}
-		};
+		// 		virtual const char* what() const throw() {
+		// 			return _messageErr.c_str();
+		// 		}
+		// };
 
 //	------------------------------------------------
 
 };
 
 //	---------------->> NON MEMBERS <<---------------
-// non-members == != < > <= >=
 
 template<typename T, class Alloc>
 bool		operator==(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
