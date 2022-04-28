@@ -1,5 +1,7 @@
 #include "tests.hpp"
 #include "test_vector.hpp"
+#include <stdlib.h>
+#include <time.h>
 
 void printof(std::ofstream& of, std::ofstream& myof, std::string str, size_t n) {
 
@@ -9,17 +11,20 @@ void printof(std::ofstream& of, std::ofstream& myof, std::string str, size_t n) 
 
 void testVector(void) {
 
-	std::ofstream of("res_vector.txt");
-	std::ofstream myof("res_myvector.txt");
+	std::ofstream of("res/res_vector.txt");
+	std::ofstream myof("res/res_myvector.txt");
 
 	srand (time(NULL));
 
 
-	// Test_vector<int> test_vec;
-	Test_vector<std::string> test_vec;
+	TestVector<int> test_vec;
+	// TestVector<std::string> test_vec;
+	// TestVector<std::vector<int> > test_vec;
 
+	srand (time(NULL));
 	try {
-		printof(of, myof, "------------------- TESTS VECTOR ------------------\n", 17);
+		of << "------------------- TESTS VECTOR ------------------\n";
+		myof << "------------------- TESTS VECTOR ------------------\n";
 		test_vec.test_constructors(of, myof);
 		test_vec.test_operators(of, myof);
 		test_vec.test_iterators(of, myof);

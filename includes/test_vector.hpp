@@ -4,21 +4,18 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <iomanip>
 #include <fstream>
-#include <type_traits>
-#include "vector.hpp"
 #include "tests.hpp"
+#include "vector.hpp"
 
-
-// default(int) and specialisation float std::string myclass bool array
+// default(int) and specialisation std::string vector<int>
 template<typename Value>
-class Test_vector {
+class TestVector {
 
 	public:
 
-		Test_vector() {}
-		~Test_vector() {}
+		TestVector() {}
+		~TestVector() {}
 
 		template<typename T>
 		void displayVec(std::ofstream& out, T& vec) {
@@ -33,8 +30,8 @@ class Test_vector {
 
 		void display(std::ofstream& of, std::vector<Value>& vec, std::ofstream& myof, ft::vector<Value>& myvec) {
 
-			Test_vector<Value>::displayVec(of, vec);
-			Test_vector<Value>::displayVec(myof, myvec);
+			TestVector<Value>::displayVec(of, vec);
+			TestVector<Value>::displayVec(myof, myvec);
 		}
 
 		void test_constructors(std::ofstream& of, std::ofstream& myof) {
@@ -46,15 +43,15 @@ class Test_vector {
 			ft::vector<Value> myvec(20, Value());
 			std::vector<Value> bis;
 			ft::vector<Value> mybis;
-			Test_vector<Value>::fill_vec(&bis, &mybis);
+			TestVector<Value>::fill_vec(&bis, &mybis);
 			std::vector<Value> quatre(bis);
 			ft::vector<Value> myquatre(mybis);
 			//	----
 			//	test constructor range
 
 
-			Test_vector<Value>::display(of, bis, myof, mybis);
-			Test_vector<Value>::display(of, quatre, myof, myquatre);
+			TestVector<Value>::display(of, bis, myof, mybis);
+			TestVector<Value>::display(of, quatre, myof, myquatre);
 		}
 
 		void test_operators(std::ofstream& of, std::ofstream& myof) {
@@ -66,10 +63,10 @@ class Test_vector {
 		
 				std::vector<Value> vec(20,  Value());
 				ft::vector<Value> myvec(20,  Value());
-				Test_vector<Value>::fill_vec(&vec, &myvec);
+				TestVector<Value>::fill_vec(&vec, &myvec);
 				std::vector<Value> tmp(20,  Value());
 				ft::vector<Value> mytmp(20,  Value());
-				Test_vector<Value>::fill_vec(&tmp, &mytmp);
+				TestVector<Value>::fill_vec(&tmp, &mytmp);
 		
 			// !=
 				if (myvec != mytmp) {
@@ -104,14 +101,11 @@ class Test_vector {
 
 		void test_iterators(std::ofstream& of, std::ofstream& myof) {
 
-// seg fault when vec empty
-
 			of << "\ntest-iterators ✅\n";
 			myof << "\ntest-iterators ✅\n";
 
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
-			Test_vector<Value>::fill_vec(&vec, &myvec);
 			typename std::vector<Value>::iterator it = vec.begin();
 			typename std::vector<Value>::iterator ite = vec.end();
 			typename ft::vector<Value>::iterator myit = myvec.begin();
@@ -120,11 +114,11 @@ class Test_vector {
 			for (int i = 1; it != ite; ++it) {
 				*it = i++;
 			}
-			Test_vector<Value>::displayVec(of, vec);
+			TestVector<Value>::displayVec(of, vec);
 			for (int i = 1; myit != myite; ++myit) {
 				*myit = i++;
 			}
-			Test_vector<Value>::displayVec(myof, myvec);
+			TestVector<Value>::displayVec(myof, myvec);
 
 			it = vec.begin(); // to avoid reading vec.end() -> undefined behavior
 			myit = myvec.begin();
@@ -194,7 +188,7 @@ class Test_vector {
 			// []
 			it = vec.begin();
 			myit = myvec.begin();
-			Test_vector<Value>::display(of, vec, myof, myvec);
+			TestVector<Value>::display(of, vec, myof, myvec);
 
 			of << "it[0] : " << it[0] << " | it[3] : " << it[3] << "\n";
 			myof << "it[0] : " << myit[0] << " | it[3] : " << myit[3] << "\n";
@@ -282,16 +276,34 @@ class Test_vector {
 
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
-			Test_vector<Value>::fill_vec(&vec, &myvec);
-			// Test_vector<Value>::display(of, vec, myof, myvec);
+			TestVector<Value>::fill_vec(&vec, &myvec);
+			TestVector<Value>::display(of, vec, myof, myvec);
+
+			// []
+			if (myvec.at(0) == myvec[0])
+				printof(of, myof, "vec[0] == myvec[0] : true", 284);
+			else
+				printof(of, myof, "vec[0] == myvec[0] : false", 286);
+			
+			// at
+			if (vec.at(0) == myvec.at(0))
+				printof(of, myof, "vec.at() == myvec.at() : true", 290);
+			else
+				printof(of, myof, "vec.at() == myvec.at() : false", 292);
+
+			// front
+
+
+			// back
+
+
+			// data
 		}
 
 		void fill_vec(std::vector<Value>* vec, ft::vector<Value>* myvec) {	//int
 
 			typename std::vector<Value>::iterator it =vec->begin();
 			typename ft::vector<Value>::iterator myit = myvec->begin();
-
-			srand (time(NULL));
 
 			for (size_t i = 0; i < vec->size(); ++i) {
 				int val = rand() % 100;
@@ -306,12 +318,10 @@ class Test_vector {
 };
 
 template<>		//function specilization
-void Test_vector<std::string>::fill_vec(std::vector<std::string>* vec, ft::vector<std::string>* myvec) {
+void TestVector<std::string>::fill_vec(std::vector<std::string>* vec, ft::vector<std::string>* myvec) {
 
 	std::vector<std::string>::iterator it = vec->begin();
 	ft::vector<std::string>::iterator myit = myvec->begin();
-
-	srand (time(NULL));
 
 	std::string _tab[10] = { "test", "pop", "essay", "beeze", "youhou",
 								"orange", "blue", "black", "sun", "best" };
@@ -325,22 +335,34 @@ void Test_vector<std::string>::fill_vec(std::vector<std::string>* vec, ft::vecto
 }
 
 template<>
-void Test_vector<std::string>::test_it_arrow(std::ofstream& of, std::ofstream& myof) {
+void TestVector<std::string>::test_it_arrow(std::ofstream& of, std::ofstream& myof) {
 
 	// ->
 	std::vector<std::string> test(4, "pop");
 	std::vector<std::string>::iterator ittest = test.begin();
 	if (!strcmp(ittest->c_str(), "pop"))
-		of << "test operator -> ok \n";
+		of << "test -> ok \n";
 	else
-		of << "test operator -> ko \n";
+		of << "test -> ko \n";
 
 	ft::vector<std::string> mytest(4, "pop");
 	ft::vector<std::string>::iterator myittest = mytest.begin();
 	if (!strcmp(myittest->c_str(), "pop"))
-		myof << "test operator -> ok \n";
+		myof << "test -> ok \n";
 	else
-		myof << "test operator -> ko \n";
+		myof << "test -> ko \n";
 }
+
+// template<>
+// void TestVector<std::vector<int> >::fill_vec(std::vector<std::vector<int> >* vec, ft::vector<std::vector<int> >* myvec) {
+
+// 	srand (time(NULL));
+
+// 	for (size_t i = 0; i < vec->size(); ++i) {
+// 		int val = rand() % 100;
+		// vec.push_back(std::vector<int>(val, val + vec[i].size()));
+		// myvec.push_back(std::vector<int>(val, val + myvec[i].size()));
+	// }
+// }
 
 #endif

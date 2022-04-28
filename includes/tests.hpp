@@ -3,10 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
-#include <iomanip>
 #include <fstream>
-#include <type_traits>
 #include "vector.hpp"
 
 void testVector(void);

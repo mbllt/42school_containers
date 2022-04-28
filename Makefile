@@ -32,12 +32,16 @@ INC_FILES=		vector.hpp\
 				tests.hpp\
 				test_vector.hpp
 INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
-
 #------------------------------------
 
 
-TESTS=			res_myvector.txt\
-				res_vector.txt
+#-------------- RES -----------------
+RES_PATH=		res
+RES_FILES=		res/res_myvector.txt\
+				res/res_vector.txt
+RES=			$(addprefix $(RES_PATH)/,$(RES_FILES))
+#------------------------------------
+
 
 #-------------- RM ------------------
 RM=				/bin/rm -rf
@@ -61,24 +65,26 @@ $(OBJS_DIR)/%.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
 
 $(OBJS_DIR):
 					@mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
+					@mkdir -p $(RES_PATH)
 
 clean:
 					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)object files$(END)"
 					@$(RM) $(OBJS)
+					@$(RM) $(RES)
 
 fclean:		clean
 					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)executable, objs_dir$(END)"
 					@$(RM) $(NAME)
 					@$(RM) $(OBJS_DIR)
-					@$(RM) $(TESTS)
+					@$(RM) $(RES_PATH)
 
 re:			fclean all
 
 .PHONY:		all clean fclean re
 
 
-#-----------------------COLORS-----------------------
+#------------- COLORS --------------
 GREEN	= \033[32m
 END		= \033[0m
 BOLD	= \033[1m
-#----------------------------------------------------
+#------------------------------------
