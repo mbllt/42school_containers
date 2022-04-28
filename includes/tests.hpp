@@ -6,36 +6,16 @@
 #include <vector>
 #include <iomanip>
 #include <fstream>
+#include <type_traits>
 #include "vector.hpp"
 
 #define X 5
 #define Y 10
-#define V std::vector<int>
-#define MYV ft::vector<int>
-
-template<typename T>
-void displayVec(std::ofstream& out, T& vec) {
-
-	typename T::iterator it;
-	out << "display : ";
-	for (it = vec.begin(); it != vec.end(); ++it){
-		out << *it << " ";
-	}
-	out << "\n";
-}
-
-template<typename T>
-void display(std::ofstream& of, V& vec, std::ofstream& myof, T& myvec) {
-
-	displayVec(of, vec);
-	displayVec(myof, myvec);
-}
+#define TYPE int // int float std::string myclass bool array
+#define V std::vector<TYPE>
+#define MYV ft::vector<TYPE>
 
 void testVector(void);
-void test_constructors(std::ofstream& of, std::ofstream& myof);
-void test_operators(std::ofstream& of, std::ofstream& myof);
-void test_iterators(std::ofstream& of, std::ofstream& myof);
-void printof(std::ofstream& of, std::ofstream& myof, std::string str);
-void test_accessors(std::ofstream& of, std::ofstream& myof);
+void printof(std::ofstream& of, std::ofstream& myof, std::string str, size_t n);
 
 #endif

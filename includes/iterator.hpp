@@ -55,8 +55,10 @@ class iterator {
 
 		iterator			operator-(difference_type n) {return p - n;}
 
+template<typename Class>
 		friend iterator		operator+(difference_type n, const iterator& src);
 
+template<typename Class>
 		friend iterator		operator-(difference_type n, const iterator& src);
 
 		iterator&			operator+=(difference_type n) {p += n; return *this;}
@@ -77,9 +79,9 @@ class iterator {
 
 };
 
-template<typename T>
-ft::iterator<T>					operator+(typename ft::iterator<T>::difference_type n,
-											typename ft::iterator<T>& it)
+template<typename Class>
+ft::iterator<Class>					operator+(typename ft::iterator<Class>::difference_type n,
+											typename ft::iterator<Class>& it)
 											{return it + n;}
 
 template<typename T>

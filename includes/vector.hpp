@@ -155,7 +155,7 @@ class vector {
 
 		reference at(size_type n) {
 			if (n >= this->_size)
-				std::out_of_range("Index to access vector is invalid.");
+				throw std::out_of_range("Index to access vector is invalid.");
 			return _tab[n];
 			
 		}

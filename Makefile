@@ -6,11 +6,7 @@ NAME=			containers
 #------------- SRCS -----------------
 SRCS_DIR=		tests
 SRCS_FILES=		main.cpp\
-				vector/vectorTest.cpp\
-				vector/test_constructors.cpp\
-				vector/test_operators.cpp\
-				vector/test_iterators.cpp\
-				vector/test_accessors.cpp
+				vectorTest.cpp
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
 
@@ -18,13 +14,13 @@ SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #-------------- OBJS ----------------
 OBJS_DIR=		.objs
 OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
-PATH_OBJS=		tests tests/vector
+PATH_OBJS=		tests
 #------------------------------------
 
 
 #------------- COMPILER -------------
 CC=				c++
-FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/ -fsanitize=address -g3
+FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/ # -fsanitize=address -g3
 #------------------------------------
 
 
@@ -33,7 +29,8 @@ INC_DIR=		includes
 INC_FILES=		vector.hpp\
 				iterator.hpp\
 				reverse_iterator.hpp\
-				tests.hpp
+				tests.hpp\
+				test_vector.hpp
 INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 
 #------------------------------------
