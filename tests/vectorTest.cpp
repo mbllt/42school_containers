@@ -15,8 +15,8 @@ void testVector(void) {
 	srand (time(NULL));
 
 
-	Test_vector<int> test_vec;
-	// Test_vector<std::string> test_vec;
+	// Test_vector<int> test_vec;
+	Test_vector<std::string> test_vec;
 
 	try {
 		printof(of, myof, "------------------- TESTS VECTOR ------------------\n", 17);

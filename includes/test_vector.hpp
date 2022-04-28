@@ -42,10 +42,10 @@ class Test_vector {
 			of << "\ntest-constructors ✅\n";
 			myof << "\ntest-constructors ✅\n";
 
-			std::vector<Value> vec;
-			ft::vector<Value> myvec;
-			std::vector<Value> bis(20, 0);
-			ft::vector<Value> mybis(20, 0);
+			std::vector<Value> vec(20, Value());
+			ft::vector<Value> myvec(20, Value());
+			std::vector<Value> bis;
+			ft::vector<Value> mybis;
 			Test_vector<Value>::fill_vec(&bis, &mybis);
 			std::vector<Value> quatre(bis);
 			ft::vector<Value> myquatre(mybis);
@@ -64,11 +64,11 @@ class Test_vector {
 		
 			for (int i = 0;i < 10;++i) {
 		
-				std::vector<Value> vec(20, 0);
-				ft::vector<Value> myvec(20, 0);
+				std::vector<Value> vec(20,  Value());
+				ft::vector<Value> myvec(20,  Value());
 				Test_vector<Value>::fill_vec(&vec, &myvec);
-				std::vector<Value> tmp(20, 0);
-				ft::vector<Value> mytmp(20, 0);
+				std::vector<Value> tmp(20,  Value());
+				ft::vector<Value> mytmp(20,  Value());
 				Test_vector<Value>::fill_vec(&tmp, &mytmp);
 		
 			// !=
@@ -109,8 +109,8 @@ class Test_vector {
 			of << "\ntest-iterators ✅\n";
 			myof << "\ntest-iterators ✅\n";
 
-			std::vector<Value> vec(20, 0);
-			ft::vector<Value> myvec(20, 0);
+			std::vector<Value> vec(20, Value());
+			ft::vector<Value> myvec(20, Value());
 			Test_vector<Value>::fill_vec(&vec, &myvec);
 			typename std::vector<Value>::iterator it = vec.begin();
 			typename std::vector<Value>::iterator ite = vec.end();
@@ -280,8 +280,8 @@ class Test_vector {
 
 			//	[] at front back data
 
-			std::vector<Value> vec(20, 0);
-			ft::vector<Value> myvec(20, 0);
+			std::vector<Value> vec(20, Value());
+			ft::vector<Value> myvec(20, Value());
 			Test_vector<Value>::fill_vec(&vec, &myvec);
 			// Test_vector<Value>::display(of, vec, myof, myvec);
 		}

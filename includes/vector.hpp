@@ -62,7 +62,7 @@ class vector {
 						_alloc(alloc), _tab(), _size(n)
 		{
 			_tab = _alloc.allocate(n);
-			for(size_type i = 0;i < n;i++)
+			for (size_type i = 0;i < n;i++)
 				_alloc.construct(&_tab[i], val);
 		}
 
