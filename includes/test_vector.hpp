@@ -44,8 +44,8 @@ class Test_vector {
 
 			std::vector<Value> vec;
 			ft::vector<Value> myvec;
-			std::vector<Value> bis;
-			ft::vector<Value> mybis;
+			std::vector<Value> bis(20, 0);
+			ft::vector<Value> mybis(20, 0);
 			Test_vector<Value>::fill_vec(&bis, &mybis);
 			std::vector<Value> quatre(bis);
 			ft::vector<Value> myquatre(mybis);
@@ -64,11 +64,11 @@ class Test_vector {
 		
 			for (int i = 0;i < 10;++i) {
 		
-				std::vector<Value> vec;
-				ft::vector<Value> myvec;
+				std::vector<Value> vec(20, 0);
+				ft::vector<Value> myvec(20, 0);
 				Test_vector<Value>::fill_vec(&vec, &myvec);
-				std::vector<Value> tmp;
-				ft::vector<Value> mytmp;
+				std::vector<Value> tmp(20, 0);
+				ft::vector<Value> mytmp(20, 0);
 				Test_vector<Value>::fill_vec(&tmp, &mytmp);
 		
 			// !=
@@ -109,8 +109,8 @@ class Test_vector {
 			of << "\ntest-iterators ✅\n";
 			myof << "\ntest-iterators ✅\n";
 
-			std::vector<Value> vec;
-			ft::vector<Value> myvec;
+			std::vector<Value> vec(20, 0);
+			ft::vector<Value> myvec(20, 0);
 			Test_vector<Value>::fill_vec(&vec, &myvec);
 			typename std::vector<Value>::iterator it = vec.begin();
 			typename std::vector<Value>::iterator ite = vec.end();
@@ -129,163 +129,148 @@ class Test_vector {
 			it = vec.begin(); // to avoid reading vec.end() -> undefined behavior
 			myit = myvec.begin();
 
-			//------
-
-			std::cout << "display vec: ";
-			for (typename std::vector<Value>::iterator test = vec.begin(); test != vec.end(); ++test){
-				std::cout << *test << " ";
-			}
-			std::cout << "\n";
-			std::cout << "display myvec: ";
-			for (typename ft::vector<Value>::iterator test = myvec.begin(); test != myvec.end(); ++test){
-				std::cout << *test << " ";
-			}
-			std::cout << "\n";
-
-			//------
-
 			//	++(int)
-			// of << "it : " << *it << " | ";
-			// myof << "it : " << *myit << " | ";
-			// it++;
-			// myit++;
-			// of << "it++ : " << *it << "\n";
-			// myof << "it++ : " << *myit << "\n";
+			of << "it : " << *it << " | ";
+			myof << "it : " << *myit << " | ";
+			it++;
+			myit++;
+			of << "it++ : " << *it << "\n";
+			myof << "it++ : " << *myit << "\n";
 
-			// //	--(int)
-			// of << "it : " << *it << " | ";
-			// myof << "it : " << *myit << " | ";
-			// it--;
-			// myit--;
-			// of << "it-- : " << *it << "\n";
-			// myof << "it-- : " << *myit << "\n";
+			//	--(int)
+			of << "it : " << *it << " | ";
+			myof << "it : " << *myit << " | ";
+			it--;
+			myit--;
+			of << "it-- : " << *it << "\n";
+			myof << "it-- : " << *myit << "\n";
 
-			// //	++()
-			// of << "it : " << *it << " | ";
-			// myof << "it : " << *myit << " | ";
-			// ++it;
-			// ++myit;
-			// of << "++it : " << *it << "\n";
-			// myof << "++it : " << *myit << "\n";
+			//	++()
+			of << "it : " << *it << " | ";
+			myof << "it : " << *myit << " | ";
+			++it;
+			++myit;
+			of << "++it : " << *it << "\n";
+			myof << "++it : " << *myit << "\n";
 
-			// //	--()
-			// of << "it : " << *it << " | ";
-			// myof << "it : " << *myit << " | ";
-			// --it;
-			// --myit;
-			// of << "--it : " << *it << "\n";
-			// myof << "--it : " << *myit << "\n";
+			//	--()
+			of << "it : " << *it << " | ";
+			myof << "it : " << *myit << " | ";
+			--it;
+			--myit;
+			of << "--it : " << *it << "\n";
+			myof << "--it : " << *myit << "\n";
 
-			// // +(int)
-			// it = it + 1;
-			// it = 1 + it;
-			// of << "it = it + 1 : " << *it << "\n";
+			// +(int)
+			it = it + 1;
+			it = 1 + it;
+			of << "it = it + 1 : " << *it << "\n";
 
-			// myit = myit + 1;
-			// myit = 1 + myit;
-			// myof << "it = it + 1 : " << *myit << "\n";
+			myit = myit + 1;
+			myit = 1 + myit;
+			myof << "it = it + 1 : " << *myit << "\n";
 
-			// // -(int)
-			// it = it - 1;
-			// of << "it = it + 1 : " << *it << "\n";
+			// -(int)
+			it = it - 1;
+			of << "it = it + 1 : " << *it << "\n";
 
-			// myit = myit - 1;
-			// myof << "it = it + 1 : " << *myit << "\n";
+			myit = myit - 1;
+			myof << "it = it + 1 : " << *myit << "\n";
 
-			// // +=(it)
-			// it += 2;
-			// of << "it += 2 : " << *it << "\n";
+			// +=(it)
+			it += 2;
+			of << "it += 2 : " << *it << "\n";
 
-			// myit += 2;
-			// myof << "it += 2 : " << *myit << "\n";
+			myit += 2;
+			myof << "it += 2 : " << *myit << "\n";
 
-			// // -=(int)
-			// it -= 2;
-			// of << "it -= 2 : " << *it << "\n";
+			// -=(int)
+			it -= 2;
+			of << "it -= 2 : " << *it << "\n";
 
-			// myit -= 2;
-			// myof << "it -= 2 : " << *myit << "\n";
+			myit -= 2;
+			myof << "it -= 2 : " << *myit << "\n";
 
-			// // []
-			// it = vec.begin();
-			// myit = myvec.begin();
-			// Test_vector<Value>::display(of, vec, myof, myvec);
+			// []
+			it = vec.begin();
+			myit = myvec.begin();
+			Test_vector<Value>::display(of, vec, myof, myvec);
 
-			// of << "it[0] : " << it[0] << " | it[3] : " << it[3] << "\n";
-			// myof << "it[0] : " << myit[0] << " | it[3] : " << myit[3] << "\n";
+			of << "it[0] : " << it[0] << " | it[3] : " << it[3] << "\n";
+			myof << "it[0] : " << myit[0] << " | it[3] : " << myit[3] << "\n";
 
-			// typename std::vector<Value>::iterator itit = vec.begin();
-			// typename std::vector<Value>::iterator tmp = itit + 3;
-			// typename ft::vector<Value>::iterator myitit = myvec.begin();
-			// typename ft::vector<Value>::iterator mytmp = myitit + 3;
+			typename std::vector<Value>::iterator itit = vec.begin();
+			typename std::vector<Value>::iterator tmp = itit + 3;
+			typename ft::vector<Value>::iterator myitit = myvec.begin();
+			typename ft::vector<Value>::iterator mytmp = myitit + 3;
 
-			// // -(it)
-			// int i = itit - tmp;
-			// of << "int i = itit - tmp : " << i << "\n";
+			// -(it)
+			int i = itit - tmp;
+			of << "int i = itit - tmp : " << i << "\n";
 
-			// int myi = myitit - mytmp;
-			// myof << "int i = itit - tmp : " << myi << "\n";
+			int myi = myitit - mytmp;
+			myof << "int i = itit - tmp : " << myi << "\n";
 
-			// for (int i = 0; i < 5; ++i) {
+			for (int i = 0; i < 5; ++i) {
 			
-			// 	srand (time(NULL));
-			// 	size_t nbr = rand() % (vec.size() - 1);
-			// 	size_t nbrbis = rand() % (vec.size() - 1);
-			// 	typename std::vector<Value>::iterator ittest = vec.begin();
-			// 	*ittest = vec[nbr];
-			// 	typename std::vector<Value>::iterator ittestbis = vec.begin();
-			// 	*ittestbis = vec[nbrbis];
+				srand (time(NULL));
+				size_t nbr = rand() % (vec.size() - 1);
+				size_t nbrbis = rand() % (vec.size() - 1);
+				typename std::vector<Value>::iterator ittest = vec.begin();
+				*ittest = vec[nbr];
+				typename std::vector<Value>::iterator ittestbis = vec.begin();
+				*ittestbis = vec[nbrbis];
 
-			// 	size_t mynbr = rand() % (myvec.size() - 1);
-			// 	size_t mynbrbis = rand() % (myvec.size() - 1);
-			// 	typename ft::vector<Value>::iterator myittest = myvec.begin();
-			// 	*myittest = myvec[mynbr];
-			// 	typename ft::vector<Value>::iterator myittestbis = myvec.begin();
-			// 	*myittestbis = myvec[mynbrbis];
+				size_t mynbr = rand() % (myvec.size() - 1);
+				size_t mynbrbis = rand() % (myvec.size() - 1);
+				typename ft::vector<Value>::iterator myittest = myvec.begin();
+				*myittest = myvec[mynbr];
+				typename ft::vector<Value>::iterator myittestbis = myvec.begin();
+				*myittestbis = myvec[mynbrbis];
 
-			// 	//	==
-			// 	if (*ittest == *ittestbis && *myittest == *myittestbis)
-			// 		printof(of, myof, "*ittest == *ittestbis : true", 131);
-			// 	else if (*ittest == *ittestbis) {
-			// 		of << "*ittest == *ittestbis : true\n";
-			//  		myof << "*ittest == *ittestbis : false\n";}
+				//	==
+				if (*ittest == *ittestbis && *myittest == *myittestbis)
+					printof(of, myof, "*ittest == *ittestbis : true", 131);
+				else if (*ittest == *ittestbis) {
+					of << "*ittest == *ittestbis : true\n";
+			 		myof << "*ittest == *ittestbis : false\n";}
 
-			// 	//	!=
-			// 	if (*ittest != *ittestbis && *myittest != *myittestbis)
-			// 		printof(of, myof, "*ittest != *ittestbis : true", 138);
-			// 	else if (*ittest != *ittestbis) {
-			// 		of << "*ittest != *ittestbis : true\n";
-			//  		myof << "*ittest != *ittestbis : false\n";}
+				//	!=
+				if (*ittest != *ittestbis && *myittest != *myittestbis)
+					printof(of, myof, "*ittest != *ittestbis : true", 138);
+				else if (*ittest != *ittestbis) {
+					of << "*ittest != *ittestbis : true\n";
+			 		myof << "*ittest != *ittestbis : false\n";}
 
-			// 	//	<
-			// 	if (*ittest < *ittestbis && *myittest < *myittestbis)
-			// 		printof(of, myof, "*ittest < *ittestbis : true", 145);
-			// 	else if (*ittest < *ittestbis) {
-			// 		of << "*ittest < *ittestbis : true\n";
-			//  		myof << "*ittest < *ittestbis : false\n";}
+				//	<
+				if (*ittest < *ittestbis && *myittest < *myittestbis)
+					printof(of, myof, "*ittest < *ittestbis : true", 145);
+				else if (*ittest < *ittestbis) {
+					of << "*ittest < *ittestbis : true\n";
+			 		myof << "*ittest < *ittestbis : false\n";}
 
-			// 	//	<=
-			// 	if (*ittest <= *ittestbis && *myittest <= *myittestbis)
-			// 		printof(of, myof, "*ittest <= *ittestbis : true", 152);
-			// 	else if (*ittest <= *ittestbis) {
-			// 		of << "*ittest <= *ittestbis : true\n";
-			//  		myof << "*ittest <= *ittestbis : false\n";}
+				//	<=
+				if (*ittest <= *ittestbis && *myittest <= *myittestbis)
+					printof(of, myof, "*ittest <= *ittestbis : true", 152);
+				else if (*ittest <= *ittestbis) {
+					of << "*ittest <= *ittestbis : true\n";
+			 		myof << "*ittest <= *ittestbis : false\n";}
 
-			// 	//	>
-			// 	if (*ittest > *ittestbis && *myittest > *myittestbis)
-			// 		printof(of, myof, "*ittest > *ittestbis : true", 159);
-			// 	else if (*ittest > *ittestbis) {
-			// 		of << "*ittest > *ittestbis : true\n";
-			//  		myof << "*ittest > *ittestbis : false\n";}
+				//	>
+				if (*ittest > *ittestbis && *myittest > *myittestbis)
+					printof(of, myof, "*ittest > *ittestbis : true", 159);
+				else if (*ittest > *ittestbis) {
+					of << "*ittest > *ittestbis : true\n";
+			 		myof << "*ittest > *ittestbis : false\n";}
 
-			// 	//	>=
-			// 	if (*ittest >= *ittestbis && *myittest >= *myittestbis)
-			// 		printof(of, myof, "*ittest >= *ittestbis : true", 166);
-			// 	else if (*ittest >= *ittestbis) {
-			// 		of << "*ittest >= *ittestbis : true\n";
-			// 		myof << "*ittest >= *ittestbis : false\n";}
-			// }
-			// test_it_arrow(of, myof);
+				//	>=
+				if (*ittest >= *ittestbis && *myittest >= *myittestbis)
+					printof(of, myof, "*ittest >= *ittestbis : true", 166);
+				else if (*ittest >= *ittestbis) {
+					of << "*ittest >= *ittestbis : true\n";
+					myof << "*ittest >= *ittestbis : false\n";}
+			}
+			test_it_arrow(of, myof);
 		}
 
 		void test_accessors(std::ofstream& of, std::ofstream& myof) {
@@ -295,8 +280,8 @@ class Test_vector {
 
 			//	[] at front back data
 
-			std::vector<Value> vec;
-			ft::vector<Value> myvec;
+			std::vector<Value> vec(20, 0);
+			ft::vector<Value> myvec(20, 0);
 			Test_vector<Value>::fill_vec(&vec, &myvec);
 			// Test_vector<Value>::display(of, vec, myof, myvec);
 		}
