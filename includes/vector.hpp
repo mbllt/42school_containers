@@ -23,6 +23,7 @@ class vector {
 
 		typedef size_t						size_type;
 		typedef Alloc						allocator_type;
+		typedef std::ptrdiff_t				difference_type;
 		typedef T 							value_type;
 		typedef value_type *				pointer;
 		typedef value_type const *			const_pointer;
@@ -139,18 +140,26 @@ class vector {
 
 		size_t size() const {return _size;}
 
+		bool empty() const {return begin() == end();}
+
+		size_type max_size() const {return allocator_type().max_size();} // OR std::numeric_limits<difference_type>::max() / 2
+
+		void reserve( size_type new_cap ) {(void)new_cap;}
+
+		size_type capacity() const {return allocator_type().capacity();}
+
 //	------------------------------------------------
 
 
 //	----------------->> ACCESS <<-------------------
 
-		T & operator[](const unsigned int n) {
+		value_type & operator[](const unsigned int n) {
 			return _tab[n];
 		}
 
-		T const & operator[](const unsigned int n) const {
-			T & ret = const_cast<vector &>(*this).operator[](n);
-			return const_cast<T const &>(ret);
+		value_type const & operator[](const unsigned int n) const {
+			value_type & ret = const_cast<vector &>(*this).operator[](n);
+			return const_cast<value_type const &>(ret);
 		}
 
 		reference at(size_type n) {
@@ -161,14 +170,28 @@ class vector {
 		}
 		
 		const_reference at(size_type n) const {
-			T & ret = const_cast<vector &>(*this).at(n);
-			return const_cast<T const &>(ret);
+			value_type & ret = const_cast<vector &>(*this).at(n);
+			return const_cast<value_type const &>(ret);
 
 		}
 
-		// front() const {return _tab[0];}
-		// back() const {return _tab[_size - 1];}
-		// data()
+		reference front() {
+			return _tab[0];
+		}
+
+		const_reference front() const { 
+			value_type &ret = const_cast<vector &>(*this).front();
+			return const_cast<value_type const &>(ret);
+		}
+
+		reference back() {
+			return _tab[_size - 1];
+		}
+
+		const_reference back() const { 
+			value_type &ret = const_cast<vector &>(*this).front();
+			return const_cast<value_type const &>(ret);
+		}
 
 //	------------------------------------------------
 
@@ -176,28 +199,7 @@ class vector {
 //	--------------->> MODIFIERS <<------------------
 
 //		void assign(inputIterator first, inputIterator last);
-//		void assign(size_type n, const T & val);
-
-//	------------------------------------------------
-
-
-//	---------------->> EXCEPTIONS <<----------------
-
-		// class AccessorvectorInvalidExcpetion : public std::exception {
-		
-		// 	private :
-
-		// 		std::string		_messageErr;
-
-		// 	public :
-		
-		// 		AccessorvectorInvalidExcpetion(std::string std) throw() : _messageErr(std) {};
-		// 		virtual ~AccessorvectorInvalidExcpetion() throw() {};
-		
-		// 		virtual const char* what() const throw() {
-		// 			return _messageErr.c_str();
-		// 		}
-		// };
+//		void assign(size_type n, const value_type & val);
 
 //	------------------------------------------------
 
