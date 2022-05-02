@@ -275,7 +275,7 @@ class vector {
 			_size = count;
 		}
 
-		// void swap( vector& other ) {}
+		void swap( vector& other ) {(void)other;}
 
 
 //	------------------------------------------------
