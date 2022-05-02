@@ -1,6 +1,5 @@
 #!/bin/bash
 
-make && ./containers
 if cmp -s "res/res_vector.txt" "res/res_myvector.txt"; then
 	echo -e "\033[0;33m"
 	cat res/res_vector.txt | grep "test-"

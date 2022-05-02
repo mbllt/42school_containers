@@ -7,6 +7,6 @@
 #include "vector.hpp"
 
 void testVector(void);
-void printof(std::ofstream& of, std::ofstream& myof, std::string str, size_t n);
+void print_str(std::ofstream& of, std::ofstream& myof, std::string str, size_t n);
 
 #endif

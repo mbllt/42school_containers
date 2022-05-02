@@ -34,20 +34,44 @@ class vector {
 
 		allocator_type	_alloc;
 		pointer			_tab;
-		size_t			_size;
+		size_type		_size;
+		size_type		_cap;
 
-		void	_delete() {
+		void _delete() {
 			for (size_type i = 0;i < _size;i++){
 				_alloc.destroy(&_tab[i]);
 			}
 			_alloc.deallocate(_tab, _size);
 		}
 
-		void	_copy(vector const & copy) {
+		void _copy(vector const & copy) {
 			_size = copy._size;
-			_tab = _alloc.allocate(copy._size);
+			_cap = copy._cap;
+			try {
+				_tab = _alloc.allocate(copy._cap);
+			} catch (const std::exception& e) {
+				std::cerr << e.what() << std::endl;
+			}
 			for (size_type i = 0;i < copy._size;i++){
 				_alloc.construct(&_tab[i], copy._tab[i]);
+			}
+		}
+
+		void ft_realloc_tab(size_type new_cap) {
+			if (new_cap > capacity()) {
+				pointer tmp = _tab;
+				for (size_type i = 0;i < _size;i++){
+					_alloc.destroy(&_tab[i]);
+				}
+				_alloc.deallocate(_tab, _size);
+				try {
+					_tab = _alloc.allocate(new_cap);
+				} catch (const std::exception& e) {
+					std::cerr << e.what() << std::endl;
+				}
+				for (size_type i = 0;i < _size;i++){
+					_alloc.construct(&_tab[i], tmp[i]);
+				}
 			}
 		}
 
@@ -56,13 +80,17 @@ class vector {
 //	--------------->> CONSTRUCTORS <<---------------
 
 		explicit vector(const allocator_type& alloc = allocator_type()) :
-						_alloc(alloc), _tab(), _size(0) {}
+						_alloc(alloc), _tab(), _size(0), _cap(0) {}
 
 		explicit vector(size_type n, const value_type& val,
 						const allocator_type& alloc = allocator_type()) :
-						_alloc(alloc), _tab(), _size(n)
+						_alloc(alloc), _tab(), _size(n), _cap(n)
 		{
-			_tab = _alloc.allocate(n);
+			try {
+				_tab = _alloc.allocate(_cap);
+			} catch (const std::exception& e) {
+				std::cerr << e.what() << std::endl;
+			}
 			for (size_type i = 0;i < n;i++)
 				_alloc.construct(&_tab[i], val);
 		}
@@ -138,15 +166,25 @@ class vector {
 
 //	---------------->> CAPACITY <<------------------
 
-		size_t size() const {return _size;}
+		size_type size() const {return _size;}
 
 		bool empty() const {return begin() == end();}
 
 		size_type max_size() const {return allocator_type().max_size();} // OR std::numeric_limits<difference_type>::max() / 2
 
-		void reserve( size_type new_cap ) {(void)new_cap;}
+// marche pas
+		size_type capacity() const {return _size > _cap ? _cap * 2 : _cap;}
+		// size_type capacity() const {return _cap;}
 
-		size_type capacity() const {return allocator_type().capacity();}
+//--check cppreference to double check
+		void reserve(size_type new_cap) {
+			if (new_cap > max_size())
+				throw std::length_error("New cap is to big."); // check error message
+			if (new_cap > capacity()) {
+				ft_realloc_tab(new_cap);
+				_cap = new_cap;
+			}
+		}
 
 //	------------------------------------------------
 
@@ -164,7 +202,7 @@ class vector {
 
 		reference at(size_type n) {
 			if (n >= this->_size)
-				throw std::out_of_range("Index to access vector is invalid.");
+				throw std::out_of_range("Index to access vector is invalid."); // check error message
 			return _tab[n];
 			
 		}
@@ -198,8 +236,47 @@ class vector {
 
 //	--------------->> MODIFIERS <<------------------
 
-//		void assign(inputIterator first, inputIterator last);
-//		void assign(size_type n, const value_type & val);
+		// void clear() {}
+
+		// iterator insert( iterator pos, const T& value ) {}
+		// void insert( iterator pos, size_type count, const T& value ) {}
+		// template< class InputIt >
+		// 	void insert( iterator pos, InputIt first, InputIt last ) {}
+
+		// iterator erase( iterator pos ) {}
+		// iterator erase( iterator first, iterator last ) {}
+
+//--check cppreference type requirements
+		void push_back(const T& value) {
+			if (_size + 1 > capacity())
+				reserve(_size + 1);
+			_tab[_size] = value;
+			++_size;
+		}
+
+		void pop_back() {
+			_alloc.destroy(&_tab[_size]);
+			--_size;
+		}
+
+//--check cppreference type requirements
+		void resize(size_type count, T value = T()) {
+			if (_size < count) {
+				if (count > capacity())
+					reserve(count);
+				--_size;
+				while (_size++ < count)
+					_tab[_size] = value;
+			}
+			else if (_size > count) {
+				for (size_type i = count;i < _size;i++)
+				_alloc.destroy(&_tab[i]);
+			}
+			_size = count;
+		}
+
+		// void swap( vector& other ) {}
+
 
 //	------------------------------------------------
 
