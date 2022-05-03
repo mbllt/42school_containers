@@ -3,10 +3,16 @@
 #include <stdlib.h>
 #include <time.h>
 
-void print_str(std::ofstream& of, std::ofstream& myof, std::string str, size_t n) {
+void print_str(std::ofstream& of, std::ofstream& myof, std::string str) {
 
-	of << str << " | l." << n << "\n";
-	myof << str << " | l." << n << "\n";
+	of << str << "\n";
+	myof << str << "\n";
+}
+
+void print_line(std::ofstream& of, std::ofstream& myof, unsigned int n) {
+
+	of << "---- l." << n << " ----" << "\n";
+	myof << "---- l." << n << " ----" << "\n";
 }
 
 void testVector(void) {

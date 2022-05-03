@@ -17,11 +17,11 @@ class TestVector {
 		template<typename T>
 		void printVector(std::ofstream& out, T& vec) {
 
-			out << "display : ";
+			out << "{ ";
 			for (typename T::iterator it = vec.begin(); it != vec.end(); ++it){
 				out << *it << " ";
 			}
-			out << "\n";
+			out << "}\n";
 		}
 
 		void displayVectors(std::ofstream& of, std::vector<Value>& vec, std::ofstream& myof, ft::vector<Value>& myvec) {
@@ -47,7 +47,7 @@ class TestVector {
 		void test_it_arrow(std::ofstream& of, std::ofstream& myof) {(void)of;(void)myof;}
 
 		void test_resize(std::ofstream& of, std::ofstream& myof) {
-			print_str(of, myof, "---- ", 300);
+			print_line(of, myof, 300);
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
@@ -56,46 +56,46 @@ class TestVector {
 			vec.resize(10, Value());
 			myvec.resize(10, Value());
 			if (vec.size() == myvec.size())
-				print_str(of, myof, "size change after resize : ok", 290);
+				print_str(of, myof, "size change after resize : ok");
 			else {
 				of << "size change after resize : ok | l.300\n";
 				myof << "size change after resize : koooo | l.300\n";
 			}
 			if (*vec.end() == *myvec.end())
-				print_str(of, myof, "end change after resize : ok", 290);
+				print_str(of, myof, "end change after resize : ok");
 			else {
 				of << "end change after resize : ok | l.300\n";
 				myof << "end change after resize : koooo | l.300\n";
 			}
 			// if (vec.capacity() == myvec.capacity())
-			// 	print_str(of, myof, "capacity change after resize : ok", 290);
+			// 	print_str(of, myof, "capacity change after resize : ok");
 			// else {
 			// 	of << "capacity change after resize : ok | l.300\n";
 			// 	myof << "capacity change after resize : koooo | l.300\n";
 			// }
-			print_str(of, myof, "vec.resize(10, Value())", 300);
+			print_str(of, myof, "vec.resize(10, Value())");
 			displayVectors(of, vec, myof, myvec);
 
 			vec.resize(30, Value());
 			myvec.resize(30, Value());
 			if (vec.size() == myvec.size())
-				print_str(of, myof, "size change after resize : ok", 290);
+				print_str(of, myof, "size change after resize : ok");
 			else {
 				of << "size change after resize : ok | l.300\n";
 				myof << "size change after resize : koooo | l.300\n";
 			}
 			// if (vec.capacity() == myvec.capacity())
-			// 	print_str(of, myof, "capacity change after resize : ok", 290);
+			// 	print_str(of, myof, "capacity change after resize : ok");
 			// else {
 			// 	of << "capacity change after resize : ok | l.300\n";
 			// 	myof << "capacity change after resize : koooo | l.300\n";
 			// }
-			print_str(of, myof, "vec.resize(30, Value())", 300);
+			print_str(of, myof, "vec.resize(30, Value())");
 			displayVectors(of, vec, myof, myvec);
 		}
 
 		void test_push_back(std::ofstream& of, std::ofstream& myof) {
-			print_str(of, myof, "---- ", 300);
+			print_line(of, myof, 300);
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
@@ -106,23 +106,23 @@ class TestVector {
 			vec.push_back(Value());
 			myvec.push_back(Value());
 			if (vec.size() == myvec.size())
-				print_str(of, myof, "size change after push_back : ok", 290);
+				print_str(of, myof, "size change after push_back : ok");
 			else {
 				of << "size change after push_back : ok | l.300\n";
 				myof << "size change after push_back : koooo | l.300\n";
 			}
 			// if (vec.capacity() == myvec.capacity())
-			// 	print_str(of, myof, "capacity change after push_back : ok", 290);
+			// 	print_str(of, myof, "capacity change after push_back : ok");
 			// else {
 			// 	of << "capacity change after push_back : ok | l.300\n";
 			// 	myof << "capacity change after push_back : koooo | l.300\n";
 			// }
-			print_str(of, myof, "vec.push_back(Value())", 300);
+			print_str(of, myof, "vec.push_back(Value())");
 			displayVectors(of, vec, myof, myvec);
 		}
 
 		void test_pop_back(std::ofstream& of, std::ofstream& myof) {
-			print_str(of, myof, "---- ", 300);
+			print_line(of, myof, 300);
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
@@ -131,33 +131,33 @@ class TestVector {
 			vec.pop_back();
 			myvec.pop_back();
 			if (vec.size() == myvec.size())
-				print_str(of, myof, "size change after pop_back : ok", 290);
+				print_str(of, myof, "size change after pop_back : ok");
 			else {
 				of << "size change after pop_back : ok | l.300\n";
 				myof << "size change after pop_back : koooo | l.300\n";
 			}
 			// if (vec.capacity() == myvec.capacity())
-			// 	print_str(of, myof, "capacity change after pop_back : ok", 290);
+			// 	print_str(of, myof, "capacity change after pop_back : ok");
 			// else {
 			// 	of << "capacity change after pop_back : ok | l.300\n";
 			// 	myof << "capacity change after pop_back : koooo | l.300\n";
 			// }
-			print_str(of, myof, "vec.pop_back())", 300);
+			print_str(of, myof, "vec.pop_back())");
 			displayVectors(of, vec, myof, myvec);
 		}
 
 		void test_swap(std::ofstream& of, std::ofstream& myof) {
-			print_str(of, myof, "---- ", 300);
+			print_line(of, myof, 300);
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
-			print_str(of, myof, "vec ", 300);
+			print_str(of, myof, "vec ");
 			displayVectors(of, vec, myof, myvec);
 
 			std::vector<Value> other(25, Value());
 			ft::vector<Value> myother(25, Value());
 			fill_vec(&other, &myother);
-			print_str(of, myof, "other ", 300);
+			print_str(of, myof, "other ");
 			displayVectors(of, other, myof, myother);
 
 			typename std::vector<Value>::iterator it_start = vec.begin();
@@ -168,10 +168,10 @@ class TestVector {
 
 			vec.swap(other);
 			myvec.swap(myother);
-			print_str(of, myof, "vec.swap(other) : vec smaller than other", 300);
-			print_str(of, myof, "vec ", 300);
+			print_str(of, myof, "vec.swap(other) : vec smaller than other");
+			print_str(of, myof, "vec ");
 			displayVectors(of, vec, myof, myvec);
-			print_str(of, myof, "other ", 300);
+			print_str(of, myof, "other ");
 			displayVectors(of, other, myof, myother);
 
 			of << "it de vec a la fin : " << *it_start << "\n";
@@ -180,41 +180,41 @@ class TestVector {
 			std::vector<Value> third(5, Value());
 			ft::vector<Value> mythird(5, Value());
 			fill_vec(&third, &mythird);
-			print_str(of, myof, "third ", 300);
+			print_str(of, myof, "third ");
 			displayVectors(of, third, myof, mythird);
 
 			other.swap(third);
 			myother.swap(mythird);
-			print_str(of, myof, "other.swap(third) : other bigger than third", 300);
-			print_str(of, myof, "other ", 300);
+			print_str(of, myof, "other.swap(third) : other bigger than third");
+			print_str(of, myof, "other ");
 			displayVectors(of, other, myof, myother);
-			print_str(of, myof, "third ", 300);
+			print_str(of, myof, "third ");
 			displayVectors(of, third, myof, mythird);
 		}
 
-		void test_clear(std::ofstream& of, std::ofstream& myof) {
-			print_str(of, myof, "---- ", 300);
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
-			fill_vec(&vec, &myvec);
-			
-			print_str(of, myof, "before clear : ", 300);
-			displayVectors(of, vec, myof, myvec);
-			of << "size : " <<  vec.size() << " capacity : " << vec.capacity() << "\n";
-			myof << "size : " << myvec.size() << " capacity : " << myvec.capacity() << "\n";
+			void test_clear(std::ofstream& of, std::ofstream& myof) {
+				print_line(of, myof, 300);
+				std::vector<Value> vec(20, Value());
+				ft::vector<Value> myvec(20, Value());
+				fill_vec(&vec, &myvec);
 
-			vec.clear();
-			myvec.clear();
-			
-			print_str(of, myof, "after clear : ", 300);
-			displayVectors(of, vec, myof, myvec);
-			of << "size : " << vec.size() << " capacity : " << vec.capacity() << "\n";
-			myof << "size : " << myvec.size() << " capacity : " << myvec.capacity() << "\n";
+				print_str(of, myof, "before clear : ");
+				displayVectors(of, vec, myof, myvec);
+				of << "size : " <<  vec.size() << " capacity : " << vec.capacity() << "\n";
+				myof << "size : " << myvec.size() << " capacity : " << myvec.capacity() << "\n";
 
-			vec.push_back(Value());
-			myvec.push_back(Value());
-			print_str(of, myof, "after one pushback : ", 300);
-			displayVectors(of, vec, myof, myvec);
+				vec.clear();
+				myvec.clear();
+
+				print_str(of, myof, "after clear : ");
+				displayVectors(of, vec, myof, myvec);
+				of << "size : " << vec.size() << " capacity : " << vec.capacity() << "\n";
+				myof << "size : " << myvec.size() << " capacity : " << myvec.capacity() << "\n";
+
+				vec.push_back(Value());
+				myvec.push_back(Value());
+				print_str(of, myof, "after one pushback : ");
+				displayVectors(of, vec, myof, myvec);
 		}
 
 	public:
@@ -226,33 +226,34 @@ class TestVector {
 
 			of << "\ntest-constructors ✅\n";
 			myof << "\ntest-constructors ✅\n";
+			print_line(of, myof, 300);
 
+			print_str(of, myof, "vec(n, value())");
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
+			displayVectors(of, vec, myof, myvec);
+
+			print_str(of, myof, "vec default");
 			std::vector<Value> bis;
 			ft::vector<Value> mybis;
 			fill_vec(&bis, &mybis);
-			std::vector<Value> quatre(bis);
-			ft::vector<Value> myquatre(mybis);
+			displayVectors(of, bis, myof, mybis);
 
-			const std::vector<Value> vecconst(20, Value());
-			const ft::vector<Value> myvecconst(20, Value());
-			const std::vector<Value> bisconst;
-			const ft::vector<Value> mybisconst;
-			const std::vector<Value> quatreconst(vecconst);
-			const ft::vector<Value> myquatreconst(myvecconst);
+			print_str(of, myof, "vec(copy)");
+			std::vector<Value> quatre(vec);
+			ft::vector<Value> myquatre(myvec);
+			displayVectors(of, quatre, myof, myquatre);
+	
+			print_str(of, myof, "vec range");
 			//	----
 			//	test constructor range
-
-
-			displayVectors(of, bis, myof, mybis);
-			displayVectors(of, quatre, myof, myquatre);
 		}
 
 		void test_operators(std::ofstream& of, std::ofstream& myof) {
 
 			of << "\ntest-operators ✅\n";
 			myof << "\ntest-operators ✅\n";
+			print_line(of, myof, 300);
 		
 			for (int i = 0;i < 10;++i) {
 		
@@ -265,7 +266,9 @@ class TestVector {
 		
 			// !=
 				if (myvec != mytmp) {
-					print_str(of, myof, "myvec != mytmp : ok", 24);
+					// print_line(of, myof, 300);
+					// print_str(of, myof, "op !=");
+					print_str(of, myof, "myvec != mytmp : ok");
 				}
 				else if (vec != tmp) {
 					of << "myvec != mytmp : ok\n";
@@ -274,7 +277,7 @@ class TestVector {
 		
 			// <
 				if (myvec < mytmp) {
-					print_str(of, myof, "myvec < mytmp : ok", 33);
+					print_str(of, myof, "myvec < mytmp : ok");
 				}
 				else if (vec < tmp) {
 					of << "myvec < mytmp : ok\n";
@@ -283,7 +286,7 @@ class TestVector {
 		
 			// >
 				if (myvec > mytmp) {
-					print_str(of, myof, "myvec > mytmp : ok", 42);
+					print_str(of, myof, "myvec > mytmp : ok");
 				}
 				else if (vec > tmp) {
 					of << "myvec > mytmp : ok\n";
@@ -296,6 +299,7 @@ class TestVector {
 
 			of << "\ntest-iterators ✅\n";
 			myof << "\ntest-iterators ✅\n";
+			print_line(of, myof, 300);
 
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
@@ -405,42 +409,42 @@ class TestVector {
 
 				//	==
 				if (*ittest == *ittestbis && *myittest == *myittestbis)
-					print_str(of, myof, "*ittest == *ittestbis : ok", 131);
+					print_str(of, myof, "*ittest == *ittestbis : ok");
 				else if (*ittest == *ittestbis) {
 					of << "*ittest == *ittestbis : ok\n";
 			 		myof << "*ittest == *ittestbis : koooo\n";}
 
 				//	!=
 				if (*ittest != *ittestbis && *myittest != *myittestbis)
-					print_str(of, myof, "*ittest != *ittestbis : ok", 138);
+					print_str(of, myof, "*ittest != *ittestbis : ok");
 				else if (*ittest != *ittestbis) {
 					of << "*ittest != *ittestbis : ok\n";
 			 		myof << "*ittest != *ittestbis : koooo\n";}
 
 				//	<
 				if (*ittest < *ittestbis && *myittest < *myittestbis)
-					print_str(of, myof, "*ittest < *ittestbis : ok", 145);
+					print_str(of, myof, "*ittest < *ittestbis : ok");
 				else if (*ittest < *ittestbis) {
 					of << "*ittest < *ittestbis : ok\n";
 			 		myof << "*ittest < *ittestbis : koooo\n";}
 
 				//	<=
 				if (*ittest <= *ittestbis && *myittest <= *myittestbis)
-					print_str(of, myof, "*ittest <= *ittestbis : ok", 152);
+					print_str(of, myof, "*ittest <= *ittestbis : ok");
 				else if (*ittest <= *ittestbis) {
 					of << "*ittest <= *ittestbis : ok\n";
 			 		myof << "*ittest <= *ittestbis : koooo\n";}
 
 				//	>
 				if (*ittest > *ittestbis && *myittest > *myittestbis)
-					print_str(of, myof, "*ittest > *ittestbis : ok", 159);
+					print_str(of, myof, "*ittest > *ittestbis : ok");
 				else if (*ittest > *ittestbis) {
 					of << "*ittest > *ittestbis : ok\n";
 			 		myof << "*ittest > *ittestbis : koooo\n";}
 
 				//	>=
 				if (*ittest >= *ittestbis && *myittest >= *myittestbis)
-					print_str(of, myof, "*ittest >= *ittestbis : ok", 166);
+					print_str(of, myof, "*ittest >= *ittestbis : ok");
 				else if (*ittest >= *ittestbis) {
 					of << "*ittest >= *ittestbis : ok\n";
 					myof << "*ittest >= *ittestbis : koooo\n";}
@@ -452,15 +456,14 @@ class TestVector {
 			
 			of << "\ntest-capacity ✅\n";
 			myof << "\ntest-capacity ✅\n";
-
-			//	empty size max_size reserve capacity
+			print_line(of, myof, 300);
 
 			std::vector<Value> emptyvec;
 			ft::vector<Value> myemptyvec;
 
 			// empty
 			if (emptyvec.empty() == myemptyvec.empty())
-				print_str(of, myof, "emptyvec.empty() == myemptyvec.empty() : ok", 284);
+				print_str(of, myof, "emptyvec.empty() == myemptyvec.empty() : ok");
 			else {
 				of << "emptyvec.empty() == myemptyvec.empty() : ok | l.300\n";
 				myof << "emptyvec.empty() == myemptyvec.empty() : koooo work | l.300\n";
@@ -472,7 +475,7 @@ class TestVector {
 
 			// size
 			if (vec.size() == myvec.size())
-				print_str(of, myof, "vec.size() == myvec.size() : ok", 284);
+				print_str(of, myof, "vec.size() == myvec.size() : ok");
 			else {
 				of << "vec.size() == myvec.size() : ok | l.300\n";
 				myof << "vec.size() == myvec.size() : koooo work | l.300\n";
@@ -480,7 +483,7 @@ class TestVector {
 
 			// max_size
 			if (vec.max_size() == myvec.max_size())
-				print_str(of, myof, "vec.max_size() == myvec.max_size() : ok", 284);
+				print_str(of, myof, "vec.max_size() == myvec.max_size() : ok");
 			else {
 				of << "vec.max_size() == myvec.max_size() : ok | l.300\n";
 				myof << "vec.max_size() == myvec.max_size() : koooo work | l.300\n";
@@ -488,7 +491,7 @@ class TestVector {
 
 			// capacity
 			if (vec.capacity() == myvec.capacity())
-				print_str(of, myof, "vec.capacity() == myvec.capacity() : ok", 284);
+				print_str(of, myof, "vec.capacity() == myvec.capacity() : ok");
 			else {
 				of << "vec.capacity() == myvec.capacity() : ok | l.300\n";
 				myof << "vec.capacity() == myvec.capacity() : koooo work | l.300\n";
@@ -498,7 +501,7 @@ class TestVector {
 			vec.reserve(25);
 			myvec.reserve(25);
 			if (vec.capacity() == myvec.capacity())
-				print_str(of, myof, "vec.reserve : ok", 284);
+				print_str(of, myof, "vec.reserve : ok");
 			else {
 				std::cout << "!!!!!!! vec.capacity() : " << vec.capacity() << " | myvec.capacity() : " << myvec.capacity() << std::endl;
 				of << "vec.reserve : ok | l.300\n";
@@ -510,8 +513,7 @@ class TestVector {
 			
 			of << "\ntest-accessors ✅\n";
 			myof << "\ntest-accessors ✅\n";
-
-			//	[] at front back data
+			print_line(of, myof, 300);
 
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
@@ -520,7 +522,7 @@ class TestVector {
 
 			// []
 			if (vec[0] == myvec[0])
-				print_str(of, myof, "vec[0] == myvec[0] : ok", 284);
+				print_str(of, myof, "vec[0] == myvec[0] : ok");
 			else {
 				of << "vec[0] == myvec[0] : ok | l.300\n";
 				myof << "vec[0] == myvec[0] : koooo | l.300\n";
@@ -528,7 +530,7 @@ class TestVector {
 			
 			// at
 			if (vec.at(0) == myvec.at(0))
-				print_str(of, myof, "vec.at() == myvec.at() : ok", 290);
+				print_str(of, myof, "vec.at() == myvec.at() : ok");
 			else {
 				of << "vec.at(0) == myvec.at(0) : ok | l.300\n";
 				myof << "vec.at(0) == myvec.at(0) : koooo | l.300\n";
@@ -536,7 +538,7 @@ class TestVector {
 
 			// front
 			if (vec.front() == myvec.front())
-				print_str(of, myof, "vec.front() == myvec.front() : ok", 291);
+				print_str(of, myof, "vec.front() == myvec.front() : ok");
 			else {
 				of << "vec.front() == myvec.front() : ok | l.300\n";
 				myof << "vec.front() == myvec.front() : koooo | l.300\n";
@@ -544,7 +546,7 @@ class TestVector {
 
 			// back
 			if (vec.back() == myvec.back())
-				print_str(of, myof, "vec.back() == myvec.back() : ok", 290);
+				print_str(of, myof, "vec.back() == myvec.back() : ok");
 			else {
 				of << "vec.back() == myvec.back() : ok | l.300\n";
 				myof << "vec.back() == myvec.back() : koooo | l.300\n";
