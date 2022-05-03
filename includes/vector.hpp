@@ -124,9 +124,6 @@ class vector {
 			return *this;
 		}
 
-// template<typename TT, typename AAlloc>
-// 		friend void operator<<(std::ostream& o, const ft::vector<TT, AAlloc>& src);
-
 //	------------------------------------------------
 
 
@@ -250,9 +247,20 @@ class vector {
 		// template< class InputIt >
 		// 	void insert( iterator pos, InputIt first, InputIt last ) {}
 
-		// iterator erase( iterator pos ) {}
-		// iterator erase( iterator first, iterator last ) {}
+		iterator erase(iterator pos) {
+			if (pos == end())
+				return end();
+			_alloc.destroy(&(*pos));
+			// _alloc.destroy(&pos);
+			return pos + 1;
+		}
 
+		iterator erase(iterator first, iterator last) {
+			if (first == last)
+				return last;
+		}
+
+// not working with std::string
 		void push_back(const T& value) {
 			if (_size + 1 > capacity())
 				reserve(_size + 1);
@@ -362,14 +370,6 @@ template<typename T, class Alloc>
 bool		operator>=(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
 				return !(src < cmp);
 			}
-
-// template<typename TT, class AAlloc>
-// void		operator<<(std::ostream& o, const ft::vector<TT, AAlloc> & src) {
-// 				o << "{ ";
-// 				for (size_t i = 0; i < src._size;++i)
-// 					o << src._tab[i] << " ";
-// 				o << "} ";
-// 			}
 
 }
 
