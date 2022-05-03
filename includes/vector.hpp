@@ -124,6 +124,9 @@ class vector {
 			return *this;
 		}
 
+// template<typename TT, typename AAlloc>
+// 		friend void operator<<(std::ostream& o, const ft::vector<TT, AAlloc>& src);
+
 //	------------------------------------------------
 
 
@@ -236,7 +239,11 @@ class vector {
 
 //	--------------->> MODIFIERS <<------------------
 
-		// void clear() {}
+		void clear() {
+			for (size_type i = 0; i < _size;++i)
+				_alloc.destroy(&_tab[i]);
+			_size = 0;
+		}
 
 		// iterator insert( iterator pos, const T& value ) {}
 		// void insert( iterator pos, size_type count, const T& value ) {}
@@ -246,7 +253,6 @@ class vector {
 		// iterator erase( iterator pos ) {}
 		// iterator erase( iterator first, iterator last ) {}
 
-//--check cppreference type requirements
 		void push_back(const T& value) {
 			if (_size + 1 > capacity())
 				reserve(_size + 1);
@@ -259,7 +265,6 @@ class vector {
 			--_size;
 		}
 
-//--check cppreference type requirements
 		void resize(size_type count, T value = T()) {
 			if (_size < count) {
 				if (count > capacity())
@@ -275,7 +280,25 @@ class vector {
 			_size = count;
 		}
 
-		void swap( vector& other ) {(void)other;}
+		void swap(vector& other) {
+			if (*this == other)
+				return ;
+			
+			size_type tmp_size = _size;
+			size_type tmp_cap = _cap;
+			pointer tmp_tab = _tab;
+			allocator_type tmp_alloc = _alloc;
+
+			_size = other._size;
+			_cap = other._cap;
+			_tab = other._tab;
+			_alloc = other._alloc;
+
+			other._size = tmp_size;
+			other._cap = tmp_cap;
+			other._tab = tmp_tab;
+			other._alloc = tmp_alloc;
+		}
 
 
 //	------------------------------------------------
@@ -283,6 +306,9 @@ class vector {
 };
 
 //	---------------->> NON MEMBERS <<---------------
+// why use non members ? Because by default in a class,
+//	the first param is the instance of the class : this.
+//	Here we want the first element to be specifically something else.
 
 template<typename T, class Alloc>
 bool		operator==(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
@@ -336,6 +362,14 @@ template<typename T, class Alloc>
 bool		operator>=(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
 				return !(src < cmp);
 			}
+
+// template<typename TT, class AAlloc>
+// void		operator<<(std::ostream& o, const ft::vector<TT, AAlloc> & src) {
+// 				o << "{ ";
+// 				for (size_t i = 0; i < src._size;++i)
+// 					o << src._tab[i] << " ";
+// 				o << "} ";
+// 			}
 
 }
 

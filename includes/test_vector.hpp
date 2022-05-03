@@ -17,9 +17,8 @@ class TestVector {
 		template<typename T>
 		void printVector(std::ofstream& out, T& vec) {
 
-			typename T::iterator it;
 			out << "display : ";
-			for (it = vec.begin(); it != vec.end(); ++it){
+			for (typename T::iterator it = vec.begin(); it != vec.end(); ++it){
 				out << *it << " ";
 			}
 			out << "\n";
@@ -48,6 +47,7 @@ class TestVector {
 		void test_it_arrow(std::ofstream& of, std::ofstream& myof) {(void)of;(void)myof;}
 
 		void test_resize(std::ofstream& of, std::ofstream& myof) {
+			print_str(of, myof, "---- ", 300);
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
@@ -95,6 +95,7 @@ class TestVector {
 		}
 
 		void test_push_back(std::ofstream& of, std::ofstream& myof) {
+			print_str(of, myof, "---- ", 300);
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
@@ -121,6 +122,7 @@ class TestVector {
 		}
 
 		void test_pop_back(std::ofstream& of, std::ofstream& myof) {
+			print_str(of, myof, "---- ", 300);
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
@@ -145,20 +147,73 @@ class TestVector {
 		}
 
 		void test_swap(std::ofstream& of, std::ofstream& myof) {
+			print_str(of, myof, "---- ", 300);
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
 			print_str(of, myof, "vec ", 300);
 			displayVectors(of, vec, myof, myvec);
-			std::vector<Value> other(20, Value());
-			ft::vector<Value> myother(20, Value());
+
+			std::vector<Value> other(25, Value());
+			ft::vector<Value> myother(25, Value());
 			fill_vec(&other, &myother);
 			print_str(of, myof, "other ", 300);
 			displayVectors(of, other, myof, myother);
-			
+
+			typename std::vector<Value>::iterator it_start = vec.begin();
+			typename ft::vector<Value>::iterator myit_start = myvec.begin();
+
+			of << "it de vec au debut : " << *it_start << "\n";
+			myof << "it de vec au debut : " << *myit_start << "\n";
+
 			vec.swap(other);
 			myvec.swap(myother);
-			print_str(of, myof, "vec.swap())", 300);
+			print_str(of, myof, "vec.swap(other) : vec smaller than other", 300);
+			print_str(of, myof, "vec ", 300);
+			displayVectors(of, vec, myof, myvec);
+			print_str(of, myof, "other ", 300);
+			displayVectors(of, other, myof, myother);
+
+			of << "it de vec a la fin : " << *it_start << "\n";
+			myof << "it de vec a la fin : " << *myit_start << "\n";
+
+			std::vector<Value> third(5, Value());
+			ft::vector<Value> mythird(5, Value());
+			fill_vec(&third, &mythird);
+			print_str(of, myof, "third ", 300);
+			displayVectors(of, third, myof, mythird);
+
+			other.swap(third);
+			myother.swap(mythird);
+			print_str(of, myof, "other.swap(third) : other bigger than third", 300);
+			print_str(of, myof, "other ", 300);
+			displayVectors(of, other, myof, myother);
+			print_str(of, myof, "third ", 300);
+			displayVectors(of, third, myof, mythird);
+		}
+
+		void test_clear(std::ofstream& of, std::ofstream& myof) {
+			print_str(of, myof, "---- ", 300);
+			std::vector<Value> vec(20, Value());
+			ft::vector<Value> myvec(20, Value());
+			fill_vec(&vec, &myvec);
+			
+			print_str(of, myof, "before clear : ", 300);
+			displayVectors(of, vec, myof, myvec);
+			of << "size : " <<  vec.size() << " capacity : " << vec.capacity() << "\n";
+			myof << "size : " << myvec.size() << " capacity : " << myvec.capacity() << "\n";
+
+			vec.clear();
+			myvec.clear();
+			
+			print_str(of, myof, "after clear : ", 300);
+			displayVectors(of, vec, myof, myvec);
+			of << "size : " << vec.size() << " capacity : " << vec.capacity() << "\n";
+			myof << "size : " << myvec.size() << " capacity : " << myvec.capacity() << "\n";
+
+			vec.push_back(Value());
+			myvec.push_back(Value());
+			print_str(of, myof, "after one pushback : ", 300);
 			displayVectors(of, vec, myof, myvec);
 		}
 
@@ -505,6 +560,7 @@ class TestVector {
 			test_push_back(of, myof);
 			test_pop_back(of, myof);
 			test_swap(of, myof);
+			test_clear(of, myof);
 		}
 };
 
@@ -544,16 +600,49 @@ void TestVector<std::string>::test_it_arrow(std::ofstream& of, std::ofstream& my
 		myof << "test -> koooo \n";
 }
 
-// template<>
-// void TestVector<std::vector<int> >::fill_vec(std::vector<std::vector<int> >* vec, ft::vector<std::vector<int> >* myvec) {
+template<typename T, class Alloc>
+bool		operator==(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
+				if (src.size() != cmp.size())
+					return false;
+				typename ft::vector<T>::const_iterator it = src.begin();
+				typename ft::vector<T>::const_iterator itbis = cmp.begin();
+				while(it != src.end()) {
+					if (itbis == cmp.end() || *it != *itbis)
+						return false;
+					++it;
+					++itbis;
+				}
+				return true;
+			}
 
-// 	srand (time(NULL));
+template<typename T, class Alloc>
+bool		operator==(const ft::vector<T, Alloc> & src, const std::vector<T, Alloc> & cmp) {
+				if (src.size() != cmp.size())
+					return false;
+				typename ft::vector<T>::const_iterator it = src.begin();
+				typename std::vector<T>::const_iterator itbis = cmp.begin();
+				while(it != src.end()) {
+					if (itbis == cmp.end() || *it != *itbis)
+						return false;
+					++it;
+					++itbis;
+				}
+				return true;
+			}
 
-// 	for (size_t i = 0; i < vec->size(); ++i) {
-// 		int val = rand() % 100;
-		// vec.push_back(std::vector<int>(val, val + vec[i].size()));
-		// myvec.push_back(std::vector<int>(val, val + myvec[i].size()));
-	// }
-// }
+template<typename T, class Alloc>
+bool		operator==(const std::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
+				if (src.size() != cmp.size())
+					return false;
+				typename std::vector<T>::const_iterator it = src.begin();
+				typename ft::vector<T>::const_iterator itbis = cmp.begin();
+				while(it != src.end()) {
+					if (itbis == cmp.end() || *it != *itbis)
+						return false;
+					++it;
+					++itbis;
+				}
+				return true;
+			}
 
 #endif
