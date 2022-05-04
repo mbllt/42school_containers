@@ -48,30 +48,30 @@ class vector {
 			_size = copy._size;
 			_cap = copy._cap;
 			try {
-				_tab = _alloc.allocate(copy._cap);
+				_tab = _alloc.allocate(_cap);
 			} catch (const std::exception& e) {
 				std::cerr << e.what() << std::endl;
 			}
-			for (size_type i = 0;i < copy._size;i++){
+			for (size_type i = 0;i < _size;i++){
 				_alloc.construct(&_tab[i], copy._tab[i]);
 			}
 		}
 
 		void ft_realloc_tab(size_type new_cap) {
-			if (new_cap > capacity()) {
-				pointer tmp = _tab;
-				for (size_type i = 0;i < _size;i++){
-					_alloc.destroy(&_tab[i]);
-				}
-				_alloc.deallocate(_tab, _size);
-				try {
-					_tab = _alloc.allocate(new_cap);
-				} catch (const std::exception& e) {
-					std::cerr << e.what() << std::endl;
-				}
-				for (size_type i = 0;i < _size;i++){
-					_alloc.construct(&_tab[i], tmp[i]);
-				}
+			if (new_cap <= _cap)
+				return ;
+			pointer tmp = _tab;
+			for (size_type i = 0;i < _size;i++){
+				_alloc.destroy(&_tab[i]);
+			}
+			_alloc.deallocate(_tab, _size);
+			try {
+				_tab = _alloc.allocate(new_cap);
+			} catch (const std::exception& e) {
+				std::cerr << e.what() << std::endl;
+			}
+			for (size_type i = 0;i < _size;i++){
+				_alloc.construct(&_tab[i], tmp[i]);
 			}
 		}
 
@@ -84,14 +84,15 @@ class vector {
 
 		explicit vector(size_type n, const value_type& val,
 						const allocator_type& alloc = allocator_type()) :
-						_alloc(alloc), _tab(), _size(n), _cap(n)
+						_alloc(alloc), _tab(), _size(n), _cap()
 		{
-			try {
-				_tab = _alloc.allocate(_cap);
-			} catch (const std::exception& e) {
-				std::cerr << e.what() << std::endl;
-			}
-			for (size_type i = 0;i < n;i++)
+			// try {
+			// 	_tab = _alloc.allocate(_cap);
+			// } catch (const std::exception& e) {
+			// 	std::cerr << e.what() << std::endl;
+			// }
+			reserve(n);
+			for (size_type i = 0;i < _size;i++)
 				_alloc.construct(&_tab[i], val);
 		}
 
@@ -170,20 +171,24 @@ class vector {
 
 		bool empty() const {return begin() == end();}
 
-		size_type max_size() const {return allocator_type().max_size();} // OR std::numeric_limits<difference_type>::max() / 2
+		size_type max_size() const {return allocator_type().max_size();}
 
-// marche pas
-		size_type capacity() const {return _size > _cap ? _cap * 2 : _cap;}
-		// size_type capacity() const {return _cap;}
+		size_type capacity() const {return _cap;}
 
-//--check cppreference to double check
 		void reserve(size_type new_cap) {
-			if (new_cap > max_size())
+			if (new_cap >  max_size())
 				throw std::length_error("New cap is to big."); // check error message
-			if (new_cap > capacity()) {
-				ft_realloc_tab(new_cap);
-				_cap = new_cap;
+			if (new_cap > capacity() && !_cap) {
+				try {
+					_tab = _alloc.allocate(_size);
+				}
+				catch (const std::exception& e) {
+					std::cerr << e.what() << std::endl;
+				}
 			}
+			else
+				ft_realloc_tab(new_cap);
+			_cap = new_cap;
 		}
 
 //	------------------------------------------------
@@ -263,7 +268,7 @@ class vector {
 // not working with std::string
 		void push_back(const T& value) {
 			if (_size + 1 > capacity())
-				reserve(_size + 1);
+				reserve(_cap * 2);
 			_tab[_size] = value;
 			++_size;
 		}
@@ -274,15 +279,14 @@ class vector {
 		}
 
 		void resize(size_type count, T value = T()) {
-			if (_size < count) {
-				if (count > capacity())
-					reserve(count);
+			if (_cap < count) {
+				reserve(_cap * 2);
 				--_size;
 				while (_size++ < count)
 					_tab[_size] = value;
 			}
-			else if (_size > count) {
-				for (size_type i = count;i < _size;i++)
+			else if (_cap > count) {
+				for (size_type i = count;i < _cap;i++)
 				_alloc.destroy(&_tab[i]);
 			}
 			_size = count;
