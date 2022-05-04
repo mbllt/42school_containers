@@ -32,6 +32,8 @@ class iterator {
 
 //	---------------->> OPERATORS <<-----------------
 
+		iterator&			operator=(const iterator& src) {p = src.p; return *this;}
+
 		reference			operator*() {return *p;}
 		const_reference		operator*() const {return *p;}
 

@@ -75,6 +75,15 @@ class vector {
 			}
 		}
 
+//	why do I need to reset first if I receptionated it as a reference ?
+		unsigned int dist_it(iterator& first, iterator& last) {
+			unsigned int n = 0;
+			while (first++ != last)
+				++n;
+			first -= n;
+			return n;
+		}
+
 	public :
 
 //	--------------->> CONSTRUCTORS <<---------------
@@ -86,11 +95,6 @@ class vector {
 						const allocator_type& alloc = allocator_type()) :
 						_alloc(alloc), _tab(), _size(n), _cap()
 		{
-			// try {
-			// 	_tab = _alloc.allocate(_cap);
-			// } catch (const std::exception& e) {
-			// 	std::cerr << e.what() << std::endl;
-			// }
 			reserve(n);
 			for (size_type i = 0;i < _size;i++)
 				_alloc.construct(&_tab[i], val);
@@ -219,7 +223,7 @@ class vector {
 		}
 
 		reference front() {
-			return _tab[0];
+			return (*this)[0];
 		}
 
 		const_reference front() const { 
@@ -232,7 +236,7 @@ class vector {
 		}
 
 		const_reference back() const { 
-			value_type &ret = const_cast<vector &>(*this).front();
+			value_type &ret = const_cast<vector &>(*this).back();
 			return const_cast<value_type const &>(ret);
 		}
 
@@ -242,9 +246,8 @@ class vector {
 //	--------------->> MODIFIERS <<------------------
 
 		void clear() {
-			for (size_type i = 0; i < _size;++i)
-				_alloc.destroy(&_tab[i]);
-			_size = 0;
+			while (_size)
+				_alloc.destroy(&(_tab[--_size]));
 		}
 
 		// iterator insert( iterator pos, const T& value ) {}
@@ -253,19 +256,42 @@ class vector {
 		// 	void insert( iterator pos, InputIt first, InputIt last ) {}
 
 		iterator erase(iterator pos) {
-			if (pos == end())
-				return end();
-			_alloc.destroy(&(*pos));
-			// _alloc.destroy(&pos);
-			return pos + 1;
+			// iterator tmp = pos;
+			// iterator cpy = pos + 1;
+			// if (pos == end())
+			// 	return end();
+			// while (pos != end()) {
+			// 	*pos = *cpy;
+			// 	++pos;
+			// 	++cpy;
+			// }
+			// --_size;
+			// _alloc.destroy(&_tab[_size]);
+			// return tmp;
+			return erase(pos, pos + 1);
 		}
 
+// The function should works so the problem comes from somewhere else..
 		iterator erase(iterator first, iterator last) {
 			if (first == last)
 				return last;
+			if (first == end())
+				return end();
+
+			iterator tmp = first;
+			unsigned int deleted = dist_it(first, last);
+
+			while (last != end()) {
+				*first = *last;
+				++first;
+				++last;
+			}
+			while (deleted--) {
+				_alloc.destroy(&(_tab[--_size]));
+			}
+			return tmp;
 		}
 
-// not working with std::string
 		void push_back(const T& value) {
 			if (_size + 1 > capacity())
 				reserve(_cap * 2);

@@ -63,12 +63,6 @@ class TestVector {
 				of << "size change after resize : ok | l.300\n";
 				myof << "size change after resize : koooo | l.300\n";
 			}
-			if (*vec.end() == *myvec.end())
-				print_str(of, myof, "end change after resize : ok");
-			else {
-				of << "end change after resize : ok | l.300\n";
-				myof << "end change after resize : koooo | l.300\n";
-			}
 			if (vec.capacity() == myvec.capacity())
 				print_str(of, myof, "capacity change after resize : ok");
 			else {
@@ -200,16 +194,16 @@ class TestVector {
 
 			print_str(of, myof, "before clear : ");
 			displayVectors(of, vec, myof, myvec);
-			of << "size : " <<  vec.size() << " capacity : " << vec.capacity() << "\n";
-			myof << "size : " << myvec.size() << " capacity : " << myvec.capacity() << "\n";
+			of << "size : " <<  vec.size() << " - capacity : " << vec.capacity() << "\n";
+			myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << "\n";
 
 			vec.clear();
 			myvec.clear();
 
 			print_str(of, myof, "after clear : ");
 			displayVectors(of, vec, myof, myvec);
-			of << "size : " << vec.size() << " capacity : " << vec.capacity() << "\n";
-			myof << "size : " << myvec.size() << " capacity : " << myvec.capacity() << "\n";
+			of << "size : " << vec.size() << " - capacity : " << vec.capacity() << "\n";
+			myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << "\n";
 
 			vec.push_back(Value());
 			myvec.push_back(Value());
@@ -218,27 +212,51 @@ class TestVector {
 		}
 
 		void test_erase(std::ofstream& of, std::ofstream& myof) {
-			// print_line(of, myof, 300);
-			// std::vector<Value> vec(20, Value());
-			// ft::vector<Value> myvec(20, Value());
-			// fill_vec(&vec, &myvec);
+			print_line(of, myof, 300);
+			std::vector<Value> vec(4, Value());
+			ft::vector<Value> myvec(4, Value());
+			fill_vec(&vec, &myvec);
 
-			// print_str(of, myof, "before erase begin() : ");
+			print_str(of, myof, "before erase begin() : ");
+			displayVectors(of, vec, myof, myvec);
+			of << "size : " << vec.size() << " - capacity : " << vec.capacity() << " - end() : " << /* *vec.end() << */ "\n";
+			myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << " - end() : " << /* *myvec.end() << */ "\n";
+//---
+			// std::cout << "before { ";
+			// for (typename ft::vector<Value>::iterator it = myvec.begin();it < myvec.end(); ++it)
+			// 	std::cout << *it << " ";
+			// std::cout << "}\n";
+//---
+			typename std::vector<Value>::iterator ret = vec.erase(vec.begin());
+			typename ft::vector<Value>::iterator myret = myvec.erase(myvec.begin());
+
+			print_str(of, myof, "after erase begin() : ");
+			displayVectors(of, vec, myof, myvec);
+			of << "size : " << vec.size() << " - capacity : " << vec.capacity() << " - end() : " << /* *vec.end() << */ "\n";
+			myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << " - end() : " << /* *myvec.end() << */ "\n";
+
+			print_str(of, myof, "ret erase : ");
+			of << *ret << "\n";
+			myof << *myret << "\n";
+
+			// print_str(of, myof, "before erase(begin(), begin() + 5) : ");
 			// displayVectors(of, vec, myof, myvec);
+			// of << "size : " << vec.size() << " - capacity : " << vec.capacity() << " - end() : " << /* *vec.end() << */ "\n";
+			// myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << " - end() : " << /* *myvec.end() << */ "\n";
 
-			// typename std::vector<Value>::iterator ret = vec.erase(vec.begin());
-			// typename ft::vector<Value>::iterator myret = myvec.erase(myvec.begin());
+			// typename std::vector<Value>::iterator ret = vec.erase(vec.begin(), vec.begin() + 5);
+			// typename ft::vector<Value>::iterator myret = myvec.erase(myvec.begin(), myvec.begin() + 5);
+			// // ret = vec.erase(vec.begin(), vec.begin() + 5);
+			// // myret = myvec.erase(myvec.begin(), myvec.begin() + 5);
 
-			// print_str(of, myof, "after erase begin() : ");
+			// print_str(of, myof, "after erase(begin(), begin() + 5) : ");
 			// displayVectors(of, vec, myof, myvec);
+			// of << "size : " << vec.size() << " - capacity : " << vec.capacity() << " - end() : " << /* *vec.end() << */ "\n";
+			// myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << " - end() : " << /* *myvec.end() << */ "\n";
 
 			// print_str(of, myof, "ret erase : ");
 			// of << *ret << "\n";
 			// myof << *myret << "\n";
-
-			(void)of;
-			(void)myof;
-
 		}
 
 	public:

@@ -41,10 +41,10 @@ void testVector(void) {
 
 	srand (time(NULL));
 
-	TestVector<int> test_vec;
+	// TestVector<int> test_vec;
 	// TestVector<const int> test_vec;
 
-	// TestVector<std::string> test_vec;
+	TestVector<std::string> test_vec;
 	// TestVector<const std::string> test_vec;
 
 	// TestVector<std::vector<int> > test_vec;
