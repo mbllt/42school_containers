@@ -148,8 +148,8 @@ class TestVector {
 			print_str(of, myof, "vec ");
 			displayVectors(of, vec, myof, myvec);
 
-			std::vector<Value> other(25, Value());
-			ft::vector<Value> myother(25, Value());
+			std::vector<Value> other(24, Value());
+			ft::vector<Value> myother(24, Value());
 			fill_vec(&other, &myother);
 			print_str(of, myof, "other ");
 			displayVectors(of, other, myof, myother);
@@ -514,8 +514,8 @@ class TestVector {
 			if (vec.size() == myvec.size())
 				print_str(of, myof, "vec.size() == myvec.size() : ok");
 			else {
-				of << "vec.size() == myvec.size() : ok | l.300\n";
-				myof << "vec.size() == myvec.size() : koooo work | l.300\n";
+				of << "size : " << vec.size() << "\n";
+				myof << "size : " << myvec.size() << "\n";
 			}
 
 			// max_size
@@ -530,8 +530,8 @@ class TestVector {
 			if (vec.capacity() == myvec.capacity())
 				print_str(of, myof, "vec.capacity() == myvec.capacity() : ok");
 			else {
-				of << "vec.capacity() == myvec.capacity() : ok | l.300\n";
-				myof << "vec.capacity() == myvec.capacity() : koooo work | l.300\n";
+				of << "capacity test - size : " << vec.size() << " - capacity : " << vec.capacity() << "\n";
+				myof << "capacity test - size : " << myvec.size() << " - capacity : " << myvec.capacity() << "\n";
 			}
 
 			// reserve
@@ -540,8 +540,8 @@ class TestVector {
 			if (vec.capacity() == myvec.capacity())
 				print_str(of, myof, "vec.reserve : ok");
 			else {
-				of << "vec.reserve : ok | l.300\n";
-				myof << "vec.reserve : koooo work | l.300\n";
+				of << "reserve test - size : " << vec.size() << " - capacity : " << vec.capacity() << "\n";
+				myof << "reserve test - size : " << myvec.size() << " - capacity : " << myvec.capacity() << "\n";
 			}
 		}
 

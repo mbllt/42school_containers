@@ -41,7 +41,7 @@ class vector {
 			for (size_type i = 0;i < _size;i++){
 				_alloc.destroy(&_tab[i]);
 			}
-			_alloc.deallocate(_tab, _size);
+			_alloc.deallocate(_tab, _cap);
 		}
 
 		void _copy(vector const & copy) {
@@ -54,24 +54,6 @@ class vector {
 			}
 			for (size_type i = 0;i < _size;i++){
 				_alloc.construct(&_tab[i], copy._tab[i]);
-			}
-		}
-
-		void ft_realloc_tab(size_type new_cap) {
-			if (new_cap <= _cap)
-				return ;
-			pointer tmp = _tab;
-			for (size_type i = 0;i < _size;i++){
-				_alloc.destroy(&_tab[i]);
-			}
-			_alloc.deallocate(_tab, _size);
-			try {
-				_tab = _alloc.allocate(new_cap);
-			} catch (const std::exception& e) {
-				std::cerr << e.what() << std::endl;
-			}
-			for (size_type i = 0;i < _size;i++){
-				_alloc.construct(&_tab[i], tmp[i]);
 			}
 		}
 
@@ -179,19 +161,22 @@ class vector {
 		size_type capacity() const {return _cap;}
 
 		void reserve(size_type new_cap) {
-			if (new_cap >  max_size())
-				throw std::length_error("New cap is to big."); // check error message
-			if (new_cap > capacity() && !_cap) {
-				try {
-					_tab = _alloc.allocate(_size);
+			if (new_cap > max_size())
+				throw std::length_error("vector::reserve"); // check error message
+			else if (new_cap > capacity()) {
+				value_type *tmp = _alloc.allocate(new_cap);
+				if (_tab) {
+					for (size_type i = 0;i < _size;i++){
+						_alloc.construct(&tmp[i], _tab[i]);
+					}
+					for (size_type i = 0;i < _size;i++){
+						_alloc.destroy(&_tab[i]);
+					}
+					_alloc.deallocate(_tab, _cap);
 				}
-				catch (const std::exception& e) {
-					std::cerr << e.what() << std::endl;
-				}
+				_tab = tmp;
+				_cap = new_cap;
 			}
-			else
-				ft_realloc_tab(new_cap);
-			_cap = new_cap;
 		}
 
 //	------------------------------------------------
@@ -255,18 +240,6 @@ class vector {
 		// 	void insert( iterator pos, InputIt first, InputIt last ) {}
 
 		iterator erase(iterator pos) {
-			// iterator tmp = pos;
-			// iterator cpy = pos + 1;
-			// if (pos == end())
-			// 	return end();
-			// while (pos != end()) {
-			// 	*pos = *cpy;
-			// 	++pos;
-			// 	++cpy;
-			// }
-			// --_size;
-			// _alloc.destroy(&_tab[_size]);
-			// return tmp;
 			return erase(pos, pos + 1);
 		}
 
@@ -293,7 +266,7 @@ class vector {
 // Problem with string
 		void push_back(const T& value) {
 			if (_size + 1 > capacity())
-				reserve(_cap * 2);
+				reserve(_cap * 2); // ou alors cap * 2
 			_tab[_size] = value;
 			++_size;
 		}
@@ -312,8 +285,8 @@ class vector {
 					_tab[_size] = value;
 			}
 			else if (_cap > count) {
-				for (size_type i = count;i < _cap;i++)
-				_alloc.destroy(&_tab[i]);
+				for (size_type i = count;i < _size;i++)
+					_alloc.destroy(&_tab[i]);
 			}
 			_size = count;
 		}
