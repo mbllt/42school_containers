@@ -47,11 +47,7 @@ class vector {
 		void _copy(vector const & copy) {
 			_size = copy._size;
 			_cap = copy._cap;
-			try {
-				_tab = _alloc.allocate(_cap);
-			} catch (const std::exception& e) {
-				std::cerr << e.what() << std::endl;
-			}
+			_tab = _alloc.allocate(_cap);
 			for (size_type i = 0;i < _size;i++){
 				_alloc.construct(&_tab[i], copy._tab[i]);
 			}
@@ -271,14 +267,17 @@ class vector {
 			return tmp;
 		}
 
+// check when _tab empty
 		void push_back(const T& value) {
 			if (_size + 1 > capacity())
-				reserve(_cap * 2);
-			_tab[_size] = value;
+				!_cap ? reserve(1) : reserve(_cap * 2);
+			_alloc.construct(&(_tab[_size]), value);
 			++_size;
 		}
 
 		void pop_back() {
+			if (!_tab)
+				return ;
 			_alloc.destroy(&_tab[_size]);
 			--_size;
 		}

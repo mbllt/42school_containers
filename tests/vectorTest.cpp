@@ -18,6 +18,18 @@ void print_line(std::ofstream& of, std::ofstream& myof, unsigned int n) {
 void testVector(void) {
 
 //------my tests
+	// std::vector<int> y(5, 4);
+
+	// ft::vector<std::vector<int> > test;
+	// // ft::vector<std::vector<int> > test(10, y);
+
+	// test.push_back(y);
+	// // int y = 5;
+
+	// // ft::vector<int> test;
+	// // // ft::vector<std::vector<int> > test(10, y);
+
+	// // test.push_back(y);
 
 //------
 
