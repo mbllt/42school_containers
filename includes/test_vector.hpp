@@ -48,13 +48,13 @@ class TestVector {
 
 		void test_resize(std::ofstream& of, std::ofstream& myof) {
 			print_line(of, myof, 300);
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
+			std::vector<Value> vec(10, Value());
+			ft::vector<Value> myvec(10, Value());
 			fill_vec(&vec, &myvec);
 			displayVectors(of, vec, myof, myvec);
 
-			vec.resize(10, Value());
-			myvec.resize(10, Value());
+			vec.resize(5, Value());
+			myvec.resize(5, Value());
 			print_str(of, myof, "vec.resize(10, Value()) : smaller capacity");
 			displayVectors(of, vec, myof, myvec);
 			if (vec.size() == myvec.size())
@@ -601,6 +601,17 @@ class TestVector {
 			test_clear(of, myof);
 			test_erase(of, myof);
 		}
+
+		void test_const(std::ofstream& of, std::ofstream& myof) {
+			of << "\ntest-const ✅\n";
+			myof << "\ntest-const ✅\n";
+			print_line(of, myof, 300);
+
+			std::vector<Value> vec(20, Value());
+			ft::vector<Value> myvec(20, Value());
+			fill_vec(&vec, &myvec);
+			displayVectors(of, vec, myof, myvec);
+		}
 };
 
 template<>		//function specilization
@@ -609,12 +620,12 @@ void TestVector<std::string>::fill_vec(std::vector<std::string>* vec, ft::vector
 	std::vector<std::string>::iterator it = vec->begin();
 	ft::vector<std::string>::iterator myit = myvec->begin();
 
-	std::string _tab[10] = { "test", "pop", "essay", "beeze", "youhou",
+	std::string str[10] = { "test", "pop", "essay", "beeze", "youhou",
 								"orange", "blue", "black", "sun", "best" };
 	for (size_t i = 0; i < vec->size(); ++i) {
 		int val = rand() % 10;
-		*it = _tab[val];
-		*myit = _tab[val];
+		*it = str[val];
+		*myit = str[val];
 		++it;
 		++myit;
 	}
@@ -638,21 +649,6 @@ void TestVector<std::string>::test_it_arrow(std::ofstream& of, std::ofstream& my
 	else
 		myof << "test -> koooo \n";
 }
-
-template<typename T, class Alloc>
-bool		operator==(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
-				if (src.size() != cmp.size())
-					return false;
-				typename ft::vector<T>::const_iterator it = src.begin();
-				typename ft::vector<T>::const_iterator itbis = cmp.begin();
-				while(it != src.end()) {
-					if (itbis == cmp.end() || *it != *itbis)
-						return false;
-					++it;
-					++itbis;
-				}
-				return true;
-			}
 
 template<typename T, class Alloc>
 bool		operator==(const ft::vector<T, Alloc> & src, const std::vector<T, Alloc> & cmp) {

@@ -234,10 +234,18 @@ class vector {
 				_alloc.destroy(&(_tab[--_size]));
 		}
 
-		// iterator insert( iterator pos, const T& value ) {}
-		// void insert( iterator pos, size_type count, const T& value ) {}
+		// iterator insert(iterator pos, const T& value) {
+
+		// }
+
+		// void insert(iterator pos, size_type count, const T& value) {
+
+		// }
+
 		// template< class InputIt >
-		// 	void insert( iterator pos, InputIt first, InputIt last ) {}
+		// void insert(iterator pos, InputIt first, InputIt last) {
+
+		// }
 
 		iterator erase(iterator pos) {
 			return erase(pos, pos + 1);
@@ -263,10 +271,9 @@ class vector {
 			return tmp;
 		}
 
-// Problem with string
 		void push_back(const T& value) {
 			if (_size + 1 > capacity())
-				reserve(_cap * 2); // ou alors cap * 2
+				reserve(_cap * 2);
 			_tab[_size] = value;
 			++_size;
 		}
@@ -276,10 +283,9 @@ class vector {
 			--_size;
 		}
 
-// Problem with string
 		void resize(size_type count, T value = T()) {
 			if (_cap < count) {
-				reserve(_cap * 2);
+				(count > _cap * 2) ? reserve(count) : reserve(_cap * 2);
 				--_size;
 				while (_size++ < count)
 					_tab[_size] = value;

@@ -18,21 +18,7 @@ void print_line(std::ofstream& of, std::ofstream& myof, unsigned int n) {
 void testVector(void) {
 
 //------my tests
-	// std::vector<int> test(20, 0);
-	// std::cout << "capacity bf : " << test.capacity() << std::endl;
-	// test.push_back(5);
-	// std::cout << "capacity af : " << test.capacity() << std::endl;
-	
-	// for (int i = 0; i < 20;++i)
-	// 	test.push_back(5);
-	// std::cout << "capacity af : " << test.capacity() << std::endl;
-	// const std::vector<int>::const_iterator ittest = test.begin();
-	// std::vector<const int> test(20, 0);
-	// std::vector<int>::iterator ittest = test.begin();
-	// *ittest = 1;
-	// test.push_back(5);
 
-	// (void)ittest;
 //------
 
 
@@ -42,12 +28,7 @@ void testVector(void) {
 	srand (time(NULL));
 
 	// TestVector<int> test_vec;
-	// TestVector<const int> test_vec;
-
 	TestVector<std::string> test_vec;
-	// TestVector<const std::string> test_vec;
-
-	// TestVector<std::vector<int> > test_vec;
 
 	srand (time(NULL));
 	try {
@@ -59,6 +40,7 @@ void testVector(void) {
 		test_vec.test_accessors(of, myof);
 		test_vec.test_capacity(of, myof);
 		test_vec.test_modifiers(of, myof);
+		test_vec.test_const(of, myof);
 	} catch (const std::exception& e) {
 		std::cerr << e.what() << std::endl;
 	}
