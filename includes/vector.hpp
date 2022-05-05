@@ -76,11 +76,10 @@ class vector {
 		}
 
 //	why do I need to reset first if I receptionated it as a reference ?
-		unsigned int dist_it(iterator& first, iterator& last) {
+		unsigned int dist_it(iterator first, iterator last) {
 			unsigned int n = 0;
 			while (first++ != last)
 				++n;
-			first -= n;
 			return n;
 		}
 
@@ -271,7 +270,6 @@ class vector {
 			return erase(pos, pos + 1);
 		}
 
-// The function should works so the problem comes from somewhere else..
 		iterator erase(iterator first, iterator last) {
 			if (first == last)
 				return last;
@@ -292,6 +290,7 @@ class vector {
 			return tmp;
 		}
 
+// Problem with string
 		void push_back(const T& value) {
 			if (_size + 1 > capacity())
 				reserve(_cap * 2);
@@ -304,6 +303,7 @@ class vector {
 			--_size;
 		}
 
+// Problem with string
 		void resize(size_type count, T value = T()) {
 			if (_cap < count) {
 				reserve(_cap * 2);
