@@ -52,13 +52,13 @@ void testVector(void) {
 	try {
 		of << "------------------- TESTS VECTOR ------------------\n";
 		myof << "------------------- TESTS VECTOR ------------------\n";
-		// test_vec.test_constructors(of, myof);
-		// test_vec.test_operators(of, myof);
-		// test_vec.test_iterators(of, myof);
-		// test_vec.test_accessors(of, myof);
-		// test_vec.test_capacity(of, myof);
+		test_vec.test_constructors(of, myof);
+		test_vec.test_operators(of, myof);
+		test_vec.test_iterators(of, myof);
+		test_vec.test_accessors(of, myof);
+		test_vec.test_capacity(of, myof);
 		test_vec.test_modifiers(of, myof);
-		// test_vec.test_const(of, myof);
+		test_vec.test_const(of, myof);
 	} catch (const std::exception& e) {
 		std::cerr << e.what() << std::endl;
 	}

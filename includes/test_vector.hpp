@@ -340,6 +340,16 @@ class TestVector {
 			displayVectors(of, vec, myof, myvec);
 			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
 			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
+
+			typename std::vector<Value>::iterator ret = vec.insert(vec.begin(), Value());
+			typename ft::vector<Value>::iterator myret = myvec.insert(myvec.begin(), Value());
+
+			if (*ret == *myret)
+				print_str(of, myof, "ret de insert : ok");
+			else {
+				of << "ret de insert : ok | l.300\n";
+				myof << "ret de insert : koooo | l.300\n";
+			}
 		}
 
 	public:
