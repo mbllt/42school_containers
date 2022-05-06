@@ -47,7 +47,7 @@ class TestVector {
 		void test_it_arrow(std::ofstream& of, std::ofstream& myof) {(void)of;(void)myof;}
 
 		void test_resize(std::ofstream& of, std::ofstream& myof) {
-
+			print_str(of, myof, "-------- resize");
 			std::vector<Value> empty;
 			ft::vector<Value> myempty;
 			displayVectors(of, empty, myof, myempty);
@@ -110,7 +110,7 @@ class TestVector {
 		}
 
 		void test_push_back(std::ofstream& of, std::ofstream& myof) {
-			
+			print_str(of, myof, "-------- push_back");
 			std::vector<Value> empty;
 			ft::vector<Value> myempty;
 			displayVectors(of, empty, myof, myempty);
@@ -158,6 +158,7 @@ class TestVector {
 		}
 
 		void test_pop_back(std::ofstream& of, std::ofstream& myof) {
+			print_str(of, myof, "-------- pop_back");
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
@@ -182,6 +183,7 @@ class TestVector {
 		}
 
 		void test_swap(std::ofstream& of, std::ofstream& myof) {
+			print_str(of, myof, "-------- swap");
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
@@ -227,6 +229,7 @@ class TestVector {
 		}
 
 		void test_clear(std::ofstream& of, std::ofstream& myof) {
+			print_str(of, myof, "-------- clear");
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
@@ -251,6 +254,7 @@ class TestVector {
 		}
 
 		void test_erase(std::ofstream& of, std::ofstream& myof) {
+			print_str(of, myof, "-------- erase");
 			std::vector<Value> vec(10, Value());
 			ft::vector<Value> myvec(10, Value());
 			fill_vec(&vec, &myvec);
@@ -290,6 +294,52 @@ class TestVector {
 			print_str(of, myof, "ret erase :");
 			of << *ret << "\n";
 			myof << *myret << "\n";
+		}
+
+		void test_insert(std::ofstream& of, std::ofstream& myof) {
+			print_str(of, myof, "-------- insert");
+
+			std::vector<Value> empty;
+			ft::vector<Value> myempty;
+			displayVectors(of, empty, myof, myempty);
+
+			empty.insert(empty.begin(), Value());
+			myempty.insert(myempty.begin(), Value());
+			print_str(of, myof, "empty.insert(Value())");
+			displayVectors(of, empty, myof, myempty);
+			if (empty.size() == myempty.size())
+				print_str(of, myof, "size change after insert : ok");
+			else {
+				of << "size change after insert : ok | l.300\n";
+				myof << "size change after insert : koooo | l.300\n";
+			}
+			if (empty.capacity() == myempty.capacity())
+				print_str(of, myof, "capacity change after insert : ok");
+			else {
+				of << "capacity change after insert : ok | l.300\n";
+				myof << "capacity change after insert : koooo | l.300\n";
+			}
+
+			std::vector<Value> vec(20, Value());
+			ft::vector<Value> myvec(20, Value());
+			fill_vec(&vec, &myvec);
+
+			print_str(of, myof, "before insert(begin(), 3, Value()) :");
+			displayVectors(of, vec, myof, myvec);
+			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
+			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
+
+			typename std::vector<Value>::iterator it = vec.begin();
+			typename ft::vector<Value>::iterator myit = myvec.begin();
+			++it;
+			++myit;
+			vec.insert(it, 3, Value());
+			myvec.insert(myit, 3, Value());
+
+			print_str(of, myof, "after insert(begin(), 3, Value()) :");
+			displayVectors(of, vec, myof, myvec);
+			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
+			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 		}
 
 	public:
@@ -632,6 +682,7 @@ class TestVector {
 			test_swap(of, myof);
 			test_clear(of, myof);
 			test_erase(of, myof);
+			test_insert(of, myof);
 		}
 
 		void test_const(std::ofstream& of, std::ofstream& myof) {

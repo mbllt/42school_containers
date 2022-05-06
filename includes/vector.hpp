@@ -230,17 +230,43 @@ class vector {
 				_alloc.destroy(&(_tab[--_size]));
 		}
 
-		// iterator insert(iterator pos, const T& value) {
+		iterator insert(iterator pos, const T& value) {
+			insert(pos, 1, value);
+			return pos++;
+		}
 
-		// }
+		void insert(iterator pos, size_type count, const T& value) {
+			if (!count)
+				return ;
 
-		// void insert(iterator pos, size_type count, const T& value) {
+			size_type new_size = _size + count;
+			size_type save_pos = 0;
+			while (pos != end()) {
+				++pos;
+				++save_pos;
+			}
+			save_pos = _size - save_pos;
 
-		// }
+			if (new_size > _cap) {
+				(new_size > _cap * 2) ? reserve(new_size) : reserve(_cap * 2);
+			}
+			vector<T, Alloc> tmp = *this;
 
+			for (size_type i = 0; i < count;++i) {
+				_tab[save_pos] = value;
+				++save_pos;
+			}
+			size_type i = save_pos;
+			save_pos = save_pos - count;
+			while (i < new_size) {
+				_alloc.construct(&(_tab[i++]), tmp[save_pos++]);
+			}
+			_size = new_size;
+		}
 		// template< class InputIt >
 		// void insert(iterator pos, InputIt first, InputIt last) {
-
+			// if (first == last)
+			// 	return pos;
 		// }
 
 		iterator erase(iterator pos) {
@@ -267,7 +293,6 @@ class vector {
 			return tmp;
 		}
 
-// check when _tab empty
 		void push_back(const T& value) {
 			if (_size + 1 > capacity())
 				!_cap ? reserve(1) : reserve(_cap * 2);
