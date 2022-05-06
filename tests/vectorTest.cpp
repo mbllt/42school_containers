@@ -9,12 +9,6 @@ void print_str(std::ofstream& of, std::ofstream& myof, std::string str) {
 	myof << str << "\n";
 }
 
-void print_line(std::ofstream& of, std::ofstream& myof, unsigned int n) {
-
-	of << "---- l." << n << " ----" << "\n";
-	myof << "---- l." << n << " ----" << "\n";
-}
-
 void testVector(void) {
 
 //------my tests

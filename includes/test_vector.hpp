@@ -47,7 +47,6 @@ class TestVector {
 		void test_it_arrow(std::ofstream& of, std::ofstream& myof) {(void)of;(void)myof;}
 
 		void test_resize(std::ofstream& of, std::ofstream& myof) {
-			print_line(of, myof, 300);
 
 			std::vector<Value> empty;
 			ft::vector<Value> myempty;
@@ -111,7 +110,6 @@ class TestVector {
 		}
 
 		void test_push_back(std::ofstream& of, std::ofstream& myof) {
-			print_line(of, myof, 300);
 			
 			std::vector<Value> empty;
 			ft::vector<Value> myempty;
@@ -160,7 +158,6 @@ class TestVector {
 		}
 
 		void test_pop_back(std::ofstream& of, std::ofstream& myof) {
-			print_line(of, myof, 300);
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
@@ -185,7 +182,6 @@ class TestVector {
 		}
 
 		void test_swap(std::ofstream& of, std::ofstream& myof) {
-			print_line(of, myof, 300);
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
@@ -201,8 +197,8 @@ class TestVector {
 			typename std::vector<Value>::iterator it_start = vec.begin();
 			typename ft::vector<Value>::iterator myit_start = myvec.begin();
 
-			of << "it de vec au debut : " << *it_start << "\n";
-			myof << "it de vec au debut : " << *myit_start << "\n";
+			of << "it de vec au debut :" << *it_start << "\n";
+			myof << "it de vec au debut :" << *myit_start << "\n";
 
 			vec.swap(other);
 			myvec.swap(myother);
@@ -212,8 +208,8 @@ class TestVector {
 			print_str(of, myof, "other ");
 			displayVectors(of, other, myof, myother);
 
-			of << "it de vec a la fin : " << *it_start << "\n";
-			myof << "it de vec a la fin : " << *myit_start << "\n";
+			of << "it de vec a la fin :" << *it_start << "\n";
+			myof << "it de vec a la fin :" << *myit_start << "\n";
 
 			std::vector<Value> third(5, Value());
 			ft::vector<Value> mythird(5, Value());
@@ -231,69 +227,67 @@ class TestVector {
 		}
 
 		void test_clear(std::ofstream& of, std::ofstream& myof) {
-			print_line(of, myof, 300);
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
 			fill_vec(&vec, &myvec);
 
-			print_str(of, myof, "before clear : ");
+			print_str(of, myof, "before clear :");
 			displayVectors(of, vec, myof, myvec);
-			of << "size : " <<  vec.size() << " - capacity : " << vec.capacity() << "\n";
-			myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << "\n";
+			of << "size :" <<  vec.size() << " - capacity :" << vec.capacity() << "\n";
+			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 
 			vec.clear();
 			myvec.clear();
 
 			print_str(of, myof, "after clear : ");
 			displayVectors(of, vec, myof, myvec);
-			of << "size : " << vec.size() << " - capacity : " << vec.capacity() << "\n";
-			myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << "\n";
+			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
+			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 
 			vec.push_back(Value());
 			myvec.push_back(Value());
-			print_str(of, myof, "after one pushback : ");
+			print_str(of, myof, "after one pushback :");
 			displayVectors(of, vec, myof, myvec);
 		}
 
 		void test_erase(std::ofstream& of, std::ofstream& myof) {
-			print_line(of, myof, 300);
 			std::vector<Value> vec(10, Value());
 			ft::vector<Value> myvec(10, Value());
 			fill_vec(&vec, &myvec);
 			typename std::vector<Value>::iterator it = vec.begin();
 			typename ft::vector<Value>::iterator myit = myvec.begin();
 
-			print_str(of, myof, "before erase begin() : ");
+			print_str(of, myof, "before erase begin() :");
 			displayVectors(of, vec, myof, myvec);
-			of << "size : " << vec.size() << " - capacity : " << vec.capacity() << "\n";
-			myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << "\n";
+			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
+			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 
 			typename std::vector<Value>::iterator ret = vec.erase(it);
 			typename ft::vector<Value>::iterator myret = myvec.erase(myit);
 
-			print_str(of, myof, "after erase begin() : ");
+			print_str(of, myof, "after erase begin() :");
 			displayVectors(of, vec, myof, myvec);
-			of << "size : " << vec.size() << " - capacity : " << vec.capacity() << "\n";
-			myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << "\n";
+			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
+			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 
-			print_str(of, myof, "ret erase : ");
+			print_str(of, myof, "ret erase :");
 			of << *ret << "\n";
 			myof << *myret << "\n";
 
-			print_str(of, myof, "before erase(begin(), begin() + 5) : ");
+			print_str(of, myof, "before erase(begin(), begin() + 5) :");
 			displayVectors(of, vec, myof, myvec);
-			of << "size : " << vec.size() << " - capacity : " << vec.capacity() << "\n";
-			myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << "\n";
+			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
+			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 
 			ret = vec.erase(it, it + 5);
 			myret = myvec.erase(myit, myit + 5);
 
-			print_str(of, myof, "after erase(begin(), begin() + 5) : ");
+			print_str(of, myof, "after erase(begin(), begin() + 5) :");
 			displayVectors(of, vec, myof, myvec);
-			of << "size : " << vec.size() << " - capacity : " << vec.capacity() << "\n";
-			myof << "size : " << myvec.size() << " - capacity : " << myvec.capacity() << "\n";
+			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
+			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 
-			print_str(of, myof, "ret erase : ");
+			print_str(of, myof, "ret erase :");
 			of << *ret << "\n";
 			myof << *myret << "\n";
 		}
@@ -307,7 +301,6 @@ class TestVector {
 
 			of << "\ntest-constructors ✅\n";
 			myof << "\ntest-constructors ✅\n";
-			print_line(of, myof, 300);
 
 			print_str(of, myof, "vec(n, value())");
 			std::vector<Value> vec(20, Value());
@@ -334,7 +327,6 @@ class TestVector {
 
 			of << "\ntest-operators ✅\n";
 			myof << "\ntest-operators ✅\n";
-			print_line(of, myof, 300);
 		
 			for (int i = 0;i < 10;++i) {
 		
@@ -347,7 +339,6 @@ class TestVector {
 		
 			// !=
 				if (myvec != mytmp) {
-					// print_line(of, myof, 300);
 					// print_str(of, myof, "op !=");
 					print_str(of, myof, "myvec != mytmp : ok");
 				}
@@ -380,7 +371,6 @@ class TestVector {
 
 			of << "\ntest-iterators ✅\n";
 			myof << "\ntest-iterators ✅\n";
-			print_line(of, myof, 300);
 
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
@@ -391,73 +381,73 @@ class TestVector {
 			typename ft::vector<Value>::iterator myit = myvec.begin();
 
 			//	++(int)
-			of << "it : " << *it << " | ";
-			myof << "it : " << *myit << " | ";
+			of << "it :" << *it << "| ";
+			myof << "it :" << *myit << "| ";
 			it++;
 			myit++;
-			of << "it++ : " << *it << "\n";
-			myof << "it++ : " << *myit << "\n";
+			of << "it++ :" << *it << "\n";
+			myof << "it++ :" << *myit << "\n";
 
 			//	--(int)
-			of << "it : " << *it << " | ";
-			myof << "it : " << *myit << " | ";
+			of << "it : " << *it << "| ";
+			myof << "it : " << *myit << "| ";
 			it--;
 			myit--;
 			of << "it-- : " << *it << "\n";
 			myof << "it-- : " << *myit << "\n";
 
 			//	++()
-			of << "it : " << *it << " | ";
-			myof << "it : " << *myit << " | ";
+			of << "it :" << *it << "| ";
+			myof << "it :" << *myit << "| ";
 			++it;
 			++myit;
-			of << "++it : " << *it << "\n";
-			myof << "++it : " << *myit << "\n";
+			of << "++it :" << *it << "\n";
+			myof << "++it :" << *myit << "\n";
 
 			//	--()
 			of << "it : " << *it << " | ";
 			myof << "it : " << *myit << " | ";
 			--it;
 			--myit;
-			of << "--it : " << *it << "\n";
-			myof << "--it : " << *myit << "\n";
+			of << "--it :" << *it << "\n";
+			myof << "--it :" << *myit << "\n";
 
 			// +(int)
 			it = it + 1;
 			it = 1 + it;
-			of << "it = it + 1 : " << *it << "\n";
+			of << "it = it + 1 :" << *it << "\n";
 
 			myit = myit + 1;
 			myit = 1 + myit;
-			myof << "it = it + 1 : " << *myit << "\n";
+			myof << "it = it + 1 :" << *myit << "\n";
 
 			// -(int)
 			it = it - 1;
-			of << "it = it - 1 : " << *it << "\n";
+			of << "it = it - 1 :" << *it << "\n";
 
 			myit = myit - 1;
-			myof << "it = it - 1 : " << *myit << "\n";
+			myof << "it = it - 1 :" << *myit << "\n";
 
 			// +=(it)
 			it += 2;
-			of << "it += 2 : " << *it << "\n";
+			of << "it += 2 :" << *it << "\n";
 
 			myit += 2;
-			myof << "it += 2 : " << *myit << "\n";
+			myof << "it += 2 :" << *myit << "\n";
 
 			// -=(int)
 			it -= 2;
-			of << "it -= 2 : " << *it << "\n";
+			of << "it -= 2 :" << *it << "\n";
 
 			myit -= 2;
-			myof << "it -= 2 : " << *myit << "\n";
+			myof << "it -= 2 :" << *myit << "\n";
 
 			// []
 			it = vec.begin();
 			myit = myvec.begin();
 
-			of << "it[0] : " << it[0] << " | it[3] : " << it[3] << "\n";
-			myof << "it[0] : " << myit[0] << " | it[3] : " << myit[3] << "\n";
+			of << "it[0] :" << it[0] << " | it[3] :" << it[3] << "\n";
+			myof << "it[0] :" << myit[0] << " | it[3] :" << myit[3] << "\n";
 
 			typename std::vector<Value>::iterator itit = vec.begin();
 			typename std::vector<Value>::iterator tmp = itit + 3;
@@ -466,10 +456,10 @@ class TestVector {
 
 			// -(it)
 			int i = itit - tmp;
-			of << "int i = itit - tmp : " << i << "\n";
+			of << "int i = itit - tmp :" << i << "\n";
 
 			int myi = myitit - mytmp;
-			myof << "int i = itit - tmp : " << myi << "\n";
+			myof << "int i = itit - tmp :" << myi << "\n";
 
 			for (int i = 0; i < 5; ++i) {
 			
@@ -537,7 +527,6 @@ class TestVector {
 			
 			of << "\ntest-capacity ✅\n";
 			myof << "\ntest-capacity ✅\n";
-			print_line(of, myof, 300);
 
 			std::vector<Value> emptyvec;
 			ft::vector<Value> myemptyvec;
@@ -558,8 +547,8 @@ class TestVector {
 			if (vec.size() == myvec.size())
 				print_str(of, myof, "vec.size() == myvec.size() : ok");
 			else {
-				of << "size : " << vec.size() << "\n";
-				myof << "size : " << myvec.size() << "\n";
+				of << "size :" << vec.size() << "\n";
+				myof << "size :" << myvec.size() << "\n";
 			}
 
 			// max_size
@@ -584,8 +573,8 @@ class TestVector {
 			if (vec.capacity() == myvec.capacity())
 				print_str(of, myof, "vec.reserve : ok");
 			else {
-				of << "reserve test - size : " << vec.size() << " - capacity : " << vec.capacity() << "\n";
-				myof << "reserve test - size : " << myvec.size() << " - capacity : " << myvec.capacity() << "\n";
+				of << "reserve test - size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
+				myof << "reserve test - size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 			}
 		}
 
@@ -593,7 +582,6 @@ class TestVector {
 			
 			of << "\ntest-accessors ✅\n";
 			myof << "\ntest-accessors ✅\n";
-			print_line(of, myof, 300);
 
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
@@ -649,12 +637,63 @@ class TestVector {
 		void test_const(std::ofstream& of, std::ofstream& myof) {
 			of << "\ntest-const ✅\n";
 			myof << "\ntest-const ✅\n";
-			print_line(of, myof, 300);
 
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
-			fill_vec(&vec, &myvec);
-			displayVectors(of, vec, myof, myvec);
+			const std::vector<Value> vec(20, Value());
+			const ft::vector<Value> myvec(20, Value());
+
+//should not compile
+			// vec[0] = 1;
+			// myvec[0] = 1;
+
+//should not compile
+			// typename std::vector<Value>::iterator it = vec.begin();
+			// (void) it;
+			// typename ft::vector<Value>::iterator myit = myvec.begin();
+			// (void) myit;
+
+//should compile
+			typename std::vector<const Value>::iterator it = vec.begin();
+			typename ft::vector<const Value>::iterator myit = myvec.begin();
+
+//should compile
+			typename std::vector<Value>::const_iterator itbis = vec.begin();
+			typename ft::vector<Value>::const_iterator myitbis = myvec.begin();
+
+//should compile
+			++it;
+			++myit;
+			++itbis;
+			++myitbis;
+
+//should not compile
+			// it = Value();
+			// myit = Value();
+			// itbis = Value();
+			// myitbis = Value();
+
+//should not compile
+			// vec.clear();
+			// myvec.clear();
+			// vec.reserve(10);
+			// myvec.clear();
+
+//should compile
+			of << "size of vec :" << vec.size() << "\n";
+			myof << "size of vec :" << myvec.size() << "\n";
+			of << "capacity of vec :" << vec.capacity() << "\n";
+			myof << "capacity of vec :" << myvec.capacity() << "\n";
+			of << "vec.at(10) :" << vec.at(10) << "\n";
+			myof << "vec.at(10) :" << myvec.at(10) << "\n";
+			if (vec.back() == myvec.back())
+				print_str(of, myof, "operator == on back() compile");
+
+			std::vector<Value> vecbis(20, Value());
+			ft::vector<Value> myvecbis(20, Value());
+
+			if (vec == vecbis)
+				of << "vec == vecbis compile\n";
+			if (myvec == myvecbis)
+				myof << "vec == vecbis compile\n";
 		}
 };
 
