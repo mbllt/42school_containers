@@ -49,26 +49,26 @@ class TestVector {
 		void test_resize(std::ofstream& of, std::ofstream& myof) {
 			print_line(of, myof, 300);
 
-			// std::vector<Value> empty;
-			// ft::vector<Value> myempty;
-			// displayVectors(of, empty, myof, myempty);
+			std::vector<Value> empty;
+			ft::vector<Value> myempty;
+			displayVectors(of, empty, myof, myempty);
 
-			// empty.resize(2);
-			// myempty.resize(2);
-			// print_str(of, myof, "empty.push_back(Value())");
-			// displayVectors(of, empty, myof, myempty);
-			// if (empty.size() == myempty.size())
-			// 	print_str(of, myof, "size change after push_back : ok");
-			// else {
-			// 	of << "size change after push_back : ok | l.300\n";
-			// 	myof << "size change after push_back : koooo | l.300\n";
-			// }
-			// if (empty.capacity() == myempty.capacity())
-			// 	print_str(of, myof, "capacity change after push_back : ok");
-			// else {
-			// 	of << "capacity change after push_back : ok | l.300\n";
-			// 	myof << "capacity change after push_back : koooo | l.300\n";
-			// }
+			empty.resize(2);
+			myempty.resize(2);
+			print_str(of, myof, "empty.push_back(Value())");
+			displayVectors(of, empty, myof, myempty);
+			if (empty.size() == myempty.size())
+				print_str(of, myof, "size change after push_back : ok");
+			else {
+				of << "size change after push_back : ok | l.300\n";
+				myof << "size change after push_back : koooo | l.300\n";
+			}
+			if (empty.capacity() == myempty.capacity())
+				print_str(of, myof, "capacity change after push_back : ok");
+			else {
+				of << "capacity change after push_back : ok | l.300\n";
+				myof << "capacity change after push_back : koooo | l.300\n";
+			}
 
 			std::vector<Value> vec(10, Value());
 			ft::vector<Value> myvec(10, Value());

@@ -285,9 +285,10 @@ class vector {
 		void resize(size_type count, T value = T()) {
 			if (_cap < count) {
 				(count > _cap * 2) ? reserve(count) : reserve(_cap * 2);
-				--_size;
-				while (_size++ < count)
-					_tab[_size] = value;
+				while (_size < count) {
+					_alloc.construct(&(_tab[_size]), value);
+					++_size;
+				}
 			}
 			else if (_cap > count) {
 				for (size_type i = count;i < _size;i++)
