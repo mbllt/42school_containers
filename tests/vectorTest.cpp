@@ -28,7 +28,7 @@ void testVector(void) {
 	try {
 		of << "------------------- TESTS VECTOR ------------------\n";
 		myof << "------------------- TESTS VECTOR ------------------\n";
-		test_vec.test_constructors(of, myof);
+		test_vec.test_general(of, myof);
 		test_vec.test_operators(of, myof);
 		test_vec.test_iterators(of, myof);
 		test_vec.test_accessors(of, myof);

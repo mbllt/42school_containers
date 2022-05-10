@@ -81,9 +81,22 @@ class vector {
 			vector (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
 					InputIterator last,
 					const allocator_type& alloc = allocator_type()) :
-					_alloc(alloc), _tab(), _size(0)
+					_alloc(alloc), _tab(), _size(0), _cap(0)
 			{
-				insert(begin(), first, last);
+				size_type count = 0;
+				while (first != last) {
+					++count;
+					++first;
+				}
+				for (size_type i = 0;i < count;++i)
+					--first;
+				_tab = _alloc.allocate(count);
+				for (size_type i = 0; i < count; ++i) {
+					_alloc.construct(&(_tab[i]), *first);
+					++first;
+				}
+				_size = count;
+				_cap = count;
 			}
 
 		vector(const vector& x) {_copy(x);}
@@ -93,13 +106,28 @@ class vector {
 //	------------------------------------------------
 
 
-//	---------------->> OPERATORS <<-----------------
+//	---------------->> GENERAL <<-----------------
 
 		vector & operator=(vector const &src) {
 			_delete();
 			_copy(src);
 			return *this;
 		}
+
+		allocator_type get_allocator() const {
+			return _alloc;
+		}
+
+		void assign(size_type count, const T& value) {
+			vector<T, Alloc> tmp(count, value);
+			assign(tmp.begin(), tmp.end());
+		}
+
+		template<class InputIt>
+			void assign(typename ft::enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last) {
+				clear();
+				insert(begin(), first, last);
+			}
 
 //	------------------------------------------------
 
@@ -258,9 +286,7 @@ class vector {
 			if (new_size > _cap) {
 				(new_size > _cap * 2) ? reserve(new_size) : reserve(_cap * 2);
 			}
-			std::cout << "HERE 1" << std::endl;
-			pointer tmp = this->_tab;
-			std::cout << "HERE 2" << std::endl;
+			vector<value_type, Alloc> tmp = *this;
 
 			for (size_type i = 0; i < count;++i) {
 				_tab[save_pos] = *(first)++;

@@ -386,11 +386,12 @@ class TestVector {
 		TestVector() {}
 		~TestVector() {}
 
-		void test_constructors(std::ofstream& of, std::ofstream& myof) {
+		void test_general(std::ofstream& of, std::ofstream& myof) {
 
-			of << "\ntest-constructors ✅\n";
-			myof << "\ntest-constructors ✅\n";
+			of << "\ntest-general ✅\n";
+			myof << "\ntest-general ✅\n";
 
+			print_str(of, myof, "-------- constructors");
 			print_str(of, myof, "vec(n, value())");
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
@@ -399,7 +400,7 @@ class TestVector {
 			print_str(of, myof, "vec default");
 			std::vector<Value> bis;
 			ft::vector<Value> mybis;
-// seg fault
+
 			bis.resize(10, Value());
 			mybis.resize(10, Value());
 			fill_vec(&bis, &mybis);
@@ -426,6 +427,52 @@ class TestVector {
 // not supposed to work
 			// std::vector<Value> rangenotworking(bis.begin(), 32);
 			// ft::vector<Value> myrangenotworking(bis.begin(), 1);
+
+			print_str(of, myof, "-------- get_alloc()");
+			if (vec.get_allocator() == myvec.get_allocator())
+				print_str(of, myof, "vec.get_allocator() == myvec.get_allocator() : ok");
+			else {
+				of << "vec.get_allocator() == myvec.get_allocator() : ok | l.300\n";
+				myof << "vec.get_allocator() == myvec.get_allocator() : koooo work | l.300\n";
+			}
+
+			print_str(of, myof, "-------- assign()");
+			std::vector<Value> assign;
+			ft::vector<Value> myassign;
+			fill_vec(&assign, &myassign);
+
+			print_str(of, myof, "print bis :");
+			displayVectors(of, bis, myof, mybis);
+			print_str(of, myof, "before assign(bis.begin(), bis.end()) :");
+			displayVectors(of, assign, myof, myassign);
+			of << "size :" << assign.size() << " - capacity :" << assign.capacity() << "\n";
+			myof << "size :" << myassign.size() << " - capacity :" << myassign.capacity() << "\n";
+
+			assign.assign(3, Value());
+			myassign.assign(3, Value());
+
+			print_str(of, myof, "after assign(bis.begin(), bis.end()) :");
+			displayVectors(of, assign, myof, myassign);
+			of << "size :" << assign.size() << " - capacity :" << assign.capacity() << "\n";
+			myof << "size :" << myassign.size() << " - capacity :" << myassign.capacity() << "\n";
+
+			std::vector<Value> assignbis(2, Value());
+			ft::vector<Value> myassignbis(2, Value());
+			fill_vec(&assign, &myassign);
+
+			print_str(of, myof, "before assign(assignbis.begin(), assignbis.end()) :");
+			displayVectors(of, assign, myof, myassign);
+			of << "size :" << assign.size() << " - capacity :" << assign.capacity() << "\n";
+			myof << "size :" << myassign.size() << " - capacity :" << myassign.capacity() << "\n";
+
+			assign.assign(assignbis.begin(), assignbis.end());
+			myassign.assign(myassignbis.begin(), myassignbis.end());
+
+			print_str(of, myof, "after assign(assignbis.begin(), assignbis.end()) :");
+			displayVectors(of, assign, myof, myassign);
+			of << "size :" << assign.size() << " - capacity :" << assign.capacity() << "\n";
+			myof << "size :" << myassign.size() << " - capacity :" << myassign.capacity() << "\n";
+
 		}
 
 		void test_operators(std::ofstream& of, std::ofstream& myof) {
