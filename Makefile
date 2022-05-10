@@ -30,7 +30,8 @@ INC_FILES=		vector.hpp\
 				iterator.hpp\
 				reverse_iterator.hpp\
 				tests.hpp\
-				test_vector.hpp
+				test_vector.hpp\
+				meta.hpp
 INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 #------------------------------------
 
@@ -49,7 +50,7 @@ RM=				/bin/rm -rf
 
 
 ifeq ($(SAN), 1)
-FLAGS = -Wall -Werror -Wextra -std=c++98 -fsanitize=address -g3
+FLAGS = -Wall -Werror -Wextra -std=c++98 # -fsanitize=address -g3
 endif
 
 

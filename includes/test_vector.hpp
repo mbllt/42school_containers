@@ -54,19 +54,19 @@ class TestVector {
 
 			empty.resize(2);
 			myempty.resize(2);
-			print_str(of, myof, "empty.push_back(Value())");
+			print_str(of, myof, "empty.resize(Value())");
 			displayVectors(of, empty, myof, myempty);
 			if (empty.size() == myempty.size())
-				print_str(of, myof, "size change after push_back : ok");
+				print_str(of, myof, "size change after resize : ok");
 			else {
-				of << "size change after push_back : ok | l.300\n";
-				myof << "size change after push_back : koooo | l.300\n";
+				of << "size change after resize : ok | l.300\n";
+				myof << "size change after resize : koooo | l.300\n";
 			}
 			if (empty.capacity() == myempty.capacity())
-				print_str(of, myof, "capacity change after push_back : ok");
+				print_str(of, myof, "capacity change after resize : ok");
 			else {
-				of << "capacity change after push_back : ok | l.300\n";
-				myof << "capacity change after push_back : koooo | l.300\n";
+				of << "capacity change after resize : ok | l.300\n";
+				myof << "capacity change after resize : koooo | l.300\n";
 			}
 
 			std::vector<Value> vec(10, Value());
@@ -350,6 +350,35 @@ class TestVector {
 				of << "ret de insert : ok | l.300\n";
 				myof << "ret de insert : koooo | l.300\n";
 			}
+
+			print_str(of, myof, "before insert(empty.begin(), vec.begin(), vec.end()) :");
+			displayVectors(of, empty, myof, myempty);
+			of << "size :" << empty.size() << " - capacity :" << empty.capacity() << "\n";
+			myof << "size :" << myempty.size() << " - capacity :" << myempty.capacity() << "\n";
+
+			empty.insert(empty.begin(), vec.begin(), vec.end());
+			myempty.insert(myempty.begin(), vec.begin(), vec.end());
+
+			print_str(of, myof, "after insert(empty.begin(), vec.begin(), vec.end()) :");
+			displayVectors(of, vec, myof, myvec);
+			of << "size :" << empty.size() << " - capacity :" << empty.capacity() << "\n";
+			myof << "size :" << myempty.size() << " - capacity :" << myempty.capacity() << "\n";
+
+			std::vector<Value> emptyRange;
+			ft::vector<Value> myemptyRange;
+
+			print_str(of, myof, "before after insert(begin(), 3, Value()) :");
+			displayVectors(of, emptyRange, myof, myemptyRange);
+			of << "size :" << emptyRange.size() << " - capacity :" << emptyRange.capacity() << "\n";
+			myof << "size :" << myemptyRange.size() << " - capacity :" << myemptyRange.capacity() << "\n";
+
+			emptyRange.insert(emptyRange.begin(), 3, Value());
+			myemptyRange.insert(myemptyRange.begin(), 3, Value());
+
+			print_str(of, myof, "after insert(begin(), 3, Value()) :");
+			displayVectors(of, vec, myof, myvec);
+			of << "size :" << emptyRange.size() << " - capacity :" << emptyRange.capacity() << "\n";
+			myof << "size :" << myemptyRange.size() << " - capacity :" << myemptyRange.capacity() << "\n";
 		}
 
 	public:
@@ -370,6 +399,9 @@ class TestVector {
 			print_str(of, myof, "vec default");
 			std::vector<Value> bis;
 			ft::vector<Value> mybis;
+// seg fault
+			bis.resize(10, Value());
+			mybis.resize(10, Value());
 			fill_vec(&bis, &mybis);
 			displayVectors(of, bis, myof, mybis);
 
@@ -379,8 +411,21 @@ class TestVector {
 			displayVectors(of, quatre, myof, myquatre);
 	
 			print_str(of, myof, "vec range");
-			//	----
-			//	test constructor range
+			std::vector<Value> range(bis.begin(), bis.end());
+			ft::vector<Value> myrange(bis.begin(), bis.end());
+			displayVectors(of, range, myof, myrange);
+
+			std::vector<Value> rangebis(bis.begin(), bis.begin());
+			ft::vector<Value> myrangebis(bis.begin(), bis.begin());
+			displayVectors(of, rangebis, myof, myrangebis);
+
+			std::vector<Value> empty;
+			std::vector<Value> rangetres(empty.begin(), empty.end());
+			ft::vector<Value> myrangetres(empty.begin(), empty.end());
+			displayVectors(of, rangetres, myof, myrangetres);
+// not supposed to work
+			// std::vector<Value> rangenotworking(bis.begin(), 32);
+			// ft::vector<Value> myrangenotworking(bis.begin(), 1);
 		}
 
 		void test_operators(std::ofstream& of, std::ofstream& myof) {

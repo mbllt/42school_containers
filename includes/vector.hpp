@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include "iterator.hpp"
 #include "reverse_iterator.hpp"
+#include "meta.hpp"
 
 namespace ft {
 
@@ -77,20 +78,12 @@ class vector {
 		}
 
 		template <class InputIterator>
-			vector (InputIterator first, InputIterator last,
-					const allocator_type& alloc = allocator_type(),
-					typename ft::enable_if<ft::is_integral<InputIterator>::value, InputIterator::type* = u_nullptr>::type) :
+			vector (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
+					InputIterator last,
+					const allocator_type& alloc = allocator_type()) :
 					_alloc(alloc), _tab(), _size(0)
 			{
-				(void)first;
-				(void)last;
-				(void)alloc;
-				// InputIterator tmp = first;
-				// while (first++ != last)
-				// 	++_size;
-				// _tab = alloc.allocate(_size);
-				// for (size_type i = 0;i < _size;i++)
-				// 	_alloc.construct(&_tab[i], *tmp++);
+				insert(begin(), first, last);
 			}
 
 		vector(const vector& x) {_copy(x);}
@@ -238,8 +231,21 @@ class vector {
 		}
 
 		void insert(iterator pos, size_type count, const T& value) {
-			if (!count)
+			vector<T, Alloc> tmp(count, value);
+			insert(pos, tmp.begin(), tmp.end());
+		}
+
+		template<class InputIt>
+		void insert(iterator pos, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type first, InputIt last) {
+			if (first == last)
 				return ;
+			size_type count = 0;
+			while (first != last) {
+				++count;
+				++first;
+			}
+			for (size_type i = 0;i < count;++i)
+				--first;
 
 			size_type new_size = _size + count;
 			size_type save_pos = 0;
@@ -252,10 +258,12 @@ class vector {
 			if (new_size > _cap) {
 				(new_size > _cap * 2) ? reserve(new_size) : reserve(_cap * 2);
 			}
-			vector<T, Alloc> tmp = *this;
+			std::cout << "HERE 1" << std::endl;
+			pointer tmp = this->_tab;
+			std::cout << "HERE 2" << std::endl;
 
 			for (size_type i = 0; i < count;++i) {
-				_tab[save_pos] = value;
+				_tab[save_pos] = *(first)++;
 				++save_pos;
 			}
 			size_type i = save_pos;
@@ -264,49 +272,7 @@ class vector {
 				_alloc.construct(&(_tab[i++]), tmp[save_pos++]);
 			}
 			_size = new_size;
-			// vector<T, Alloc> tmp(count, value);
-			// insert(pos, tmp, tmp + tmp._size);
 		}
-
-		// template< class InputIt >
-		// void insert(iterator pos, InputIt first, InputIt last) {
-		// 	// if (first == last)
-		// 	// 	return ;
-		// 	// size_type count = 0;
-		// 	// // std::cout << "first " << first << std::endl;
-		// 	// while (first != last) {
-		// 	// 	++count;
-		// 	// 	++first;
-		// 	// }
-		// 	// for (size_type i = 0;i < count;++i)
-		// 	// 	--first;
-		// 	// // std::cout << "first " << first << std::endl;
-		// 	// // std::cout << "count " << count << std::endl;
-
-		// 	// size_type new_size = _size + count;
-		// 	// size_type save_pos = 0;
-		// 	// while (pos != end()) {
-		// 	// 	++pos;
-		// 	// 	++save_pos;
-		// 	// }
-		// 	// save_pos = _size - save_pos;
-
-		// 	// if (new_size > _cap) {
-		// 	// 	(new_size > _cap * 2) ? reserve(new_size) : reserve(_cap * 2);
-		// 	// }
-		// 	// vector<T, Alloc> tmp = *this;
-
-		// 	// for (size_type i = 0; i < count;++i) {
-		// 	// 	_tab[save_pos] = first++;
-		// 	// 	++save_pos;
-		// 	// }
-		// 	// size_type i = save_pos;
-		// 	// save_pos = save_pos - count;
-		// 	// while (i < new_size) {
-		// 	// 	_alloc.construct(&(_tab[i++]), tmp[save_pos++]);
-		// 	// }
-		// 	// _size = new_size;
-		// }
 
 		iterator erase(iterator pos) {
 			return erase(pos, pos + 1);

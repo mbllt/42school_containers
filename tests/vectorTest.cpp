@@ -12,30 +12,6 @@ void print_str(std::ofstream& of, std::ofstream& myof, std::string str) {
 void testVector(void) {
 
 //------my tests
-	// std::vector<std::string> y(5, "pep");
-
-	// std::cout << "{ ";
-	// for (std::vector<std::string>::iterator it = y.begin(); it != y.end(); ++it){
-	// 	std::cout << *it << " ";
-	// }
-	// std::cout << "}\n";
-	// y.insert(y.begin(), "test");
-	// std::cout << "{ ";
-	// for (std::vector<std::string>::iterator it = y.begin(); it != y.end(); ++it){
-	// 	std::cout << *it << " ";
-	// }
-	// std::cout << "}\n";
-
-	// ft::vector<std::vector<int> > test;
-	// // ft::vector<std::vector<int> > test(10, y);
-
-	// test.push_back(y);
-	// // int y = 5;
-
-	// // ft::vector<int> test;
-	// // // ft::vector<std::vector<int> > test(10, y);
-
-	// // test.push_back(y);
 
 //------
 
@@ -45,8 +21,8 @@ void testVector(void) {
 
 	srand (time(NULL));
 
-	TestVector<int> test_vec;
-	// TestVector<std::string> test_vec;
+	// TestVector<int> test_vec;
+	TestVector<std::string> test_vec;
 
 	srand (time(NULL));
 	try {
