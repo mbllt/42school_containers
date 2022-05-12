@@ -479,13 +479,13 @@ bool		operator>(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & c
 
 template<typename T, typename Y, class Alloc>
 bool		operator>(const ft::vector<T, Alloc> & src, const ft::vector<Y, Alloc> & cmp) {
-				return cmp < src;
+				if (src == cmp)
+					return false;
+				return !(cmp < src);
 			}
 
 template<typename T, class Alloc>
 bool		operator>=(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
-				if (src == cmp)
-					return true;
 				return !(src < cmp);
 			}
 
