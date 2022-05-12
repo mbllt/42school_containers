@@ -40,8 +40,8 @@ void testVector(void) {
 
 	srand (time(NULL));
 
-	// TestVector<int> test_vec;
-	TestVector<std::string> test_vec;
+	TestVector<int> test_vec;
+	// TestVector<std::string> test_vec;
 
 	srand (time(NULL));
 	try {

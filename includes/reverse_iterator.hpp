@@ -34,7 +34,7 @@ class reverse_iterator {
 
 //	---------------->> OPERATORS <<-----------------
 
-		reverse_iterator&			operator=(const reverse_iterator& src) {p = src.p; return *this;}
+		reverse_iterator&			operator=(const reverse_iterator& src) {p = src.p;return *this;}
 
 		reference					operator*() {return *p;}
 		const_reference				operator*() const {return *p;}
@@ -42,18 +42,18 @@ class reverse_iterator {
 		pointer						operator->() {return p;}
 		const_pointer				operator->() const {return p;}
 
-		reference					operator[](difference_type n) {return *(p + n);}
-		const_reference				operator[](difference_type n) const {return *(p + n);}
+		reference					operator[](difference_type n) {return *(p - n);}
+		const_reference				operator[](difference_type n) const {return *(p - n);}
 
 		reverse_iterator&			operator++() {--p;return *this;}
 
-		reverse_iterator			operator++(const int n) {(void)n;reverse_iterator tmp(*this); operator++(); return tmp;}
+		reverse_iterator			operator++(const int n) {reverse_iterator tmp(*this); operator++(); return tmp - n;}
 
 		reverse_iterator&			operator--() {++p;return *this;}
 
-		reverse_iterator			operator--(const int n) {(void)n;reverse_iterator tmp(*this); operator--(); return tmp;}
+		reverse_iterator			operator--(const int n) {reverse_iterator tmp(*this); operator--();return tmp + n;}
 
-		difference_type				operator-(const reverse_iterator & src) {return p + src.p;}
+		difference_type				operator-(const reverse_iterator & src) {return p - src.p;}
 
 		reverse_iterator			operator+(difference_type n) {return p - n;}
 
@@ -65,21 +65,21 @@ template<typename Class>
 template<typename Class>
 		friend reverse_iterator		operator-(difference_type n, const reverse_iterator& src);
 
-		reverse_iterator&			operator+=(difference_type n) {p -= n; return *this;}
+		reverse_iterator&			operator+=(difference_type n) {p -= n;return *this;}
 
-		reverse_iterator&			operator-=(difference_type n) {p += n; return *this;}
+		reverse_iterator&			operator-=(difference_type n) {p += n;return *this;}
 
 };
 
 template<typename Class>
 ft::reverse_iterator<Class>					operator+(typename ft::reverse_iterator<Class>::difference_type n,
 											typename ft::reverse_iterator<Class>& it)
-											{return it - n;}
+											{return it + n;}
 
 template<typename Class>
 ft::reverse_iterator<Class>					operator-(typename ft::reverse_iterator<Class>::difference_type n,
 											typename ft::reverse_iterator<Class>& it)
-											{return it + n;}
+											{return it - n;}
 
 template <typename T>
 bool									operator==(const ft::reverse_iterator<T> src,

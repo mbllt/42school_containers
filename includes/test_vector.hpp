@@ -539,8 +539,8 @@ class TestVector {
 			of << "\ntest-reverse_iterators ✅\n";
 			myof << "\ntest-reverse_iterators ✅\n";
 
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
+			std::vector<Value> vec(10, Value());
+			ft::vector<Value> myvec(10, Value());
 			fill_vec(&vec, &myvec);
 			displayVectors(of, vec, myof, myvec);
 
@@ -622,10 +622,10 @@ class TestVector {
 			typename ft::vector<Value>::reverse_iterator mytmp = myitit + 3;
 
 			// -(it)
-			int i = itit - tmp;
+			int i = *itit - *tmp;
 			of << "int i = itit - tmp :" << i << "\n";
 
-			int myi = myitit - mytmp;
+			int myi = *myitit - *mytmp;
 			myof << "int i = itit - tmp :" << myi << "\n";
 
 			for (int i = 0; i < 5; ++i) {
@@ -640,9 +640,9 @@ class TestVector {
 
 				size_t mynbr = rand() % (myvec.size() - 1);
 				size_t mynbrbis = rand() % (myvec.size() - 1);
-				typename ft::vector<Value>::reverse_iterator myittest = myvec.begin();
+				typename ft::vector<Value>::reverse_iterator myittest = myvec.rbegin();
 				*myittest = myvec[mynbr];
-				typename ft::vector<Value>::reverse_iterator myittestbis = myvec.begin();
+				typename ft::vector<Value>::reverse_iterator myittestbis = myvec.rbegin();
 				*myittestbis = myvec[mynbrbis];
 
 				//	==

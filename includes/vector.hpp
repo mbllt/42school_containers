@@ -19,8 +19,8 @@ class vector {
 
 		typedef ft::iterator<T>				iterator;
 		typedef ft::iterator<const T>		const_iterator;
-		typedef ft::iterator<T>				reverse_iterator;
-		typedef ft::iterator<const T>		const_reverse_iterator;
+		typedef ft::reverse_iterator<T>				reverse_iterator;
+		typedef ft::reverse_iterator<const T>		const_reverse_iterator;
 
 		typedef size_t						size_type;
 		typedef Alloc						allocator_type;
@@ -145,27 +145,27 @@ class vector {
 		}
 
 		iterator end() {
-			return iterator(&(_tab[_size]));
+			return _tab != NULL ? iterator(_tab + _size) : iterator();
 		}
 
 		const_iterator end() const {
-			return const_iterator(&(_tab[_size]));
+			return _tab != NULL ? const_iterator(_tab + _size) : const_iterator();
 		}
 
 		reverse_iterator rbegin() {
-			return reverse_iterator(end());
+			return _tab != NULL ? reverse_iterator(_tab + _size - 1) : reverse_iterator();
 		}
 
 		const_reverse_iterator rbegin() const {
-			return const_reverse_iterator(end());
+			return _tab != NULL ? const_reverse_iterator(_tab + _size - 1) : const_reverse_iterator();
 		}
 
 		reverse_iterator rend() {
-			return reverse_iterator(begin());
+			return reverse_iterator(_tab - 1);
 		}
 
 		const_reverse_iterator rend() const {
-			return const_reverse_iterator(begin());
+			return const_reverse_iterator(_tab - 1);
 		}
 
 //	------------------------------------------------
@@ -291,7 +291,7 @@ class vector {
 			vector<value_type, Alloc> tmp = *this;
 
 			for (size_type i = 0; i < count;++i) {
-				_tab[save_pos] = *(first)++;
+				_alloc.construct(_tab + save_pos, *first);
 				++save_pos;
 			}
 			size_type i = save_pos;
