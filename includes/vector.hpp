@@ -17,19 +17,18 @@ class vector {
 
 	public:
 
-		typedef ft::iterator<T>				iterator;
-		typedef ft::iterator<const T>		const_iterator;
-		typedef ft::reverse_iterator<T>				reverse_iterator;
-		typedef ft::reverse_iterator<const T>		const_reverse_iterator;
-
-		typedef size_t						size_type;
-		typedef Alloc						allocator_type;
-		typedef std::ptrdiff_t				difference_type;
-		typedef T 							value_type;
-		typedef value_type *				pointer;
-		typedef value_type const *			const_pointer;
-		typedef value_type &				reference;
-		typedef value_type const &			const_reference;
+		typedef T 								value_type;
+		typedef size_t							size_type;
+		typedef Alloc							allocator_type;
+		typedef std::ptrdiff_t					difference_type;
+		typedef value_type &					reference;
+		typedef value_type const &				const_reference;
+		typedef value_type *					pointer;
+		typedef value_type const *				const_pointer;
+		typedef ft::iterator<T>					iterator;
+		typedef ft::iterator<const T>			const_iterator;
+		typedef ft::reverse_iterator<T>			reverse_iterator;
+		typedef ft::reverse_iterator<const T>	const_reverse_iterator;
 
 	private :
 
@@ -183,7 +182,7 @@ class vector {
 
 		void reserve(size_type new_cap) {
 			if (new_cap > max_size())
-				throw std::length_error("vector::reserve"); // check error message
+				throw std::length_error("vector::reserve");
 			else if (new_cap > capacity()) {
 				value_type *tmp = _alloc.allocate(new_cap);
 				if (_tab) {
@@ -216,7 +215,7 @@ class vector {
 
 		reference at(size_type n) {
 			if (n >= this->_size)
-				throw std::out_of_range("vector"); // check error message
+				throw std::out_of_range("vector");
 			return _tab[n];
 			
 		}

@@ -2,13 +2,16 @@
 // C'est pour eviter les doubles inclusions
 #pragma once
 
-#define IS_INTEGRAL(TYPE)      \
-	template <>                \
+#include "iterator_traits.hpp"
+
+#define IS_INTEGRAL(TYPE)	  \
+	template <>			    \
 	struct is_integral<TYPE> { \
 		enum { value = true }; \
 	}
 
 namespace ft {
+
 	template <typename A, typename B>
 	struct is_same {
 		enum { value = false };
@@ -44,7 +47,9 @@ namespace ft {
 
 	template <typename T>
 	struct enable_if<false, T> {		// compile time : no error if tries to
-	};									// read a type that is not there
+	};									// read a type that is not there -> SFINAE
+										// Substitution Failure Is Not An Error
+
 }
 
 #undef IS_INTEGRAL

@@ -27,6 +27,7 @@ FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/  -fsanitize=address -g3
 #------------- INCS -----------------
 INC_DIR=		includes
 INC_FILES=		vector.hpp\
+				iterator_traits.hpp\
 				iterator.hpp\
 				reverse_iterator.hpp\
 				tests.hpp\
