@@ -27,6 +27,8 @@ class iterator {
 		iterator(iterator const & copy) : p(copy.p) {}
 		~iterator() {}
 
+		pointer getP() const { return (this->p); }
+
 //	------------------------------------------------
 
 
@@ -51,7 +53,7 @@ class iterator {
 
 		iterator			operator--(const int n) {(void)n;iterator tmp(*this); operator--(); return tmp;}
 
-		difference_type		operator-(const iterator& src) {return p - src.p;}
+		difference_type		operator-(const iterator & src) {return p - src.p;}
 
 		iterator			operator+(difference_type n) {return p + n;}
 
@@ -67,18 +69,6 @@ template<typename Class>
 
 		iterator&			operator-=(difference_type n) {p -= n; return *this;}
 
-		bool				operator==(const iterator& src) const {return p==src.p;}
-		
-		bool				operator!=(const iterator& src) const {return p!=src.p;}
-
-		bool				operator<(const iterator& src) const {return p<src.p;}
-
-		bool				operator<=(const iterator& src) const {return p<=src.p;}
-
-		bool				operator>(const iterator& src) const {return p>src.p;}
-
-		bool				operator>=(const iterator& src) const {return p>=src.p;}
-
 };
 
 template<typename Class>
@@ -86,10 +76,70 @@ ft::iterator<Class>					operator+(typename ft::iterator<Class>::difference_type 
 											typename ft::iterator<Class>& it)
 											{return it + n;}
 
-template<typename T>
-ft::iterator<T>					operator-(typename ft::iterator<T>::difference_type n,
-											typename ft::iterator<T>& it)
+template<typename Class>
+ft::iterator<Class>					operator-(typename ft::iterator<Class>::difference_type n,
+											typename ft::iterator<Class>& it)
 											{return it - n;}
+
+template <typename T>
+bool									operator==(const ft::iterator<T> src,
+												const ft::iterator<T> cmp)
+												{return (src.getP() == cmp.getP());}
+
+template <typename A, typename B>
+bool									operator==(const ft::iterator<A> src,
+												const ft::iterator<B> cmp)
+												{return (src.getP() == cmp.getP());}
+
+template <typename T>
+bool									operator!=(const ft::iterator<T> src,
+												const ft::iterator<T> cmp)
+												{return (src.getP() != cmp.getP());}
+
+template <typename A, typename B>
+bool									operator!=(const ft::iterator<A> src,
+												const ft::iterator<B> cmp)
+												{return (src.getP() != cmp.getP());}
+
+template <typename T>
+bool									operator<(const ft::iterator<T> src,
+												const ft::iterator<T> cmp)
+												{return (src.getP() < cmp.getP());}
+
+template <typename A, typename B>
+bool									operator<(const ft::iterator<A> src,
+												const ft::iterator<B> cmp)
+												{return (src.getP() < cmp.getP());}
+
+template <typename T>
+bool									operator<=(const ft::iterator<T> src,
+												const ft::iterator<T> cmp)
+												{return (src.getP() <= cmp.getP());}
+
+template <typename A, typename B>
+bool									operator<=(const ft::iterator<A> src,
+												const ft::iterator<B> cmp)
+												{return (src.getP() <= cmp.getP());}
+
+template <typename T>
+bool									operator>(const ft::iterator<T> src,
+												const ft::iterator<T> cmp)
+												{return (src.getP() > cmp.getP());}
+
+template <typename A, typename B>
+bool									operator>(const ft::iterator<A> src,
+												const ft::iterator<B> cmp)
+												{return (src.getP() > cmp.getP());}
+
+template <typename T>
+bool									operator>=(const ft::iterator<T> src,
+												const ft::iterator<T> cmp)
+												{return (src.getP() >= cmp.getP());}
+
+template <typename A, typename B>
+bool									operator>=(const ft::iterator<A> src,
+												const ft::iterator<B> cmp)
+												{return (src.getP() >= cmp.getP());}
 
 }
 

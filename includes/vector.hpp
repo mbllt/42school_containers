@@ -39,8 +39,10 @@ class vector {
 		size_type		_cap;
 
 		void _delete() {
-			for (size_type i = 0;i < _size;i++){
-				_alloc.destroy(&_tab[i]);
+			if (_size) {
+				while (_size--) {
+					_alloc.destroy(&_tab[_size]);
+				}
 			}
 			_alloc.deallocate(_tab, _cap);
 		}
@@ -214,7 +216,7 @@ class vector {
 
 		reference at(size_type n) {
 			if (n >= this->_size)
-				throw std::out_of_range("Index to access vector is invalid."); // check error message
+				throw std::out_of_range("vector"); // check error message
 			return _tab[n];
 			
 		}
@@ -354,9 +356,9 @@ class vector {
 		}
 
 		void swap(vector& other) {
-			if (*this == other)
-				return ;
-			
+			// if (this == &other)
+			// 	return ;
+
 			size_type tmp_size = _size;
 			size_type tmp_cap = _cap;
 			pointer tmp_tab = _tab;
@@ -381,7 +383,7 @@ class vector {
 //	---------------->> NON MEMBERS <<---------------
 // why use non members ? Because by default in a class,
 //	the first param is the instance of the class : this.
-//	Here we want the first element to be specifically something else.
+//	Here we want the first element to be specifically something.
 
 template<typename T, class Alloc>
 bool		operator==(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
@@ -398,11 +400,30 @@ bool		operator==(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & 
 				return true;
 			}
 
+template<typename T, typename Y, class Alloc>
+bool		operator==(const ft::vector<T, Alloc> & src, const ft::vector<Y, Alloc> & cmp) {
+				if (src.size() != cmp.size())
+					return false;
+				typename ft::vector<T>::const_iterator it = src.begin();
+				typename ft::vector<Y>::const_iterator itbis = cmp.begin();
+				while(it != src.end()) {
+					if (itbis == cmp.end() || *it != *itbis)
+						return false;
+					++it;
+					++itbis;
+				}
+				return true;
+			}
+
 template<typename T, class Alloc>
 bool		operator!=(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
 				return !(src == cmp);
 			}
 
+template<typename T, typename Y, class Alloc>
+bool		operator!=(const ft::vector<T, Alloc> & src, const ft::vector<Y, Alloc> & cmp) {
+				return !(src == cmp);
+			}
 
 template<typename T, class Alloc>
 bool		operator<(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
@@ -421,9 +442,35 @@ bool		operator<(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & c
 				return it2 != ite2;
 			}
 
+template<typename T, typename Y, class Alloc>
+bool		operator<(const ft::vector<T, Alloc> & src, const ft::vector<Y, Alloc> & cmp) {
+				typename ft::vector<T, Alloc>::const_iterator it1 = src.begin();
+				typename ft::vector<T, Alloc>::const_iterator ite1 = src.end();
+				typename ft::vector<Y, Alloc>::const_iterator it2 = cmp.begin();
+				typename ft::vector<Y, Alloc>::const_iterator ite2 = cmp.end();
+				while (it1 != ite1) {
+					if (it2 == ite2 || *it1 > *it2)
+						return false;
+					else if (*it1 < *it2)
+						return true;
+					++it1;
+					++it2;
+				}
+				return it2 != ite2;
+			}
+
 template<typename T, class Alloc>
 bool		operator<=(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
-				return !(src < cmp);
+				if (src == cmp)
+					return true;
+				return src < cmp;
+			}
+
+template<typename T, typename Y, class Alloc>
+bool		operator<=(const ft::vector<T, Alloc> & src, const ft::vector<Y, Alloc> & cmp) {
+				if (src == cmp)
+					return true;
+				return src < cmp;
 			}
 
 template<typename T, class Alloc>
@@ -431,9 +478,29 @@ bool		operator>(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & c
 				return cmp < src;
 			}
 
+template<typename T, typename Y, class Alloc>
+bool		operator>(const ft::vector<T, Alloc> & src, const ft::vector<Y, Alloc> & cmp) {
+				return cmp < src;
+			}
+
 template<typename T, class Alloc>
 bool		operator>=(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & cmp) {
+				if (src == cmp)
+					return true;
 				return !(src < cmp);
+			}
+
+template<typename T, typename Y, class Alloc>
+bool		operator>=(const ft::vector<T, Alloc> & src, const ft::vector<Y, Alloc> & cmp) {
+				if (src == cmp)
+					return true;
+				return !(src < cmp);
+			}
+
+template<typename T, class Alloc>
+void		swap(ft::vector<T,Alloc>& lhs,
+				ft::vector<T,Alloc>& rhs) {
+				lhs.swap(rhs);
 			}
 
 }
