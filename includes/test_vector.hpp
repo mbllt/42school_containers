@@ -616,18 +616,6 @@ class TestVector {
 			of << "it[0] :" << it[0] << " | it[3] :" << it[3] << "\n";
 			myof << "it[0] :" << myit[0] << " | it[3] :" << myit[3] << "\n";
 
-			typename std::vector<Value>::reverse_iterator itit = vec.rbegin();
-			typename std::vector<Value>::reverse_iterator tmp = itit + 3;
-			typename ft::vector<Value>::reverse_iterator myitit = myvec.rbegin();
-			typename ft::vector<Value>::reverse_iterator mytmp = myitit + 3;
-
-			// -(it)
-			int i = *itit - *tmp;
-			of << "int i = itit - tmp :" << i << "\n";
-
-			int myi = *myitit - *mytmp;
-			myof << "int i = itit - tmp :" << myi << "\n";
-
 			for (int i = 0; i < 5; ++i) {
 			
 				srand (time(NULL));
