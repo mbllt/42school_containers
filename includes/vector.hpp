@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <string>
-#include <algorithm>
-#include <memory>
 #include <stdexcept>
+#include <memory>
+#include <algorithm>
 #include "iterator.hpp"
 #include "reverse_iterator.hpp"
 #include "meta.hpp"
@@ -397,6 +397,7 @@ bool		operator==(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & 
 					++it;
 					++itbis;
 				}
+				return true;
 			}
 
 template<typename T, typename Y, class Alloc>

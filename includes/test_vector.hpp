@@ -9,31 +9,29 @@
 #include "vector.hpp"
 
 // default(int) and specialisation std::string
-template<typename Value>
+template<typename value>
 class TestVector {
 
 	private:
 
-		template<typename T>
-		void printVector(std::ofstream& out, T& vec) {
+		void displayVectors(std::ofstream& of, std::vector<value>& vec, std::ofstream& myof, ft::vector<value>& myvec) {
 
-			out << "{ ";
-			for (typename T::iterator it = vec.begin(); it != vec.end(); ++it){
-				out << *it << " ";
+			of << "{ ";
+			for (typename std::vector<value>::iterator it = vec.begin(); it != vec.end(); ++it){
+				of << *it << " ";
 			}
-			out << "}\n";
+			of << "}\n";
+			myof << "{ ";
+			for (typename ft::vector<value>::iterator it = myvec.begin(); it != myvec.end(); ++it){
+				myof << *it << " ";
+			}
+			myof << "}\n";
 		}
 
-		void displayVectors(std::ofstream& of, std::vector<Value>& vec, std::ofstream& myof, ft::vector<Value>& myvec) {
+		void fill_vec(std::vector<value>* vec, ft::vector<value>* myvec) {
 
-			printVector(of, vec);
-			printVector(myof, myvec);
-		}
-
-		void fill_vec(std::vector<Value>* vec, ft::vector<Value>* myvec) {
-
-			typename std::vector<Value>::iterator it =vec->begin();
-			typename ft::vector<Value>::iterator myit = myvec->begin();
+			typename std::vector<value>::iterator it =vec->begin();
+			typename ft::vector<value>::iterator myit = myvec->begin();
 
 			for (size_t i = 0; i < vec->size(); ++i) {
 				int val = rand() % 100;
@@ -48,13 +46,13 @@ class TestVector {
 
 		void test_resize(std::ofstream& of, std::ofstream& myof) {
 			print_str(of, myof, "-------- resize");
-			std::vector<Value> empty;
-			ft::vector<Value> myempty;
+			std::vector<value> empty;
+			ft::vector<value> myempty;
 			displayVectors(of, empty, myof, myempty);
 
 			empty.resize(2);
 			myempty.resize(2);
-			print_str(of, myof, "empty.resize(Value())");
+			print_str(of, myof, "empty.resize(value())");
 			displayVectors(of, empty, myof, myempty);
 			if (empty.size() == myempty.size())
 				print_str(of, myof, "size change after resize : ok");
@@ -69,14 +67,14 @@ class TestVector {
 				myof << "capacity change after resize : koooo | l.300\n";
 			}
 
-			std::vector<Value> vec(10, Value());
-			ft::vector<Value> myvec(10, Value());
+			std::vector<value> vec(10, value());
+			ft::vector<value> myvec(10, value());
 			fill_vec(&vec, &myvec);
 			displayVectors(of, vec, myof, myvec);
 
-			vec.resize(5, Value());
-			myvec.resize(5, Value());
-			print_str(of, myof, "vec.resize(10, Value()) : smaller capacity");
+			vec.resize(5, value());
+			myvec.resize(5, value());
+			print_str(of, myof, "vec.resize(10, value()) : smaller capacity");
 			displayVectors(of, vec, myof, myvec);
 			if (vec.size() == myvec.size())
 				print_str(of, myof, "size change after resize : ok");
@@ -91,9 +89,9 @@ class TestVector {
 				myof << "capacity change after resize : koooo | l.300\n";
 			}
 
-			vec.resize(30, Value());
-			myvec.resize(30, Value());
-			print_str(of, myof, "vec.resize(30, Value()) : bigger capacity");
+			vec.resize(30, value());
+			myvec.resize(30, value());
+			print_str(of, myof, "vec.resize(30, value()) : bigger capacity");
 			displayVectors(of, vec, myof, myvec);
 			if (vec.size() == myvec.size())
 				print_str(of, myof, "size change after resize : ok");
@@ -111,13 +109,13 @@ class TestVector {
 
 		void test_push_back(std::ofstream& of, std::ofstream& myof) {
 			print_str(of, myof, "-------- push_back");
-			std::vector<Value> empty;
-			ft::vector<Value> myempty;
+			std::vector<value> empty;
+			ft::vector<value> myempty;
 			displayVectors(of, empty, myof, myempty);
 
-			empty.push_back(Value());
-			myempty.push_back(Value());
-			print_str(of, myof, "empty.push_back(Value())");
+			empty.push_back(value());
+			myempty.push_back(value());
+			print_str(of, myof, "empty.push_back(value())");
 			displayVectors(of, empty, myof, myempty);
 			if (empty.size() == myempty.size())
 				print_str(of, myof, "size change after push_back : ok");
@@ -132,16 +130,16 @@ class TestVector {
 				myof << "capacity change after push_back : koooo | l.300\n";
 			}
 			
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
+			std::vector<value> vec(20, value());
+			ft::vector<value> myvec(20, value());
 			fill_vec(&vec, &myvec);
 			displayVectors(of, vec, myof, myvec);
 
-			vec.push_back(Value());
-			myvec.push_back(Value());
-			vec.push_back(Value());
-			myvec.push_back(Value());
-			print_str(of, myof, "vec.push_back(Value())");
+			vec.push_back(value());
+			myvec.push_back(value());
+			vec.push_back(value());
+			myvec.push_back(value());
+			print_str(of, myof, "vec.push_back(value())");
 			displayVectors(of, vec, myof, myvec);
 			if (vec.size() == myvec.size())
 				print_str(of, myof, "size change after push_back : ok");
@@ -159,8 +157,8 @@ class TestVector {
 
 		void test_pop_back(std::ofstream& of, std::ofstream& myof) {
 			print_str(of, myof, "-------- pop_back");
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
+			std::vector<value> vec(20, value());
+			ft::vector<value> myvec(20, value());
 			fill_vec(&vec, &myvec);
 			displayVectors(of, vec, myof, myvec);
 
@@ -184,22 +182,22 @@ class TestVector {
 
 		void test_swap(std::ofstream& of, std::ofstream& myof) {
 			print_str(of, myof, "-------- swap");
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
+			std::vector<value> vec(20, value());
+			ft::vector<value> myvec(20, value());
 			fill_vec(&vec, &myvec);
 			print_str(of, myof, "vec ");
 			displayVectors(of, vec, myof, myvec);
 
-			std::vector<Value> other(24, Value());
-			ft::vector<Value> myother(24, Value());
+			std::vector<value> other(24, value());
+			ft::vector<value> myother(24, value());
 			fill_vec(&other, &myother);
 			print_str(of, myof, "other ");
 			displayVectors(of, other, myof, myother);
 
-			typename std::vector<Value>::iterator it_start_vec = vec.begin() + 3;
-			typename ft::vector<Value>::iterator myit_start_vec = myvec.begin() + 3;
-			typename std::vector<Value>::iterator it_start_other = other.begin() + 3;
-			typename ft::vector<Value>::iterator myit_start_other = myother.begin() + 3;
+			typename std::vector<value>::iterator it_start_vec = vec.begin() + 3;
+			typename ft::vector<value>::iterator myit_start_vec = myvec.begin() + 3;
+			typename std::vector<value>::iterator it_start_other = other.begin() + 3;
+			typename ft::vector<value>::iterator myit_start_other = myother.begin() + 3;
 
 			of << "it de vec au debut :" << *it_start_vec << "\n" << "it de other au debut :" << *it_start_other << "\n";
 			myof << "it de vec au debut :" << *myit_start_vec << "\n" << "it de other au debut :" << *myit_start_other << "\n";
@@ -215,8 +213,8 @@ class TestVector {
 			of << "it de vec a la fin :" << *it_start_vec << "\n" << "it de other a la fin :" << *it_start_other << "\n";
 			myof << "it de vec a la fin :" << *myit_start_vec << "\n" << "it de other a la fin :" << *myit_start_other << "\n";
 
-			std::vector<Value> third(5, Value());
-			ft::vector<Value> mythird(5, Value());
+			std::vector<value> third(5, value());
+			ft::vector<value> mythird(5, value());
 			fill_vec(&third, &mythird);
 			print_str(of, myof, "third ");
 			displayVectors(of, third, myof, mythird);
@@ -232,8 +230,8 @@ class TestVector {
 
 		void test_clear(std::ofstream& of, std::ofstream& myof) {
 			print_str(of, myof, "-------- clear");
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
+			std::vector<value> vec(20, value());
+			ft::vector<value> myvec(20, value());
 			fill_vec(&vec, &myvec);
 
 			print_str(of, myof, "before clear :");
@@ -249,27 +247,27 @@ class TestVector {
 			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
 			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 
-			vec.push_back(Value());
-			myvec.push_back(Value());
+			vec.push_back(value());
+			myvec.push_back(value());
 			print_str(of, myof, "after one pushback :");
 			displayVectors(of, vec, myof, myvec);
 		}
 
 		void test_erase(std::ofstream& of, std::ofstream& myof) {
 			print_str(of, myof, "-------- erase");
-			std::vector<Value> vec(10, Value());
-			ft::vector<Value> myvec(10, Value());
+			std::vector<value> vec(10, value());
+			ft::vector<value> myvec(10, value());
 			fill_vec(&vec, &myvec);
-			typename std::vector<Value>::iterator it = vec.begin();
-			typename ft::vector<Value>::iterator myit = myvec.begin();
+			typename std::vector<value>::iterator it = vec.begin();
+			typename ft::vector<value>::iterator myit = myvec.begin();
 
 			print_str(of, myof, "before erase begin() :");
 			displayVectors(of, vec, myof, myvec);
 			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
 			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 
-			typename std::vector<Value>::iterator ret = vec.erase(it);
-			typename ft::vector<Value>::iterator myret = myvec.erase(myit);
+			typename std::vector<value>::iterator ret = vec.erase(it);
+			typename ft::vector<value>::iterator myret = myvec.erase(myit);
 
 			print_str(of, myof, "after erase begin() :");
 			displayVectors(of, vec, myof, myvec);
@@ -301,13 +299,13 @@ class TestVector {
 		void test_insert(std::ofstream& of, std::ofstream& myof) {
 			print_str(of, myof, "-------- insert");
 
-			std::vector<Value> empty;
-			ft::vector<Value> myempty;
+			std::vector<value> empty;
+			ft::vector<value> myempty;
 			displayVectors(of, empty, myof, myempty);
 
-			empty.insert(empty.begin(), Value());
-			myempty.insert(myempty.begin(), Value());
-			print_str(of, myof, "empty.insert(Value())");
+			empty.insert(empty.begin(), value());
+			myempty.insert(myempty.begin(), value());
+			print_str(of, myof, "empty.insert(value())");
 			displayVectors(of, empty, myof, myempty);
 			if (empty.size() == myempty.size())
 				print_str(of, myof, "size change after insert : ok");
@@ -322,29 +320,29 @@ class TestVector {
 				myof << "capacity change after insert : koooo | l.300\n";
 			}
 
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
+			std::vector<value> vec(20, value());
+			ft::vector<value> myvec(20, value());
 			fill_vec(&vec, &myvec);
 
-			print_str(of, myof, "before insert(begin(), 3, Value()) :");
+			print_str(of, myof, "before insert(begin(), 3, value()) :");
 			displayVectors(of, vec, myof, myvec);
 			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
 			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 
-			typename std::vector<Value>::iterator it = vec.begin();
-			typename ft::vector<Value>::iterator myit = myvec.begin();
+			typename std::vector<value>::iterator it = vec.begin();
+			typename ft::vector<value>::iterator myit = myvec.begin();
 			++it;
 			++myit;
-			vec.insert(it, 3, Value());
-			myvec.insert(myit, 3, Value());
+			vec.insert(it, 3, value());
+			myvec.insert(myit, 3, value());
 
-			print_str(of, myof, "after insert(begin(), 3, Value()) :");
+			print_str(of, myof, "after insert(begin(), 3, value()) :");
 			displayVectors(of, vec, myof, myvec);
 			of << "size :" << vec.size() << " - capacity :" << vec.capacity() << "\n";
 			myof << "size :" << myvec.size() << " - capacity :" << myvec.capacity() << "\n";
 
-			typename std::vector<Value>::iterator ret = vec.insert(vec.begin(), Value());
-			typename ft::vector<Value>::iterator myret = myvec.insert(myvec.begin(), Value());
+			typename std::vector<value>::iterator ret = vec.insert(vec.begin(), value());
+			typename ft::vector<value>::iterator myret = myvec.insert(myvec.begin(), value());
 
 			if (*ret == *myret)
 				print_str(of, myof, "ret de insert : ok");
@@ -366,18 +364,18 @@ class TestVector {
 			of << "size :" << empty.size() << " - capacity :" << empty.capacity() << "\n";
 			myof << "size :" << myempty.size() << " - capacity :" << myempty.capacity() << "\n";
 
-			std::vector<Value> emptyRange;
-			ft::vector<Value> myemptyRange;
+			std::vector<value> emptyRange;
+			ft::vector<value> myemptyRange;
 
-			print_str(of, myof, "before after insert(begin(), 3, Value()) :");
+			print_str(of, myof, "before after insert(begin(), 3, value()) :");
 			displayVectors(of, emptyRange, myof, myemptyRange);
 			of << "size :" << emptyRange.size() << " - capacity :" << emptyRange.capacity() << "\n";
 			myof << "size :" << myemptyRange.size() << " - capacity :" << myemptyRange.capacity() << "\n";
 
-			emptyRange.insert(emptyRange.begin(), 3, Value());
-			myemptyRange.insert(myemptyRange.begin(), 3, Value());
+			emptyRange.insert(emptyRange.begin(), 3, value());
+			myemptyRange.insert(myemptyRange.begin(), 3, value());
 
-			print_str(of, myof, "after insert(begin(), 3, Value()) :");
+			print_str(of, myof, "after insert(begin(), 3, value()) :");
 			displayVectors(of, vec, myof, myvec);
 			of << "size :" << emptyRange.size() << " - capacity :" << emptyRange.capacity() << "\n";
 			myof << "size :" << myemptyRange.size() << " - capacity :" << myemptyRange.capacity() << "\n";
@@ -395,40 +393,40 @@ class TestVector {
 
 			print_str(of, myof, "-------- constructors");
 			print_str(of, myof, "vec(n, value())");
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
+			std::vector<value> vec(20, value());
+			ft::vector<value> myvec(20, value());
 			displayVectors(of, vec, myof, myvec);
 
 			print_str(of, myof, "vec default");
-			std::vector<Value> bis;
-			ft::vector<Value> mybis;
+			std::vector<value> bis;
+			ft::vector<value> mybis;
 
-			bis.resize(10, Value());
-			mybis.resize(10, Value());
+			bis.resize(10, value());
+			mybis.resize(10, value());
 			fill_vec(&bis, &mybis);
 			displayVectors(of, bis, myof, mybis);
 
 			print_str(of, myof, "vec(copy)");
-			std::vector<Value> quatre(vec);
-			ft::vector<Value> myquatre(myvec);
+			std::vector<value> quatre(vec);
+			ft::vector<value> myquatre(myvec);
 			displayVectors(of, quatre, myof, myquatre);
 	
 			print_str(of, myof, "vec range");
-			std::vector<Value> range(bis.begin(), bis.end());
-			ft::vector<Value> myrange(bis.begin(), bis.end());
+			std::vector<value> range(bis.begin(), bis.end());
+			ft::vector<value> myrange(bis.begin(), bis.end());
 			displayVectors(of, range, myof, myrange);
 
-			std::vector<Value> rangebis(bis.begin(), bis.begin());
-			ft::vector<Value> myrangebis(bis.begin(), bis.begin());
+			std::vector<value> rangebis(bis.begin(), bis.begin());
+			ft::vector<value> myrangebis(bis.begin(), bis.begin());
 			displayVectors(of, rangebis, myof, myrangebis);
 
-			std::vector<Value> empty;
-			std::vector<Value> rangetres(empty.begin(), empty.end());
-			ft::vector<Value> myrangetres(empty.begin(), empty.end());
+			std::vector<value> empty;
+			std::vector<value> rangetres(empty.begin(), empty.end());
+			ft::vector<value> myrangetres(empty.begin(), empty.end());
 			displayVectors(of, rangetres, myof, myrangetres);
 // not supposed to work
-			// std::vector<Value> rangenotworking(bis.begin(), 32);
-			// ft::vector<Value> myrangenotworking(bis.begin(), 1);
+			// std::vector<value> rangenotworking(bis.begin(), 32);
+			// ft::vector<value> myrangenotworking(bis.begin(), 1);
 
 			print_str(of, myof, "-------- get_alloc()");
 			if (vec.get_allocator() == myvec.get_allocator())
@@ -439,8 +437,8 @@ class TestVector {
 			}
 
 			print_str(of, myof, "-------- assign()");
-			std::vector<Value> assign;
-			ft::vector<Value> myassign;
+			std::vector<value> assign;
+			ft::vector<value> myassign;
 			fill_vec(&assign, &myassign);
 
 			print_str(of, myof, "print bis :");
@@ -450,16 +448,16 @@ class TestVector {
 			of << "size :" << assign.size() << " - capacity :" << assign.capacity() << "\n";
 			myof << "size :" << myassign.size() << " - capacity :" << myassign.capacity() << "\n";
 
-			assign.assign(3, Value());
-			myassign.assign(3, Value());
+			assign.assign(3, value());
+			myassign.assign(3, value());
 
 			print_str(of, myof, "after assign(bis.begin(), bis.end()) :");
 			displayVectors(of, assign, myof, myassign);
 			of << "size :" << assign.size() << " - capacity :" << assign.capacity() << "\n";
 			myof << "size :" << myassign.size() << " - capacity :" << myassign.capacity() << "\n";
 
-			std::vector<Value> assignbis(2, Value());
-			ft::vector<Value> myassignbis(2, Value());
+			std::vector<value> assignbis(2, value());
+			ft::vector<value> myassignbis(2, value());
 			fill_vec(&assign, &myassign);
 
 			print_str(of, myof, "before assign(assignbis.begin(), assignbis.end()) :");
@@ -482,10 +480,10 @@ class TestVector {
 			of << "\n\n\nTEST-OPERATOS ✅\n\n";
 			myof << "\n\n\nTEST-OPERATOS ✅\n\n";
 
-			std::vector<Value> equal(20,  Value());
-			std::vector<Value> test(equal);
-			ft::vector<Value> myequal(20,  Value());
-			ft::vector<Value> mytest(myequal);
+			std::vector<value> equal(20,  value());
+			std::vector<value> test(equal);
+			ft::vector<value> myequal(20,  value());
+			ft::vector<value> mytest(myequal);
 
 		// ==
 			if (equal  == test)
@@ -493,8 +491,8 @@ class TestVector {
 			if (myequal == mytest)
 				myof << "equal == test :" << (myequal == mytest) << "\n";
 
-			test.push_back(Value());
-			mytest.push_back(Value());
+			test.push_back(value());
+			mytest.push_back(value());
 
 		// !=
 			if (equal != test)
@@ -514,10 +512,10 @@ class TestVector {
 			if (myequal <= mytest)
 				myof << "equal <= test :" << (myequal <= mytest) << "\n";
 
-			equal.push_back(Value());
-			myequal.push_back(Value());
-			equal.push_back(Value());
-			myequal.push_back(Value());
+			equal.push_back(value());
+			myequal.push_back(value());
+			equal.push_back(value());
+			myequal.push_back(value());
 
 		// >
 			if (equal > test)
@@ -538,13 +536,13 @@ class TestVector {
 			of << "\n\n\nTEST-REVERSE-ITERATOS ✅\n\n";
 			myof << "\n\n\nTEST-REVERSE-ITERATOS ✅\n\n";
 
-			std::vector<Value> vec(10, Value());
-			ft::vector<Value> myvec(10, Value());
+			std::vector<value> vec(10, value());
+			ft::vector<value> myvec(10, value());
 			fill_vec(&vec, &myvec);
 			displayVectors(of, vec, myof, myvec);
 
-			typename std::vector<Value>::reverse_iterator it = vec.rbegin();
-			typename ft::vector<Value>::reverse_iterator myit = myvec.rbegin();
+			typename std::vector<value>::reverse_iterator it = vec.rbegin();
+			typename ft::vector<value>::reverse_iterator myit = myvec.rbegin();
 
 			//	++(int)
 			of << "it :" << *it << "| ";
@@ -620,16 +618,16 @@ class TestVector {
 				srand (time(NULL));
 				size_t nbr = rand() % (vec.size() - 1);
 				size_t nbrbis = rand() % (vec.size() - 1);
-				typename std::vector<Value>::reverse_iterator ittest = vec.rbegin();
+				typename std::vector<value>::reverse_iterator ittest = vec.rbegin();
 				*ittest = vec[nbr];
-				typename std::vector<Value>::reverse_iterator ittestbis = vec.rbegin();
+				typename std::vector<value>::reverse_iterator ittestbis = vec.rbegin();
 				*ittestbis = vec[nbrbis];
 
 				size_t mynbr = rand() % (myvec.size() - 1);
 				size_t mynbrbis = rand() % (myvec.size() - 1);
-				typename ft::vector<Value>::reverse_iterator myittest = myvec.rbegin();
+				typename ft::vector<value>::reverse_iterator myittest = myvec.rbegin();
 				*myittest = myvec[mynbr];
-				typename ft::vector<Value>::reverse_iterator myittestbis = myvec.rbegin();
+				typename ft::vector<value>::reverse_iterator myittestbis = myvec.rbegin();
 				*myittestbis = myvec[mynbrbis];
 
 				//	==
@@ -682,13 +680,13 @@ class TestVector {
 			of << "\n\n\nTEST-ITERATORS ✅\n\n";
 			myof << "\n\n\nTEST-ITERATORS ✅\n\n";
 
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
+			std::vector<value> vec(20, value());
+			ft::vector<value> myvec(20, value());
 			fill_vec(&vec, &myvec);
 			displayVectors(of, vec, myof, myvec);
 
-			typename std::vector<Value>::iterator it = vec.begin();
-			typename ft::vector<Value>::iterator myit = myvec.begin();
+			typename std::vector<value>::iterator it = vec.begin();
+			typename ft::vector<value>::iterator myit = myvec.begin();
 
 			//	++(int)
 			of << "it :" << *it << "| ";
@@ -759,10 +757,10 @@ class TestVector {
 			of << "it[0] :" << it[0] << " | it[3] :" << it[3] << "\n";
 			myof << "it[0] :" << myit[0] << " | it[3] :" << myit[3] << "\n";
 
-			typename std::vector<Value>::iterator itit = vec.begin();
-			typename std::vector<Value>::iterator tmp = itit + 3;
-			typename ft::vector<Value>::iterator myitit = myvec.begin();
-			typename ft::vector<Value>::iterator mytmp = myitit + 3;
+			typename std::vector<value>::iterator itit = vec.begin();
+			typename std::vector<value>::iterator tmp = itit + 3;
+			typename ft::vector<value>::iterator myitit = myvec.begin();
+			typename ft::vector<value>::iterator mytmp = myitit + 3;
 
 			// -(it)
 			int i = itit - tmp;
@@ -776,16 +774,16 @@ class TestVector {
 				srand (time(NULL));
 				size_t nbr = rand() % (vec.size() - 1);
 				size_t nbrbis = rand() % (vec.size() - 1);
-				typename std::vector<Value>::iterator ittest = vec.begin();
+				typename std::vector<value>::iterator ittest = vec.begin();
 				*ittest = vec[nbr];
-				typename std::vector<Value>::iterator ittestbis = vec.begin();
+				typename std::vector<value>::iterator ittestbis = vec.begin();
 				*ittestbis = vec[nbrbis];
 
 				size_t mynbr = rand() % (myvec.size() - 1);
 				size_t mynbrbis = rand() % (myvec.size() - 1);
-				typename ft::vector<Value>::iterator myittest = myvec.begin();
+				typename ft::vector<value>::iterator myittest = myvec.begin();
 				*myittest = myvec[mynbr];
-				typename ft::vector<Value>::iterator myittestbis = myvec.begin();
+				typename ft::vector<value>::iterator myittestbis = myvec.begin();
 				*myittestbis = myvec[mynbrbis];
 
 				//	==
@@ -838,8 +836,8 @@ class TestVector {
 			of << "\n\n\nTEST-CAPACITY ✅\n\n";
 			myof << "\n\n\nTEST-CAPACITY ✅\n\n";
 
-			std::vector<Value> emptyvec;
-			ft::vector<Value> myemptyvec;
+			std::vector<value> emptyvec;
+			ft::vector<value> myemptyvec;
 
 			// empty
 			if (emptyvec.empty() == myemptyvec.empty())
@@ -849,8 +847,8 @@ class TestVector {
 				myof << "emptyvec.empty() == myemptyvec.empty() : koooo work | l.300\n";
 			}
 
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
+			std::vector<value> vec(20, value());
+			ft::vector<value> myvec(20, value());
 			fill_vec(&vec, &myvec);
 
 			// size
@@ -893,8 +891,8 @@ class TestVector {
 			of << "\n\n\nTEST-ACCESSORS ✅\n\n";
 			myof << "\n\n\nTEST-ACCESSORS ✅\n\n";
 
-			std::vector<Value> vec(20, Value());
-			ft::vector<Value> myvec(20, Value());
+			std::vector<value> vec(20, value());
+			ft::vector<value> myvec(20, value());
 			fill_vec(&vec, &myvec);
 			displayVectors(of, vec, myof, myvec);
 
@@ -949,24 +947,24 @@ class TestVector {
 			of << "\n\n\nTEST-CONST ✅\n\n";
 			myof << "\n\n\nTEST-CONST ✅\n\n";
 
-			const std::vector<Value> vec(20, Value());
-			const ft::vector<Value> myvec(20, Value());
+			const std::vector<value> vec(20, value());
+			const ft::vector<value> myvec(20, value());
 
 //should not compile
 			// vec[0] = 1;
 			// myvec[0] = 1;
 
 //should not compile
-			// typename std::vector<Value>::iterator it = vec.begin();
+			// typename std::vector<value>::iterator it = vec.begin();
 			// (void) it;
-			// typename ft::vector<Value>::iterator myit = myvec.begin();
+			// typename ft::vector<value>::iterator myit = myvec.begin();
 			// (void) myit;
 
-			typename std::vector<const Value>::iterator it = vec.begin();
-			typename ft::vector<const Value>::iterator myit = myvec.begin();
+			typename std::vector<const value>::iterator it = vec.begin();
+			typename ft::vector<const value>::iterator myit = myvec.begin();
 
-			typename std::vector<Value>::const_iterator itconst = vec.begin();
-			typename ft::vector<Value>::const_iterator myitconst = myvec.begin();
+			typename std::vector<value>::const_iterator itconst = vec.begin();
+			typename ft::vector<value>::const_iterator myitconst = myvec.begin();
 
 			++it;
 			++myit;
@@ -974,10 +972,10 @@ class TestVector {
 			++myitconst;
 
 //should not compile
-			// it = Value();
-			// myit = Value();
-			// itconst = Value();
-			// myitconst = Value();
+			// it = value();
+			// myit = value();
+			// itconst = value();
+			// myitconst = value();
 
 //should not compile
 			// vec.clear();
@@ -994,8 +992,8 @@ class TestVector {
 			if (vec.back() == myvec.back())
 				print_str(of, myof, "operator == on back() compile");
 
-			std::vector<Value> const vecconst(20, Value());
-			ft::vector<Value> const myvecconst(20, Value());
+			std::vector<value> const vecconst(20, value());
+			ft::vector<value> const myvecconst(20, value());
 
 			if (vec  == vecconst)
 				of << "vec == vecconst :" << (vec.begin() == vecconst.begin()) << "\n";
@@ -1007,11 +1005,11 @@ class TestVector {
 			if (myvec.begin() == myvecconst.begin())
 				myof << "vec.begin() == vecconst.begin() :" << (myvec.begin() == myvecconst.begin()) << "\n";
 
-			typename std::vector<Value>::const_iterator cit = vecconst.begin();
+			typename std::vector<value>::const_iterator cit = vecconst.begin();
 			while (cit != vecconst.end())
 				++cit;
 
-			typename ft::vector<Value>::const_iterator mycit = myvecconst.begin();
+			typename ft::vector<value>::const_iterator mycit = myvecconst.begin();
 			while (mycit != myvecconst.end())
 				++mycit;
 		}

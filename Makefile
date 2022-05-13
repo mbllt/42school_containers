@@ -32,6 +32,7 @@ INC_FILES=		vector.hpp\
 				reverse_iterator.hpp\
 				tests.hpp\
 				test_vector.hpp\
+				test_stack.hpp\
 				meta.hpp
 INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 #------------------------------------

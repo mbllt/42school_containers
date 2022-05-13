@@ -72,15 +72,6 @@ template< class T1, class T2 >
 				return !(lhs < rhs);
 			}
 
-			// friend constexpr operator<==>( const pair & lhs, const pair & rhs ) {
-			// 	if (lhs < rhs)
-			// 		return true;
-			// 	else if (lhs > rhs)
-			// 		return true;
-			// 	else if (lhs == rhs)
-			// 		return true;
-			// 	true false;
-			// }
 	};
 
 template< class T1, class T2 >
