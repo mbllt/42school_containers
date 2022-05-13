@@ -8,7 +8,7 @@
 #include "tests.hpp"
 #include "vector.hpp"
 
-// default(int) and specialisation std::string vector<int>
+// default(int) and specialisation std::string
 template<typename Value>
 class TestVector {
 
@@ -30,7 +30,7 @@ class TestVector {
 			printVector(myof, myvec);
 		}
 
-		void fill_vec(std::vector<Value>* vec, ft::vector<Value>* myvec) {	//int
+		void fill_vec(std::vector<Value>* vec, ft::vector<Value>* myvec) {
 
 			typename std::vector<Value>::iterator it =vec->begin();
 			typename ft::vector<Value>::iterator myit = myvec->begin();
@@ -390,8 +390,8 @@ class TestVector {
 
 		void test_general(std::ofstream& of, std::ofstream& myof) {
 
-			of << "\ntest-general ✅\n";
-			myof << "\ntest-general ✅\n";
+			of << "\n\n\nTEST-GENERAL ✅\n\n";
+			myof << "\n\n\nTEST-GENERAL ✅\n\n";
 
 			print_str(of, myof, "-------- constructors");
 			print_str(of, myof, "vec(n, value())");
@@ -479,8 +479,8 @@ class TestVector {
 
 		void test_operators(std::ofstream& of, std::ofstream& myof) {
 
-			of << "\ntest-operators ✅\n";
-			myof << "\ntest-operators ✅\n";
+			of << "\n\n\nTEST-OPERATOS ✅\n\n";
+			myof << "\n\n\nTEST-OPERATOS ✅\n\n";
 
 			std::vector<Value> equal(20,  Value());
 			std::vector<Value> test(equal);
@@ -492,52 +492,39 @@ class TestVector {
 			if (myequal == mytest)
 				myof << "equal == test :" << (myequal == mytest) << "\n";
 
-			if (equal == test)
-
-		
-			for (int i = 0;i < 10;++i) {
-		
-				std::vector<Value> vec(20,  Value());
-				ft::vector<Value> myvec(20,  Value());
-				fill_vec(&vec, &myvec);
-				std::vector<Value> tmp(20,  Value());
-				ft::vector<Value> mytmp(20,  Value());
-				fill_vec(&tmp, &mytmp);
-		
-			// !=
-				if (myvec != mytmp) {
-					// print_str(of, myof, "op !=");
-					print_str(of, myof, "myvec != mytmp : ok");
-				}
-				else if (vec != tmp) {
-					of << "myvec != mytmp : ok\n";
-					myof << "myvec != mytmp : koooo\n";
-				}
-		
-			// <
-				if (myvec < mytmp) {
-					print_str(of, myof, "myvec < mytmp : ok");
-				}
-				else if (vec < tmp) {
-					of << "myvec < mytmp : ok\n";
-					myof << "myvec < mytmp : koooo\n";
-				}
-		
-			// >
-				if (myvec > mytmp) {
-					print_str(of, myof, "myvec > mytmp : ok");
-				}
-				else if (vec > tmp) {
-					of << "myvec > mytmp : ok\n";
-					myof << "myvec > mytmp : koooo\n";
-				}
-			}
+		// // !=
+		// 	if (myvec != mytmp) {
+		// 		// print_str(of, myof, "op !=");
+		// 		print_str(of, myof, "myvec != mytmp : ok");
+		// 	}
+		// 	else if (vec != tmp) {
+		// 		of << "myvec != mytmp : ok\n";
+		// 		myof << "myvec != mytmp : koooo\n";
+		// 	}
+	
+		// // <
+		// 	if (myvec < mytmp) {
+		// 		print_str(of, myof, "myvec < mytmp : ok");
+		// 	}
+		// 	else if (vec < tmp) {
+		// 		of << "myvec < mytmp : ok\n";
+		// 		myof << "myvec < mytmp : koooo\n";
+		// 	}
+	
+		// // >
+		// 	if (myvec > mytmp) {
+		// 		print_str(of, myof, "myvec > mytmp : ok");
+		// 	}
+		// 	else if (vec > tmp) {
+		// 		of << "myvec > mytmp : ok\n";
+		// 		myof << "myvec > mytmp : koooo\n";
+		// 	}
 		}
 
 		void test_reverse_iterators(std::ofstream& of, std::ofstream& myof) {
 
-			of << "\ntest-reverse_iterators ✅\n";
-			myof << "\ntest-reverse_iterators ✅\n";
+			of << "\n\n\nTEST-REVERSE-ITERATOS ✅\n\n";
+			myof << "\n\n\nTEST-REVERSE-ITERATOS ✅\n\n";
 
 			std::vector<Value> vec(10, Value());
 			ft::vector<Value> myvec(10, Value());
@@ -680,8 +667,8 @@ class TestVector {
 
 
 		void test_iterators(std::ofstream& of, std::ofstream& myof) {
-			of << "\ntest-iterators ✅\n";
-			myof << "\ntest-iterators ✅\n";
+			of << "\n\n\nTEST-ITERATORS ✅\n\n";
+			myof << "\n\n\nTEST-ITERATORS ✅\n\n";
 
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
@@ -836,8 +823,8 @@ class TestVector {
 
 		void test_capacity(std::ofstream& of, std::ofstream& myof) {
 			
-			of << "\ntest-capacity ✅\n";
-			myof << "\ntest-capacity ✅\n";
+			of << "\n\n\nTEST-CAPACITY ✅\n\n";
+			myof << "\n\n\nTEST-CAPACITY ✅\n\n";
 
 			std::vector<Value> emptyvec;
 			ft::vector<Value> myemptyvec;
@@ -891,8 +878,8 @@ class TestVector {
 
 		void test_accessors(std::ofstream& of, std::ofstream& myof) {
 			
-			of << "\ntest-accessors ✅\n";
-			myof << "\ntest-accessors ✅\n";
+			of << "\n\n\nTEST-ACCESSORS ✅\n\n";
+			myof << "\n\n\nTEST-ACCESSORS ✅\n\n";
 
 			std::vector<Value> vec(20, Value());
 			ft::vector<Value> myvec(20, Value());
@@ -934,8 +921,8 @@ class TestVector {
 
 		void test_modifiers(std::ofstream& of, std::ofstream& myof) {
 			
-			of << "\ntest-mofifiers ✅\n";
-			myof << "\ntest-mofifiers ✅\n";
+			of << "\n\n\nTEST-MODIFIERS ✅\n\n";
+			myof << "\n\n\nTEST-MODIFIERS ✅\n\n";
 
 			test_resize(of, myof);
 			test_push_back(of, myof);
@@ -947,8 +934,8 @@ class TestVector {
 		}
 
 		void test_const(std::ofstream& of, std::ofstream& myof) {
-			of << "\ntest-const ✅\n";
-			myof << "\ntest-const ✅\n";
+			of << "\n\n\nTEST-CONST ✅\n\n";
+			myof << "\n\n\nTEST-CONST ✅\n\n";
 
 			const std::vector<Value> vec(20, Value());
 			const ft::vector<Value> myvec(20, Value());

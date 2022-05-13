@@ -2,7 +2,7 @@
 
 if cmp -s "res/res_vector.txt" "res/res_myvector.txt"; then
 	echo -e "\033[0;33m"
-	cat res/res_vector.txt | grep "test-"
+	cat res/res_vector.txt | grep "TEST-"
 	echo -e "\033[0m"
 	echo -e "\033[0;32mTester Vector ------ ok\n\033[0m"
 else
