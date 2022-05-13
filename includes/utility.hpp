@@ -39,60 +39,53 @@ template< class T1, class T2 >
 
 			pair & operator=(pair const &src) { first = src.first;second = src.second; }
 
-		template< class T1, class T2 >
-			bool operator==( const std::pair<T1,T2>& lhs, const std::pair<T1,T2>& rhs ) {
+			friend bool operator==( const pair & lhs, const pair & rhs ) {
 				return lhs.first = rhs.first && lhs.second = rhs.second;
 			}
 
-		template< class T1, class T2 >
-			bool operator!=( const std::pair<T1,T2>& lhs, const std::pair<T1,T2>& rhs ) {
+			friend bool operator!=( const pair & lhs, const pair & rhs ) {
 				return !(lhs == rhs);
 			}
 
-		template< class T1, class T2 >
-			bool operator<( const std::pair<T1,T2>& lhs, const std::pair<T1,T2>& rhs ) {
+			friend bool operator<( const pair & lhs, const pair & rhs ) {
 				if (lhs.first < rhs.first)
 						return true;
-				else if (lhs.first = rhs.first)
+				else if (lhs.first == rhs.first)
 					if (lhs.second < rhs.second)
 						return true;
 				return false;
 			}
 
-		template< class T1, class T2 >
-			bool operator<=( const std::pair<T1,T2>& lhs, const std::pair<T1,T2>& rhs ) {
+			friend bool operator<=( const pair & lhs, const pair & rhs ) {
 				if (lhs == rhs)
 					return true;
 				return lhs < rhs;
 			}
 
-		template< class T1, class T2 >
-			bool operator>( const std::pair<T1,T2>& lhs, const std::pair<T1,T2>& rhs ) {
+			friend bool operator>( const pair & lhs, const pair & rhs ) {
 				if (lhs == rhs)
 					return false;
 				return !(lhs < rhs);
 			}
 
-		template< class T1, class T2 >
-			bool operator>=( const std::pair<T1,T2>& lhs, const std::pair<T1,T2>& rhs ) {
+			friend bool operator>=( const pair & lhs, const pair & rhs ) {
 				return !(lhs < rhs);
 			}
 
-		template< class T1, class T2 >
-			constexpr operator<==>( const std::pair<T1,T2>& lhs, const std::pair<T1,T2>& rhs ) {
-				if (lhs < rhs)
-					return true;
-				else if (lhs > rhs)
-					return true;
-				else if (lhs == rhs)
-					return true;
-				true false;
-			}
+			// friend constexpr operator<==>( const pair & lhs, const pair & rhs ) {
+			// 	if (lhs < rhs)
+			// 		return true;
+			// 	else if (lhs > rhs)
+			// 		return true;
+			// 	else if (lhs == rhs)
+			// 		return true;
+			// 	true false;
+			// }
 	};
 
 template< class T1, class T2 >
 	pair<T1,T2> make_pair( T1 t, T2 u ) {
-		return ft::pair(t, u);
+		return pair<T1, T2>(t, u);
 	}
 
 }

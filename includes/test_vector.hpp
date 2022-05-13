@@ -487,38 +487,50 @@ class TestVector {
 			ft::vector<Value> myequal(20,  Value());
 			ft::vector<Value> mytest(myequal);
 
+		// ==
 			if (equal  == test)
 				of << "equal == test :" << (equal == test) << "\n";
 			if (myequal == mytest)
 				myof << "equal == test :" << (myequal == mytest) << "\n";
 
-		// // !=
-		// 	if (myvec != mytmp) {
-		// 		// print_str(of, myof, "op !=");
-		// 		print_str(of, myof, "myvec != mytmp : ok");
-		// 	}
-		// 	else if (vec != tmp) {
-		// 		of << "myvec != mytmp : ok\n";
-		// 		myof << "myvec != mytmp : koooo\n";
-		// 	}
-	
-		// // <
-		// 	if (myvec < mytmp) {
-		// 		print_str(of, myof, "myvec < mytmp : ok");
-		// 	}
-		// 	else if (vec < tmp) {
-		// 		of << "myvec < mytmp : ok\n";
-		// 		myof << "myvec < mytmp : koooo\n";
-		// 	}
-	
-		// // >
-		// 	if (myvec > mytmp) {
-		// 		print_str(of, myof, "myvec > mytmp : ok");
-		// 	}
-		// 	else if (vec > tmp) {
-		// 		of << "myvec > mytmp : ok\n";
-		// 		myof << "myvec > mytmp : koooo\n";
-		// 	}
+			test.push_back(Value());
+			mytest.push_back(Value());
+
+		// !=
+			if (equal != test)
+				of << "equal != test :" << (equal != test) << "\n";
+			if (myequal != mytest)
+				myof << "equal != test :" << (myequal != mytest) << "\n";
+
+		// <
+			if (equal < test)
+				of << "equal < test :" << (equal < test) << "\n";
+			if (myequal < mytest)
+				myof << "equal < test :" << (myequal < mytest) << "\n";
+
+		// <=
+			if (equal <= test)
+				of << "equal <= test :" << (equal <= test) << "\n";
+			if (myequal <= mytest)
+				myof << "equal <= test :" << (myequal <= mytest) << "\n";
+
+			equal.push_back(Value());
+			myequal.push_back(Value());
+			equal.push_back(Value());
+			myequal.push_back(Value());
+
+		// >
+			if (equal > test)
+				of << "equal > test :" << (equal > test) << "\n";
+			if (myequal > mytest)
+				myof << "equal > test :" << (myequal > mytest) << "\n";
+
+		// >=
+			if (equal >= test)
+				of << "equal >= test :" << (equal >= test) << "\n";
+			if (myequal >= mytest)
+				myof << "equal >= test :" << (myequal >= mytest) << "\n";
+
 		}
 
 		void test_reverse_iterators(std::ofstream& of, std::ofstream& myof) {

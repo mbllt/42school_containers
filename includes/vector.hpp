@@ -9,6 +9,7 @@
 #include "iterator.hpp"
 #include "reverse_iterator.hpp"
 #include "meta.hpp"
+#include "utility.hpp"
 
 namespace ft {
 
@@ -79,7 +80,7 @@ class vector {
 		}
 
 		template <class InputIterator>
-			vector (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
+			vector (typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type first,
 					InputIterator last,
 					const allocator_type& alloc = allocator_type()) :
 					_alloc(alloc), _tab(), _size(0), _cap(0)
@@ -265,7 +266,7 @@ class vector {
 		}
 
 		template<class InputIt>
-		void insert(iterator pos, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type first, InputIt last) {
+		void insert(iterator pos, typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last) {
 			if (first == last)
 				return ;
 			size_type count = 0;
@@ -396,7 +397,6 @@ bool		operator==(const ft::vector<T, Alloc> & src, const ft::vector<T, Alloc> & 
 					++it;
 					++itbis;
 				}
-				return true;
 			}
 
 template<typename T, typename Y, class Alloc>

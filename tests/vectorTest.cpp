@@ -37,8 +37,6 @@ void testVector(void) {
 
 //------
 
-// !!!!!!!!! test a faire sur les comparaisons < > <= ...
-
 	srand (time(NULL));
 
 	// TestVector<int> test_vec;
