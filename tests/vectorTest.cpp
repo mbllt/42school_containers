@@ -1,15 +1,7 @@
 #include "tests.hpp"
 #include "test_vector.hpp"
-#include "test_stack.hpp"
 #include <stdlib.h>
 #include <time.h>
-#include <vector>
-
-void print_str(std::ofstream& of, std::ofstream& myof, std::string str) {
-
-	of << str << "\n";
-	myof << str << "\n";
-}
 
 template<typename T>
 void printVector(std::ofstream& out, T& vec) {
@@ -33,19 +25,10 @@ void testVector(void) {
 	std::ofstream of("res/res_vector.txt");
 	std::ofstream myof("res/res_myvector.txt");
 
-//------my tests
-
-
-//------
-
 	srand (time(NULL));
 
 	// TestVector<int> test_vec;
 	TestVector<std::string> test_vec;
-
-
-	std::deque<int> deq(10, 2);
-	TestStack<int, std::deque<int> > test_stack(deq);
 
 	srand (time(NULL));
 	try {
@@ -59,9 +42,6 @@ void testVector(void) {
 		test_vec.test_capacity(of, myof);
 		test_vec.test_modifiers(of, myof);
 		test_vec.test_const(of, myof);
-		of << "\n\n\n------------------- TESTS STACK ------------------\n";
-		myof << "\n\n\n------------------- TESTS STACK ------------------\n";
-		test_stack.test_everything(of, myof);
 	} catch (const std::exception& e) {
 		std::cerr << e.what() << std::endl;
 	}

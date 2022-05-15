@@ -1,0 +1,42 @@
+
+
+
+------------------- TESTS STACK ------------------
+
+
+
+TEST-GENERAL ✅ - TEST-ACCESS ✅
+
+sta top :2
+bis top :5
+sta = bis
+sta top :5
+
+
+
+TEST-CAPACITY ✅
+
+sta size :11
+sta empty :0
+
+
+
+TEST-CAPACITY ✅
+
+sta top :5
+sta.push(6)
+sta top :6
+sta top :6
+sta.pop()
+sta top :5
+
+
+
+TEST-OPERATORS ✅
+
+sta == bis :0
+sta != bis :0
+sta < bis :0
+sta <= bis :1
+sta > bis :0
+sta >= bis :1

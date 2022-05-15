@@ -12,3 +12,16 @@ else
 	diff res/res_vector.txt res/res_myvector.txt
 	echo -e "\n"
 fi
+
+if cmp -s "res/res_stack.txt" "res/res_mystack.txt"; then
+	echo -e "\033[0;33m"
+	cat res/res_stack.txt | grep "TEST-"
+	echo -e "\033[0m"
+	echo -e "\033[0;32m ------- TESTER STACK ------ OK\n\033[0m"
+else
+	echo -e "\033[0;31m ------- TESTER STACK ------ KO\n\033[0m"
+	echo "< = res/res_stack.txt | > = res/res_mystack.txt"
+	echo -e "lines that are different :\n"
+	diff res/res_stack.txt res/res_mystack.txt
+	echo -e "\n"
+fi

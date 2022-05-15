@@ -2,14 +2,7 @@
 #define stack_HPP
 
 #include <iostream>
-#include <string>
-#include <algorithm>
-#include <memory>
-#include <stdexcept>
-#include "iterator.hpp"
-#include "reverse_iterator.hpp"
-#include "meta.hpp"
-#include "utility.hpp"
+#include <deque>
 
 namespace ft {
 
@@ -28,19 +21,13 @@ class stack {
 
 		container_type	c;
 
-		void _delete() {
-			c.clear();
-			// FIND HOW TO DEALLOCATE
-			// C.get_allocator().deallocate(C, C.size());
-		}
-
 	public :
 
 //	--------------->> CONSTRUCTORS <<---------------
 
 		explicit stack( const Container& cont = Container() ) : c(cont) {}
 
-		~stack() {_delete();}
+		~stack() {}
 
 //	------------------------------------------------
 
@@ -48,7 +35,6 @@ class stack {
 //	----------------->> GENERAL <<------------------
 
 		stack & operator=(const stack &other) {
-			_delete();
 			c = other.c;
 			return *this;
 		}

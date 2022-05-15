@@ -9,5 +9,6 @@
 
 void testVector(void);
 void print_str(std::ofstream& of, std::ofstream& myof, std::string str);
+void testStack(void);
 
 #endif
