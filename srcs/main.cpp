@@ -1,13 +1,12 @@
-#include "tests.hpp"
 #include <exception>
 #include <iostream>
-
-void test();
+#include "tests.hpp"
 
 int main(void) {
 
 	try {
-		test();
+		vec_general();
+		vec_ope();
 	} catch (const std::exception& e) {
 		std::cout << e.what() << std::endl;
 	}

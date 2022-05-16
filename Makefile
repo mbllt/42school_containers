@@ -1,13 +1,13 @@
 #------------- NAME -----------------
 NAME=			containers
-MINE_NAME=		mine_containers
 #------------------------------------
 
 
 #------------- SRCS -----------------
-SRCS_DIR=		tests
+SRCS_DIR=		srcs
 SRCS_FILES=		main.cpp\
-				vector/vector_general.cpp
+				vector/vec_general.cpp\
+				vector/vec_ope.cpp
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
 
@@ -15,7 +15,7 @@ SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #-------------- OBJS ----------------
 OBJS_DIR=		.objs
 OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
-PATH_OBJS=		tests tests/vector
+PATH_OBJS=		$(SRCS_DIR) $(SRCS_DIR)/vector
 #------------------------------------
 
 
@@ -32,18 +32,11 @@ INC_FILES=		vector.hpp\
 				map.hpp\
 				iterator_traits.hpp\
 				iterator.hpp\
-				test_vector_std.hpp\
-				test_vector_mine.hpp\
 				reverse_iterator.hpp\
 				utility.hpp\
 				tests.hpp\
-				test_stack.hpp\
-				test_map.hpp
+				test_vector.hpp
 INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
-
-# INC_STD=			includes/test_vector_std.hpp
-
-# INC_MINE=			includes/test_vector_mine.hpp
 #------------------------------------
 
 
@@ -56,15 +49,11 @@ BIN_PATH=		bin
 RM=				/bin/rm -rf
 #------------------------------------
 
-all:		$(NAME) $(MINE_NAME)
+all:		$(NAME)
 
 $(NAME):	$(OBJS)
 					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(NAME)$(END)"
 					$(CC) $(FLAGS) $(OBJS) -o $(NAME)
-
-$(MINE_NAME):	$(OBJS)
-					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(MINE_NAME)$(END)"
-					$(CC) $(FLAGS) $(OBJS) -o $(MINE_NAME)
 
 $(OBJS_DIR)/%.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
 					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
