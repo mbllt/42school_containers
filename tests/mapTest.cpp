@@ -5,8 +5,8 @@
 
 void testMap(void) {
 
-	std::ofstream of("res/res_map.txt");
-	std::ofstream myof("res/res_mymap.txt");
+	std::ofstream of("bin/map.txt");
+	std::ofstream myof("bin/mymap.txt");
 
 	srand (time(NULL));
 

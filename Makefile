@@ -44,11 +44,11 @@ INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 #------------------------------------
 
 
-#-------------- RES -----------------
-RES_PATH=		res
-RES_FILES=		res/res_myvector.txt\
-				res/res_vector.txt
-RES=			$(addprefix $(RES_PATH)/,$(RES_FILES))
+#-------------- BIN -----------------
+BIN_PATH=		bin
+BIN_FILES=		myvector.txt\
+				vector.txt
+BIN=			$(addprefix $(BIN_PATH)/,$(BIN_FILES))
 #------------------------------------
 
 
@@ -74,12 +74,12 @@ $(OBJS_DIR)/%.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
 
 $(OBJS_DIR):
 					@mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
-					@mkdir -p $(RES_PATH)
+					@mkdir -p $(BIN_PATH)
 
 clean:
 					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)object files$(END)"
 					@$(RM) $(OBJS)
-					@$(RM) $(RES)
+					@$(RM) $(BIN)
 
 fclean:		clean
 					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)executable, objs_dir$(END)"

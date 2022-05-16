@@ -5,8 +5,8 @@
 
 void testStack(void) {
 
-	std::ofstream of("res/res_stack.txt");
-	std::ofstream myof("res/res_mystack.txt");
+	std::ofstream of("bin/stack.txt");
+	std::ofstream myof("bin/mystack.txt");
 
 	std::deque<int> deq(10, 2);
 	TestStack<int, std::deque<int> > test_stack(deq);

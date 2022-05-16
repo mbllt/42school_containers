@@ -11,30 +11,57 @@
 #include "meta.hpp"
 #include "utility.hpp"
 
+#define NIL		NULL
+#define BLACK	0
+#define RED		1
+
 namespace ft {
 
-template<typename T, class Alloc = std::allocator<T> >
+template<
+	class Key,
+	class T,
+	class Compare = std::less<Key>,
+	class Allocator = std::allocator<ft::pair<const Key, T> >
+>
 class map {
 
 	public:
 
-		typedef T 								value_type;
-		typedef size_t							size_type;
-		typedef Alloc							allocator_type;
-		typedef std::ptrdiff_t					difference_type;
-		typedef value_type &					reference;
-		typedef value_type const &				const_reference;
-		typedef value_type *					pointer;
-		typedef value_type const *				const_pointer;
-		typedef ft::iterator<T>					iterator;
-		typedef ft::iterator<const T>			const_iterator;
-		typedef ft::reverse_iterator<T>			reverse_iterator;
-		typedef ft::reverse_iterator<const T>	const_reverse_iterator;
+		typedef Key										key_type;
+		typedef T										mapped_type;
+		typedef ft::pair<const Key, T>					value_type;
+		typedef size_t									size_type;
+		typedef std::ptrdiff_t							difference_type;
+		typedef Compare									key_compare;
+		typedef Allocator								allocator_type;
+		typedef value_type&								reference;
+		typedef value_type const&						const_reference;
+		typedef typename Allocator::pointer				pointer;
+		typedef typename Allocator::const_pointer		const_pointer;
+		// typedef ft::iterator<ft::pair<const Key, T> >							iterator;
+		// typedef ft::iterator<const ft::pair<const Key, T> >					const_iterator;
+		// typedef ft::reverse_iterator<ft::pair<const Key, T> >					reverse_iterator;
+		// typedef ft::reverse_iterator<const ft::pair<const Key, T> >			const_reverse_iterator;
+		// typedef ft::iterator<T>							iterator;
+		// typedef ft::iterator<const T>					const_iterator;
+		// typedef ft::reverse_iterator<T>					reverse_iterator;
+		// typedef ft::reverse_iterator<const T>			const_reverse_iterator;
 
 	private :
 
+		struct bst_node {
+			struct bst_node		*child[2]; //left = 0 if key < parent->key | right = 1 if key > paretn->key
+			value_type			key;
+			bool				color;
+			struct bst			*parent;
+		};
+
+		struct bst {
+			struct bst_node		*root;
+		};
+
 		allocator_type	_alloc;
-		pointer			_tab;
+		bst				_bst;
 		size_type		_size;
 		size_type		_cap;
 
@@ -60,9 +87,16 @@ class map {
 
 //	--------------->> CONSTRUCTORS <<---------------
 
-		explicit map() {}
+		explicit map( const Compare& comp,
+						const Allocator& alloc = Allocator() ) :
+						_alloc(alloc), _bst(NIL), _size(0), _cap(0) {(void)comp;}
 
-		map(const map& x) {(void)x;}
+		template< class InputIt >
+		map(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last,
+				const Compare& comp = Compare(),
+				const Allocator& alloc = Allocator() );
+
+		map( const map& other );
 
 		~map() {}
 

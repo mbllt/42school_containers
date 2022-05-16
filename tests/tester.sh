@@ -1,27 +1,27 @@
 #!/bin/bash
 
-if cmp -s "res/res_vector.txt" "res/res_myvector.txt"; then
+if cmp -s "bin/vector.txt" "bin/myvector.txt"; then
 	echo -e "\033[0;33m"
-	cat res/res_vector.txt | grep "TEST-"
+	cat bin/vector.txt | grep "TEST-"
 	echo -e "\033[0m"
 	echo -e "\033[0;32m ------- TESTER VECTOR ------ OK\n\033[0m"
 else
 	echo -e "\033[0;31m ------- TESTER VECTOR ------ KO\n\033[0m"
-	echo "< = res/res_vector.txt | > = res/res_myvector.txt"
+	echo "< = bin/vector.txt | > = bin/myvector.txt"
 	echo -e "lines that are different :\n"
-	diff res/res_vector.txt res/res_myvector.txt
+	diff bin/vector.txt bin/myvector.txt
 	echo -e "\n"
 fi
 
-if cmp -s "res/res_stack.txt" "res/res_mystack.txt"; then
+if cmp -s "bin/stack.txt" "bin/mystack.txt"; then
 	echo -e "\033[0;33m"
-	cat res/res_stack.txt | grep "TEST-"
+	cat bin/stack.txt | grep "TEST-"
 	echo -e "\033[0m"
 	echo -e "\033[0;32m ------- TESTER STACK ------ OK\n\033[0m"
 else
 	echo -e "\033[0;31m ------- TESTER STACK ------ KO\n\033[0m"
-	echo "< = res/res_stack.txt | > = res/res_mystack.txt"
+	echo "< = bin/stack.txt | > = bin/mystack.txt"
 	echo -e "lines that are different :\n"
-	diff res/res_stack.txt res/res_mystack.txt
+	diff bin/stack.txt bin/mystack.txt
 	echo -e "\n"
 fi

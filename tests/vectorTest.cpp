@@ -22,8 +22,8 @@ void displayVectors(std::ofstream& of, std::vector<T>& vec, std::ofstream& myof,
 
 void testVector(void) {
 
-	std::ofstream of("res/res_vector.txt");
-	std::ofstream myof("res/res_myvector.txt");
+	std::ofstream of("bin/vector.txt");
+	std::ofstream myof("bin/myvector.txt");
 
 	srand (time(NULL));
 

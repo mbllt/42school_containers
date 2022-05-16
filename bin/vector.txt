@@ -1,0 +1,247 @@
+------------------- TESTS VECTOR ------------------
+
+
+
+TEST-GENERAL ✅
+
+-------- constructors
+vec(n, value())
+{                     }
+vec default
+{ youhou sun black youhou blue black essay youhou blue blue }
+vec(copy)
+{                     }
+vec range
+{ youhou sun black youhou blue black essay youhou blue blue }
+{ }
+{ }
+-------- get_alloc()
+vec.get_allocator() == myvec.get_allocator() : ok
+-------- assign()
+print bis :
+{ youhou sun black youhou blue black essay youhou blue blue }
+before assign(bis.begin(), bis.end()) :
+{ }
+size :0 - capacity :0
+after assign(bis.begin(), bis.end()) :
+{    }
+size :3 - capacity :3
+before assign(assignbis.begin(), assignbis.end()) :
+{ youhou best orange }
+size :3 - capacity :3
+after assign(assignbis.begin(), assignbis.end()) :
+{   }
+size :2 - capacity :3
+
+
+
+TEST-OPERATOS ✅
+
+equal == test :1
+equal != test :1
+equal < test :1
+equal <= test :1
+equal > test :1
+equal >= test :1
+
+
+
+TEST-ITERATORS ✅
+
+{ beeze best pop best blue test youhou youhou pop essay beeze pop best test blue best best beeze sun essay }
+it :beeze| it++ :best
+it : best| it-- : beeze
+it :beeze| ++it :best
+it : best | --it :beeze
+it = it + 1 :pop
+it = it - 1 :best
+it += 2 :best
+it -= 2 :best
+it[0] :beeze | it[3] :best
+int i = itit - tmp :-3
+*ittest == *ittestbis : ok
+*ittest <= *ittestbis : ok
+*ittest >= *ittestbis : ok
+*ittest == *ittestbis : ok
+*ittest <= *ittestbis : ok
+*ittest >= *ittestbis : ok
+*ittest == *ittestbis : ok
+*ittest <= *ittestbis : ok
+*ittest >= *ittestbis : ok
+*ittest == *ittestbis : ok
+*ittest <= *ittestbis : ok
+*ittest >= *ittestbis : ok
+*ittest == *ittestbis : ok
+*ittest <= *ittestbis : ok
+*ittest >= *ittestbis : ok
+test -> ok 
+
+
+
+TEST-REVERSE-ITERATOS ✅
+
+{ blue black essay youhou blue blue youhou best orange beeze }
+it :beeze| it++ :orange
+it : orange| it-- : beeze
+it :beeze| ++it :orange
+it : orange | --it :beeze
+it = it + 1 :best
+it = it - 1 :orange
+it += 2 :youhou
+it -= 2 :orange
+it[0] :beeze | it[3] :youhou
+*ittest == *ittestbis : ok
+*ittest <= *ittestbis : ok
+*ittest >= *ittestbis : ok
+*ittest == *ittestbis : ok
+*ittest <= *ittestbis : ok
+*ittest >= *ittestbis : ok
+*ittest == *ittestbis : ok
+*ittest <= *ittestbis : ok
+*ittest >= *ittestbis : ok
+*ittest == *ittestbis : ok
+*ittest <= *ittestbis : ok
+*ittest >= *ittestbis : ok
+*ittest == *ittestbis : ok
+*ittest <= *ittestbis : ok
+*ittest >= *ittestbis : ok
+test -> ok 
+
+
+
+TEST-ACCESSORS ✅
+
+{ blue black essay youhou blue blue youhou best orange beeze best pop best blue test youhou youhou pop essay beeze }
+vec[0] == myvec[0] : ok
+vec.at() == myvec.at() : ok
+vec.front() == myvec.front() : ok
+vec.back() == myvec.back() : ok
+
+
+
+TEST-CAPACITY ✅
+
+emptyvec.empty() == myemptyvec.empty() : ok
+vec.size() == myvec.size() : ok
+vec.max_size() == myvec.max_size() : ok
+vec.capacity() == myvec.capacity() : ok
+vec.reserve : ok
+
+
+
+TEST-MODIFIERS ✅
+
+-------- resize
+{ }
+empty.resize(value())
+{   }
+size change after resize : ok
+capacity change after resize : ok
+{ blue black youhou best essay beeze black black essay black }
+vec.resize(10, value()) : smaller capacity
+{ blue black youhou best essay }
+size change after resize : ok
+capacity change after resize : ok
+vec.resize(30, value()) : bigger capacity
+{ blue black youhou best essay                          }
+size change after resize : ok
+capacity change after resize : ok
+-------- push_back
+{ }
+empty.push_back(value())
+{  }
+size change after push_back : ok
+capacity change after push_back : ok
+{ black youhou test youhou essay essay black best essay black blue youhou black beeze black black best youhou black blue }
+vec.push_back(value())
+{ black youhou test youhou essay essay black best essay black blue youhou black beeze black black best youhou black blue   }
+size change after push_back : ok
+capacity change after push_back : ok
+-------- pop_back
+{ black essay sun youhou beeze test youhou orange orange orange pop black orange black beeze essay pop orange sun blue }
+vec.pop_back())
+{ black essay sun youhou beeze test youhou orange orange orange pop black orange black beeze essay pop orange sun }
+size change after pop_back : ok
+capacity change after pop_back : ok
+-------- swap
+vec 
+{ blue blue essay black pop test sun black blue orange youhou orange orange sun youhou test orange best orange youhou }
+other 
+{ test youhou black test beeze black beeze test orange pop essay blue sun test youhou pop best pop sun black blue orange test blue }
+it de vec au debut :black
+it de other au debut :test
+vec.swap(other) : vec smaller than other
+vec 
+{ test youhou black test beeze black beeze test orange pop essay blue sun test youhou pop best pop sun black blue orange test blue }
+other 
+{ blue blue essay black pop test sun black blue orange youhou orange orange sun youhou test orange best orange youhou }
+it de vec a la fin :black
+it de other a la fin :test
+third 
+{ best youhou essay black sun }
+other.swap(third) : other bigger than third
+other 
+{ best youhou essay black sun }
+third 
+{ blue blue essay black pop test sun black blue orange youhou orange orange sun youhou test orange best orange youhou }
+-------- clear
+before clear :
+{ pop black black youhou best blue blue youhou sun youhou best orange beeze beeze test best blue pop test beeze }
+size :20 - capacity :20
+after clear : 
+{ }
+size :0 - capacity :20
+after one pushback :
+{  }
+-------- erase
+before erase begin() :
+{ black essay best pop beeze black orange beeze sun blue }
+size :10 - capacity :10
+after erase begin() :
+{ essay best pop beeze black orange beeze sun blue }
+size :9 - capacity :10
+ret erase :
+essay
+before erase(begin(), begin() + 5) :
+{ essay best pop beeze black orange beeze sun blue }
+size :9 - capacity :10
+after erase(begin(), begin() + 5) :
+{ orange beeze sun blue }
+size :4 - capacity :10
+ret erase :
+orange
+-------- insert
+{ }
+empty.insert(value())
+{  }
+size change after insert : ok
+capacity change after insert : ok
+before insert(begin(), 3, value()) :
+{ pop essay youhou test sun pop best beeze youhou orange youhou best beeze sun best orange black pop beeze best }
+size :20 - capacity :20
+after insert(begin(), 3, value()) :
+{ pop    essay youhou test sun pop best beeze youhou orange youhou best beeze sun best orange black pop beeze best }
+size :23 - capacity :40
+ret de insert : ok
+before insert(empty.begin(), vec.begin(), vec.end()) :
+{  }
+size :1 - capacity :1
+after insert(empty.begin(), vec.begin(), vec.end()) :
+{  pop    essay youhou test sun pop best beeze youhou orange youhou best beeze sun best orange black pop beeze best }
+size :25 - capacity :25
+before after insert(begin(), 3, value()) :
+{ }
+size :0 - capacity :0
+after insert(begin(), 3, value()) :
+{  pop    essay youhou test sun pop best beeze youhou orange youhou best beeze sun best orange black pop beeze best }
+size :3 - capacity :3
+
+
+
+TEST-CONST ✅
+
+size of vec :20
+capacity of vec :20
+vec.at(10) :
+operator == on back() compile
+vec == vecconst :0
