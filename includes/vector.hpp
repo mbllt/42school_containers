@@ -8,7 +8,6 @@
 #include <algorithm>
 #include "iterator.hpp"
 #include "reverse_iterator.hpp"
-#include "meta.hpp"
 #include "utility.hpp"
 
 namespace ft {

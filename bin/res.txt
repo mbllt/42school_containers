@@ -1,0 +1,22 @@
+vec(n, int())
+{ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 }
+vec default
+{ 7 49 73 58 30 72 44 78 23 9 }
+vec(copy)
+{ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 }
+vec range
+{ 7 49 73 58 30 72 44 78 23 9 }
+{ }
+{ }
+before assign(3, int()) :
+{ }
+size :0 - capacity :0
+after assign(3, int()) :
+size :3 - capacity :3
+{ 0 0 0 }
+before assign(assignbis.begin(), assignbis.end()) :
+{ 40 65 92 }
+size :3 - capacity :3
+after assign(assignbis.begin(), assignbis.end()) :
+size :2 - capacity :3
+{ 0 0 }

@@ -1,14 +1,13 @@
 #------------- NAME -----------------
 NAME=			containers
+MINE_NAME=		mine_containers
 #------------------------------------
 
 
 #------------- SRCS -----------------
 SRCS_DIR=		tests
 SRCS_FILES=		main.cpp\
-				vectorTest.cpp\
-				stackTest.cpp\
-				mapTest.cpp
+				vector/vector_general.cpp
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
 
@@ -16,7 +15,7 @@ SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #-------------- OBJS ----------------
 OBJS_DIR=		.objs
 OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
-PATH_OBJS=		tests
+PATH_OBJS=		tests tests/vector
 #------------------------------------
 
 
@@ -33,22 +32,23 @@ INC_FILES=		vector.hpp\
 				map.hpp\
 				iterator_traits.hpp\
 				iterator.hpp\
+				test_vector_std.hpp\
+				test_vector_mine.hpp\
 				reverse_iterator.hpp\
-				meta.hpp\
 				utility.hpp\
 				tests.hpp\
-				test_vector.hpp\
 				test_stack.hpp\
 				test_map.hpp
 INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
+
+# INC_STD=			includes/test_vector_std.hpp
+
+# INC_MINE=			includes/test_vector_mine.hpp
 #------------------------------------
 
 
 #-------------- BIN -----------------
 BIN_PATH=		bin
-BIN_FILES=		myvector.txt\
-				vector.txt
-BIN=			$(addprefix $(BIN_PATH)/,$(BIN_FILES))
 #------------------------------------
 
 
@@ -56,17 +56,15 @@ BIN=			$(addprefix $(BIN_PATH)/,$(BIN_FILES))
 RM=				/bin/rm -rf
 #------------------------------------
 
-
-ifeq ($(SAN), 1)
-FLAGS = -Wall -Werror -Wextra -std=c++98 #-fsanitize=address -g3
-endif
-
-
-all:		$(NAME)
+all:		$(NAME) $(MINE_NAME)
 
 $(NAME):	$(OBJS)
 					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(NAME)$(END)"
 					$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+
+$(MINE_NAME):	$(OBJS)
+					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(MINE_NAME)$(END)"
+					$(CC) $(FLAGS) $(OBJS) -o $(MINE_NAME)
 
 $(OBJS_DIR)/%.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
 					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
@@ -74,18 +72,16 @@ $(OBJS_DIR)/%.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
 
 $(OBJS_DIR):
 					@mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
-					@mkdir -p $(BIN_PATH)
 
 clean:
 					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)object files$(END)"
 					@$(RM) $(OBJS)
-					@$(RM) $(BIN)
+					@$(RM) $(BIN_PATH)
 
 fclean:		clean
 					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)executable, objs_dir$(END)"
 					@$(RM) $(NAME)
 					@$(RM) $(OBJS_DIR)
-					@$(RM) $(RES_PATH)
 
 re:			fclean all
 

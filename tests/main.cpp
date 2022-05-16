@@ -1,14 +1,15 @@
 #include "tests.hpp"
+#include <exception>
+#include <iostream>
 
-void print_str(std::ofstream& of, std::ofstream& myof, std::string str) {
+void test();
 
-	of << str << "\n";
-	myof << str << "\n";
-}
+int main(void) {
 
-int	main(void) {
-
-	testVector();
-	testStack();
+	try {
+		test();
+	} catch (const std::exception& e) {
+		std::cout << e.what() << std::endl;
+	}
 	return 0;
 }
