@@ -1,13 +1,12 @@
 #------------- NAME -----------------
-NAME=			out_std
-MINE=			out_ft
+EXE_STD=		$(SRCS:.cpp=_std)
+EXE_MINE=		$(SRCS:.cpp=_mine)
 #------------------------------------
 
 
 #------------- SRCS -----------------
 SRCS_DIR=		srcs
-SRCS_FILES=		main.cpp\
-				vector/vec_general.cpp\
+SRCS_FILES=		vector/vec_general.cpp\
 				vector/vec_ope.cpp\
 				vector/vec_it.cpp\
 				vector/vec_rev_it.cpp\
@@ -28,7 +27,9 @@ SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 
 #-------------- OBJS ----------------
 OBJS_DIR=		.objs
-OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
+OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=_std.o))\
+				$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=_mine.o))\
+				$(addprefix $(OBJS_DIR)/,$(SRCS:main.cpp=main_mine.o))
 PATH_OBJS=		$(SRCS_DIR) $(SRCS_DIR)/vector $(SRCS_DIR)/stack $(SRCS_DIR)/map
 #------------------------------------
 
@@ -60,26 +61,26 @@ INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 RM=				/bin/rm -rf
 #------------------------------------
 
-all:		$(NAME) $(MINE)
+all:			$(EXE_STD) $(EXE_MINE)
 
-$(NAME):	$(OBJS)
-					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(NAME)$(END)"
-					$(CC) $(FLAGS) $< -o $<.$(NAME)
+$(EXE_STD):		$(OBJS)
+#					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_STD)$(END)"
+					$(CC) $(FLAGS) .objs/srcs/main.o $< -o $@
 
-# $(NAME):	$(OBJS)
-# 					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(NAME)$(END)"
-# 					$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+$(EXE_MINE):	$(OBJS)
+#					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_MINE)$(END)"
+					$(CC) $(FLAGS) .objs/srcs/main.o $< -o $<@
 
-$(MINE):	$(OBJS)
-					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(MINE)$(END)"
-					$(CC) $(FLAGS) $< -D MINE=1 -o $<.$(MINE)
+$(OBJS_DIR)/%_std.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
+#					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
+					$(CC) $(FLAGS) -o $@ -c $<
 
-# $(MINE):	$(OBJS)
-# 					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(MINE)$(END)"
-# 					$(CC) $(FLAGS) $(OBJS) -D MINE=1 -o $(MINE)
+$(OBJS_DIR)/%_mine.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
+#					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
+					$(CC) $(FLAGS) -D MINE=1 -o $@ -c $<
 
-$(OBJS_DIR)/%.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
-					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
+$(OBJS_DIR)/srcs/main.o:
+#					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
 					$(CC) $(FLAGS) -o $@ -c $<
 
 $(OBJS_DIR):
