@@ -1,6 +1,7 @@
 #include "test_vector.hpp"
 
-void vec_resize() {
+// void vec_resize() {
+void test() {
 
 	vector<int> vec;
 	std::cout << "vec :";

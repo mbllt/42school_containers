@@ -2,27 +2,31 @@
 #include <iostream>
 #include "tests.hpp"
 
+void test();
+
 int main(void) {
 
 	try {
 
-		vec_general();
-		vec_ope();
-		vec_it();
-		vec_rev_it();
-		vec_capacity();
-		vec_accessors();
-		vec_resize();
-		vec_push_back();
-		vec_pop_back();
-		vec_swap();
-		vec_clear();
-		vec_erase();
-		vec_insert();
+		// vec_general();
+		// vec_ope();
+		// vec_it();
+		// vec_rev_it();
+		// vec_capacity();
+		// vec_accessors();
+		// vec_resize();
+		// vec_push_back();
+		// vec_pop_back();
+		// vec_swap();
+		// vec_clear();
+		// vec_erase();
+		// vec_insert();
 
-		stack_all();
+		// stack_all();
 
-		map_general();
+		// map_general();
+
+		test();
 
 	} catch (const std::exception& e) {
 		std::cout << e.what() << std::endl;

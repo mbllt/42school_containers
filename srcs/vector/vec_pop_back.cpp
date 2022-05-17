@@ -1,6 +1,7 @@
 #include "test_vector.hpp"
 
-void vec_pop_back() {
+// void vec_pop_back() {
+void test() {
 
 	vector<int> vec(10, int());
 	fillVecInt(&vec);

@@ -1,6 +1,7 @@
 #include "test_vector.hpp"
 
-void vec_swap() {
+// void vec_swap() {
+void test() {
 
 	vector<std::string> vec(10, std::string());
 	fillVecString(&vec);

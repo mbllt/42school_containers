@@ -1,14 +1,25 @@
 #!/bin/bash
 
-EXEC="./containers"
+STD="out_std"
+FT="out_ft"
+BIN_PATH="bin"
+BIN_STD=$BIN_PATH/"out_std.txt"
+BIN_FT=$BIN_PATH/"out_ft.txt"
 
-if test -f "$EXEC"; then
-	mkdir -p bin
-	./$EXEC >> bin/vector/vector_general.txt
-	
-	./$EXEC >> bin/vector/vector_general.txt
+if test -f "$STD" && test -f $FT; then
+	mkdir -p $BIN_PATH
+	./$STD >> $BIN_STD
+	./$FT >> $BIN_FT
+
+	if cmp -s $BIN_STD $BIN_FT; then
+		echo -e "\033[0;32m OK\033[0m"
+	else
+		echo -e "\033[0;31m KO\033[0m"
+		diff $BIN_STD $BIN_FT
+	fi
+
 else
-	echo "$EXEC does not exist, please compile with 'make'"
+	echo "$STD or $FT does not exist, please compile with 'make'"
 fi
 
 

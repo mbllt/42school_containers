@@ -1,5 +1,6 @@
 #------------- NAME -----------------
-NAME=			containers
+NAME=			out_std
+MINE=			out_ft
 #------------------------------------
 
 
@@ -55,20 +56,32 @@ INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 #------------------------------------
 
 
-#-------------- BIN -----------------
+# #-------------- BIN -----------------
 BIN_PATH=		bin
-#------------------------------------
+# #------------------------------------
 
 
 #-------------- RM ------------------
 RM=				/bin/rm -rf
 #------------------------------------
 
-all:		$(NAME)
+all:		$(NAME) $(MINE)
 
 $(NAME):	$(OBJS)
 					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(NAME)$(END)"
-					$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+					$(CC) $(FLAGS) $< -o $<.$(NAME)
+
+# $(NAME):	$(OBJS)
+# 					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(NAME)$(END)"
+# 					$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+
+$(MINE):	$(OBJS)
+					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(MINE)$(END)"
+					$(CC) $(FLAGS) $< -D MINE=1 -o $<.$(MINE)
+
+# $(MINE):	$(OBJS)
+# 					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(MINE)$(END)"
+# 					$(CC) $(FLAGS) $(OBJS) -D MINE=1 -o $(MINE)
 
 $(OBJS_DIR)/%.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
 					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
@@ -85,6 +98,7 @@ clean:
 fclean:		clean
 					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)executable, objs_dir$(END)"
 					@$(RM) $(NAME)
+					@$(RM) $(MINE)
 					@$(RM) $(OBJS_DIR)
 
 re:			fclean all

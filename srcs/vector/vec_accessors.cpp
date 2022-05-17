@@ -1,6 +1,7 @@
 #include "test_vector.hpp"
 
-void vec_accessors() {
+// void vec_accessors() {
+void test() {
 
 	vector<std::string> vec(20, std::string());
 	fillVecString(&vec);

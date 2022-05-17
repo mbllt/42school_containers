@@ -1,6 +1,7 @@
 #include "test_vector.hpp"
 
-void vec_capacity() {
+// void vec_capacity() {
+void test() {
 			
 	vector<int> vec;
 	std::cout << "vec :";

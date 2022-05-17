@@ -1,5 +1,6 @@
 #include "test_map.hpp"
 
-void map_general() {
-	
+// void map_general() {
+void test() {
+
 }
