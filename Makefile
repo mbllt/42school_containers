@@ -29,7 +29,7 @@ SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 OBJS_DIR=		.objs
 OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=_std.o))\
 				$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=_mine.o))\
-				$(addprefix $(OBJS_DIR)/,$(SRCS:main.cpp=main_mine.o))
+				.objs/srcs/main.cpp=main.o
 PATH_OBJS=		$(SRCS_DIR) $(SRCS_DIR)/vector $(SRCS_DIR)/stack $(SRCS_DIR)/map
 #------------------------------------
 
@@ -79,7 +79,7 @@ $(OBJS_DIR)/%_mine.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
 #					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
 					$(CC) $(FLAGS) -D MINE=1 -o $@ -c $<
 
-$(OBJS_DIR)/srcs/main.o:
+$(OBJS_DIR)/%main.o:
 #					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
 					$(CC) $(FLAGS) -o $@ -c $<
 
