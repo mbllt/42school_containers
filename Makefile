@@ -7,7 +7,11 @@ NAME=			containers
 SRCS_DIR=		srcs
 SRCS_FILES=		main.cpp\
 				vector/vec_general.cpp\
-				vector/vec_ope.cpp
+				vector/vec_ope.cpp\
+				vector/vec_it.cpp\
+				vector/vec_rev_it.cpp\
+				vector/vec_capacity.cpp\
+				vector/vec_accessors.cpp
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
 

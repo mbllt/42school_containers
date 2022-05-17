@@ -1,20 +1,10 @@
 #include "test_vector.hpp"
 
-template<typename Cont>
-void fillVecInt(Cont* cont) {
-	typename Cont::iterator it =cont->begin();
-
-		for (size_t i = 0; i < cont->size(); ++i) {
-			int val = rand() % 100;
-			*it = val;
-			++it;
-		}
-	}
-
 void vec_general() {
 
 	std::cout << "vec(n, int())" << std::endl;
 	vector<int> vec(20, int());
+	fillVecInt(&vec);
 	std::cout << "vec :";
 	displayCont(vec);
 
