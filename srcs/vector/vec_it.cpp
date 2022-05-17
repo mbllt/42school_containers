@@ -6,7 +6,7 @@ void vec_it() {
 	vector<std::string> vec(20, std::string());
 	fillVecString(&vec);
 	std::cout << "vec :";
-	displayCont(vec);
+	displayVec(vec);
 
 	vector<std::string>::iterator it = vec.begin();
 

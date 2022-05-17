@@ -2,30 +2,28 @@
 
 void vec_resize() {
 
-	vector<std::string> vec;
+	vector<int> vec;
 	std::cout << "vec :";
-	displayCont(vec);
+	displayVec(vec);
 
-	std::cout << "vec.size() :" << vec.size() << std::endl;
-	std::cout << "vec.capacity() :" << vec.capacity() << std::endl;
+	std::cout << "vec.size() :" << vec.size() << " - vec.capacity() :" << vec.capacity() << std::endl;
 	// resize
-	std::cout << "vec.resize(2) :";
-	std::cout << "vec.size() :" << vec.size() << std::endl;
-	std::cout << "vec.capacity() :" << vec.capacity() << std::endl;
+	vec.resize(2);
+	std::cout << "vec.resize(2)" << std::endl;
+	std::cout << "vec.size() :" << vec.size() << " - vec.capacity() :" << vec.capacity() << std::endl;
 
-	vector<std::string> bis(10, std::string());
-	fillVecString(&bis);
+	vector<int> bis(10, int());
+	fillVecInt(&bis);
 	std::cout << "bis :";
-	displayCont(bis);
+	displayVec(bis);
 
-	std::cout << "bis.size() :" << bis.size() << std::endl;
-	std::cout << "bis.capacity() :" << bis.capacity() << std::endl;
+	std::cout << "bis.size() :" << bis.size() << " - bis.capacity() :" << bis.capacity() << std::endl;
 	// resize
-	std::cout << "bis.resize(5) :";
-	std::cout << "bis.size() :" << bis.size() << std::endl;
-	std::cout << "bis.capacity() :" << bis.capacity() << std::endl;
+	bis.resize(5);
+	std::cout << "bis.resize(5)" << std::endl;
+	std::cout << "bis.size() :" << bis.size() << " - bis.capacity() :" << bis.capacity() << std::endl;
 	// resize
-	std::cout << "bis.resize(30) :";
-	std::cout << "bis.size() :" << bis.size() << std::endl;
-	std::cout << "bis.capacity() :" << bis.capacity() << std::endl;
+	bis.resize(30);
+	std::cout << "bis.resize(30)" << std::endl;
+	std::cout << "bis.size() :" << bis.size() << " - bis.capacity() :" << bis.capacity() << std::endl;
 }

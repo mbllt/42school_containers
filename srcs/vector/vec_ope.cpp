@@ -5,11 +5,11 @@ void vec_ope() {
 	vector<std::string> vec(20, std::string());
 	fillVecString(&vec);
 	std::cout << "vec :";
-	displayCont(vec);
+	displayVec(vec);
 	vector<std::string> bis(20, std::string());
 	fillVecString(&bis);
 	std::cout << "bis :";
-	displayCont(bis);
+	displayVec(bis);
 
 	if (vec  == bis)
 		std::cout << "vec == bis :" << (vec == bis) << "\n";

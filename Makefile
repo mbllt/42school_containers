@@ -11,7 +11,16 @@ SRCS_FILES=		main.cpp\
 				vector/vec_it.cpp\
 				vector/vec_rev_it.cpp\
 				vector/vec_capacity.cpp\
-				vector/vec_accessors.cpp
+				vector/vec_accessors.cpp\
+				vector/vec_resize.cpp\
+				vector/vec_push_back.cpp\
+				vector/vec_pop_back.cpp\
+				vector/vec_swap.cpp\
+				vector/vec_clear.cpp\
+				vector/vec_erase.cpp\
+				vector/vec_insert.cpp\
+				stack/stack_all.cpp\
+				map/map_general.cpp
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
 
@@ -19,7 +28,7 @@ SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #-------------- OBJS ----------------
 OBJS_DIR=		.objs
 OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=.o))
-PATH_OBJS=		$(SRCS_DIR) $(SRCS_DIR)/vector
+PATH_OBJS=		$(SRCS_DIR) $(SRCS_DIR)/vector $(SRCS_DIR)/stack $(SRCS_DIR)/map
 #------------------------------------
 
 
@@ -39,7 +48,9 @@ INC_FILES=		vector.hpp\
 				reverse_iterator.hpp\
 				utility.hpp\
 				tests.hpp\
-				test_vector.hpp
+				test_vector.hpp\
+				test_stack.hpp\
+				test_map.hpp
 INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 #------------------------------------
 

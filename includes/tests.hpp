@@ -13,22 +13,33 @@ void	vec_it();
 void	vec_rev_it();
 void	vec_capacity();
 void	vec_accessors();
+void	vec_resize();
+void	vec_push_back();
+void	vec_pop_back();
+void	vec_swap();
+void	vec_clear();
+void	vec_erase();
+void	vec_insert();
 
-template<typename Container>
-void displayCont(Container& vec) {
+void	stack_all();
+
+void	map_general();
+
+template<typename Vec>
+void displayVec(Vec& vec) {
 	std::cout << "{ ";
-	for (typename Container::iterator it = vec.begin(); it != vec.end(); ++it){
+	for (typename Vec::iterator it = vec.begin(); it != vec.end(); ++it){
 		std::cout << *it << " ";
 	}
 	std::cout << "}\n";
 }
 
-template<typename Cont>
-void fillVecInt(Cont* cont) {
+template<typename Vec>
+void fillVecInt(Vec* cont) {
 
 	srand (time(NULL));
 
-	typename Cont::iterator it =cont->begin();
+	typename Vec::iterator it =cont->begin();
 
 	for (size_t i = 0; i < cont->size(); ++i) {
 		int val = rand() % 100;

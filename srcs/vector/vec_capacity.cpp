@@ -4,7 +4,7 @@ void vec_capacity() {
 			
 	vector<int> vec;
 	std::cout << "vec :";
-	displayCont(vec);
+	displayVec(vec);
 
 	// empty
 	std::cout << "vec.empty() :" << vec.empty() << std::endl;
@@ -12,22 +12,16 @@ void vec_capacity() {
 	vec.resize(20, int());
 	fillVecInt(&vec);
 	std::cout << "vec :";
-	displayCont(vec);
+	displayVec(vec);
 
-	// size
-	std::cout << "vec.size() :" << vec.size() << std::endl;
-	// max_size
-	std::cout << "vec.max_size() :" << vec.max_size() << std::endl;
-	// capacity
-	std::cout << "vec.capacity() :" << vec.capacity() << std::endl;
-
+	// size max_size capacity
+	std::cout << "vec.size() :" << vec.size() << 
+		" - vec.max_size() :" << vec.max_size() << 
+		" - vec.capacity() :" << vec.capacity() << std::endl;
 	// reserve
+	vec.reserve(25);
 	std::cout << "vec.reserve(25)" << std::endl;
-
-	// size
-	std::cout << "vec.size() :" << vec.size() << std::endl;
-	// max_size
-	std::cout << "vec.max_size() :" << vec.max_size() << std::endl;
-	// capacity
-	std::cout << "vec.capacity() :" << vec.capacity() << std::endl;
+	std::cout << "vec.size() :" << vec.size() <<
+		" - vec.max_size() :" << vec.max_size() <<
+		" - vec.capacity() :" << vec.capacity() << std::endl;
 }
