@@ -56,11 +56,6 @@ INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 #------------------------------------
 
 
-# #-------------- BIN -----------------
-BIN_PATH=		bin
-# #------------------------------------
-
-
 #-------------- RM ------------------
 RM=				/bin/rm -rf
 #------------------------------------
@@ -92,13 +87,10 @@ $(OBJS_DIR):
 
 clean:
 					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)object files$(END)"
-					@$(RM) $(OBJS)
-					@$(RM) $(BIN_PATH)
+					@$(RM) $(OBJS_DIR)/
 
 fclean:		clean
 					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)executable, objs_dir$(END)"
-					@$(RM) $(NAME)
-					@$(RM) $(MINE)
 					@$(RM) $(OBJS_DIR)
 
 re:			fclean all
