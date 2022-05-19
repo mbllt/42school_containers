@@ -1,50 +1,28 @@
 #!/bin/bash
 
-STD="out_std"
-FT="out_ft"
-BIN_PATH="bin"
-BIN_STD=$BIN_PATH/"out_std.txt"
-BIN_FT=$BIN_PATH/"out_ft.txt"
+test_diff() {
 
-if test -f "$STD" && test -f $FT; then
-	mkdir -p $BIN_PATH
-	./$STD >> $BIN_STD
-	./$FT >> $BIN_FT
+	test=$(echo "$2" | sed 's;/;\ ;g')
+	name=$(echo "$test" | cut -d" " -f3)
 
-	if cmp -s $BIN_STD $BIN_FT; then
-		echo -e "\033[0;32m OK\033[0m"
-	else
-		echo -e "\033[0;31m KO\033[0m"
-		diff $BIN_STD $BIN_FT
+	if cmp -s $1 $2; then
+			echo -e "\033[0;32m $name ok\033[0m"
+		else
+			echo -e "\033[0;31m $name ko\033[0m"
+			diff $1 $2 >> "$2.diff"
 	fi
+}
 
-else
-	echo "$STD or $FT does not exist, please compile with 'make'"
-fi
+ARRAY_STD=($(ls -d res/*/*_std))
+ARRAY_MINE=($(ls -d res/*/*_mine))
+ARRAY_STD_SAN=($(ls -d res/*/*_std_san))
+ARRAY_MINE_SAN=($(ls -d res/*/*_mine_san))
 
+IT=0
+IT_END=($(ls res/*/*_std | wc -l))
 
-# if cmp -s "bin/vector.txt" "bin/myvector.txt"; then
-# 	echo -e "\033[0;33m"
-# 	cat bin/vector.txt | grep "TEST-"
-# 	echo -e "\033[0m"
-# 	echo -e "\033[0;32m ------- TESTER VECTOR ------ OK\n\033[0m"
-# else
-# 	echo -e "\033[0;31m ------- TESTER VECTOR ------ KO\n\033[0m"
-# 	echo "< = bin/vector.txt | > = bin/myvector.txt"
-# 	echo -e "lines that are different :\n"
-# 	diff bin/vector.txt bin/myvector.txt
-# 	echo -e "\n"
-# fi
-
-# if cmp -s "bin/stack.txt" "bin/mystack.txt"; then
-# 	echo -e "\033[0;33m"
-# 	cat bin/stack.txt | grep "TEST-"
-# 	echo -e "\033[0m"
-# 	echo -e "\033[0;32m ------- TESTER STACK ------ OK\n\033[0m"
-# else
-# 	echo -e "\033[0;31m ------- TESTER STACK ------ KO\n\033[0m"
-# 	echo "< = bin/stack.txt | > = bin/mystack.txt"
-# 	echo -e "lines that are different :\n"
-# 	diff bin/stack.txt bin/mystack.txt
-# 	echo -e "\n"
-# fi
+while [ $IT -lt $IT_END ]
+do
+	test_diff ${ARRAY_STD[IT]} ${ARRAY_MINE[IT]}
+	((++IT))
+done

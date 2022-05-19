@@ -1,6 +1,8 @@
 #------------- NAME -----------------
 EXE_STD=		$(SRCS_FILES:.cpp=_std)
 EXE_MINE=		$(SRCS_FILES:.cpp=_mine)
+EXE_STD_SAN=	$(SRCS_FILES:.cpp=_std_san)
+EXE_MINE_SAN=	$(SRCS_FILES:.cpp=_mine_san)
 #------------------------------------
 
 
@@ -38,7 +40,9 @@ PATH_OBJS=		vector stack map
 
 #------------- COMPILER -------------
 CC=				c++
-FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/ # -fsanitize=address -g3
+FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/
+SAN=			-fsanitize=address -g3
+LEAK=			leaks -atExit --
 #------------------------------------
 
 
@@ -63,8 +67,13 @@ INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 RM=				/bin/rm -rf
 #------------------------------------
 
-all:						$(RES_DIR) $(EXE_STD) $(EXE_MINE)
 
+#------------------------------------------------------------------------
+
+
+all:						$(RES_DIR) $(EXE_STD) $(EXE_MINE) $(EXE_STD_SAN) $(EXE_MINE_SAN)
+
+#-------------- EXE -----------------
 $(EXE_STD):					$(OBJS)
 #									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$<$(END)"
 									$(CC) $(FLAGS) .objs/main.o $< -o $(RES_DIR)/$@
@@ -73,9 +82,17 @@ $(EXE_MINE):				$(OBJS)
 #									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_MINE)$(END)"
 									$(CC) $(FLAGS) .objs/main.o $< -o $(RES_DIR)/$@
 
-$(RES_DIR):
-									mkdir -p $(RES_DIR) $(addprefix $(RES_DIR)/,$(RES_PATH))
+$(EXE_STD_SAN):				$(OBJS)
+#									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$<$(END)"
+									$(CC) $(FLAGS) $(SAN) .objs/main.o $< -o $(RES_DIR)/$@
 
+$(EXE_MINE_SAN):			$(OBJS)
+#									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_MINE)$(END)"
+									$(CC) $(FLAGS) $(SAN) .objs/main.o $< -o $(RES_DIR)/$@
+#------------------------------------
+
+
+#------------- OBJS ----------------
 $(OBJS_DIR)/%_std.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)
 #									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
 									$(CC) $(FLAGS) -c $< -o $@
@@ -90,6 +107,13 @@ $(OBJS_DIR)/main.o:			$(SRCS_DIR)/main.cpp $(INCLUDES)
 
 $(OBJS_DIR):
 									mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
+#------------------------------------
+
+$(RES_DIR):
+									mkdir -p $(RES_DIR) $(addprefix $(RES_DIR)/,$(RES_PATH))
+
+test:
+									./tester.sh
 
 clean:
 									@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)object files$(END)"
