@@ -1,6 +1,6 @@
 #------------- NAME -----------------
-EXE_STD=		$(SRCS:.cpp=_std)
-EXE_MINE=		$(SRCS:.cpp=_mine)
+EXE_STD=		$(SRCS_FILES:.cpp=_std)
+EXE_MINE=		$(SRCS_FILES:.cpp=_mine)
 #------------------------------------
 
 
@@ -24,13 +24,15 @@ SRCS_FILES=		vector/vec_general.cpp\
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
 
+RES_DIR=		res
+RES_PATH=		vector stack map
 
 #-------------- OBJS ----------------
 OBJS_DIR=		.objs
-OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=_std.o))\
-				$(addprefix $(OBJS_DIR)/,$(SRCS:.cpp=_mine.o))\
-				.objs/srcs/main.cpp=main.o
-PATH_OBJS=		$(SRCS_DIR) $(SRCS_DIR)/vector $(SRCS_DIR)/stack $(SRCS_DIR)/map
+OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS_FILES:.cpp=_std.o))\
+				$(addprefix $(OBJS_DIR)/,$(SRCS_FILES:.cpp=_mine.o))\
+				$(addprefix $(OBJS_DIR)/,main.o)
+PATH_OBJS=		vector stack map
 #------------------------------------
 
 
@@ -61,42 +63,46 @@ INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 RM=				/bin/rm -rf
 #------------------------------------
 
-all:			$(EXE_STD) $(EXE_MINE)
+all:						$(RES_DIR) $(EXE_STD) $(EXE_MINE)
 
-$(EXE_STD):		$(OBJS)
-#					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_STD)$(END)"
-					$(CC) $(FLAGS) .objs/srcs/main.o $< -o $@
+$(EXE_STD):					$(OBJS)
+#									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$<$(END)"
+									$(CC) $(FLAGS) .objs/main.o $< -o $(RES_DIR)/$@
 
-$(EXE_MINE):	$(OBJS)
-#					@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_MINE)$(END)"
-					$(CC) $(FLAGS) .objs/srcs/main.o $< -o $<@
+$(EXE_MINE):				$(OBJS)
+#									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_MINE)$(END)"
+									$(CC) $(FLAGS) .objs/main.o $< -o $(RES_DIR)/$@
 
-$(OBJS_DIR)/%_std.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
-#					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
-					$(CC) $(FLAGS) -o $@ -c $<
+$(RES_DIR):
+									mkdir -p $(RES_DIR) $(addprefix $(RES_DIR)/,$(RES_PATH))
 
-$(OBJS_DIR)/%_mine.o:	%.cpp $(INCLUDES) | $(OBJS_DIR)
-#					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
-					$(CC) $(FLAGS) -D MINE=1 -o $@ -c $<
+$(OBJS_DIR)/%_std.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)
+#									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
+									$(CC) $(FLAGS) -c $< -o $@
 
-$(OBJS_DIR)/%main.o:
-#					@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
-					$(CC) $(FLAGS) -o $@ -c $<
+$(OBJS_DIR)/%_mine.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)
+#									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
+									$(CC) $(FLAGS) -D MINE=1 -c $< -o $@
+
+$(OBJS_DIR)/main.o:			$(SRCS_DIR)/main.cpp $(INCLUDES)
+#									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
+									$(CC) $(FLAGS) -c $< -o $@
 
 $(OBJS_DIR):
-					@mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
+									mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
 
 clean:
-					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)object files$(END)"
-					@$(RM) $(OBJS_DIR)/
+									@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)object files$(END)"
+									@$(RM) $(OBJS_DIR)/
 
-fclean:		clean
-					@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)executable, objs_dir$(END)"
-					@$(RM) $(OBJS_DIR)
+fclean:						clean
+									@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)executables, objs_dir, res_dir$(END)"
+									@$(RM) $(OBJS_DIR)
+									@$(RM) $(RES_DIR)
 
-re:			fclean all
+re:							fclean all
 
-.PHONY:		all clean fclean re
+.PHONY:						all clean fclean re
 
 
 #------------- COLORS --------------
