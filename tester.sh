@@ -2,27 +2,40 @@
 
 test_diff() {
 
-	test=$(echo "$2" | sed 's;/;\ ;g')
-	name=$(echo "$test" | cut -d" " -f3)
+	arg=$(echo "$2" | sed 's;/;\ ;g' | sed 's/_mine//g')
+	name=$(echo "$arg" | cut -d" " -f4)
 
-	if cmp -s $1 $2; then
-			echo -e "\033[0;32m $name ok\033[0m"
+	mkdir -p res res/$name
+
+	if [ -d "$1" ]; then
+		./$1 >> res/$name/san_std
+		./$2 >> res/$name/san_mine
+	else
+		./$1 >> res/$name/out_std
+		./$2 >> res/$name/out_mine
+	fi
+
+	if cmp -s res/$name/out_std res/$name/out_mine; then
+			printf "\033[0;32m     %-20s ✅\033[0m\n" $name
 		else
-			echo -e "\033[0;31m $name ko\033[0m"
-			diff $1 $2 >> "$2.diff"
+			printf "\033[0;32m     %-20s ❌\033[0m\n" $name
+			diff res/$name/out_std res/$name/out_mine >> res/$name/diff
 	fi
 }
 
-ARRAY_STD=($(ls -d res/*/*_std))
-ARRAY_MINE=($(ls -d res/*/*_mine))
-ARRAY_STD_SAN=($(ls -d res/*/*_std_san))
-ARRAY_MINE_SAN=($(ls -d res/*/*_mine_san))
+ARRAY_STD=($(ls -d bin/*/*_std))
+ARRAY_MINE=($(ls -d bin/*/*_mine))
+ARRAY_STD_SAN=($(ls -d bin/*/*_std_san))
+ARRAY_MINE_SAN=($(ls -d bin/*/*_mine_san))
+
+echo $ARRAY_STD
 
 IT=0
-IT_END=($(ls res/*/*_std | wc -l))
+IT_END=($(ls bin/*/*_std | wc -l))
 
 while [ $IT -lt $IT_END ]
 do
-	test_diff ${ARRAY_STD[IT]} ${ARRAY_MINE[IT]}
+	test_diff ./${ARRAY_STD[IT]} ./${ARRAY_MINE[IT]} 0
+	test_diff ./${ARRAY_STD_SAN[IT]} ./${ARRAY_MINE_SAN[IT]} 1
 	((++IT))
 done

@@ -26,8 +26,8 @@ SRCS_FILES=		vector/vec_general.cpp\
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
 
-RES_DIR=		res
-RES_PATH=		vector stack map
+BIN_DIR=		bin
+BIN_PATH=		vector stack map
 
 #-------------- OBJS ----------------
 OBJS_DIR=		.objs
@@ -71,24 +71,24 @@ RM=				/bin/rm -rf
 #------------------------------------------------------------------------
 
 
-all:						$(RES_DIR) $(EXE_STD) $(EXE_MINE) $(EXE_STD_SAN) $(EXE_MINE_SAN)
+all:						$(BIN_DIR) $(EXE_STD) $(EXE_MINE) $(EXE_STD_SAN) $(EXE_MINE_SAN)
 
 #-------------- EXE -----------------
 $(EXE_STD):					$(OBJS)
 #									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$<$(END)"
-									$(CC) $(FLAGS) .objs/main.o $< -o $(RES_DIR)/$@
+									$(CC) $(FLAGS) .objs/main.o $< -o $(BIN_DIR)/$@
 
 $(EXE_MINE):				$(OBJS)
 #									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_MINE)$(END)"
-									$(CC) $(FLAGS) .objs/main.o $< -o $(RES_DIR)/$@
+									$(CC) $(FLAGS) .objs/main.o $< -o $(BIN_DIR)/$@
 
 $(EXE_STD_SAN):				$(OBJS)
 #									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$<$(END)"
-									$(CC) $(FLAGS) $(SAN) .objs/main.o $< -o $(RES_DIR)/$@
+									$(CC) $(FLAGS) $(SAN) .objs/main.o $< -o $(BIN_DIR)/$@
 
 $(EXE_MINE_SAN):			$(OBJS)
 #									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_MINE)$(END)"
-									$(CC) $(FLAGS) $(SAN) .objs/main.o $< -o $(RES_DIR)/$@
+									$(CC) $(FLAGS) $(SAN) .objs/main.o $< -o $(BIN_DIR)/$@
 #------------------------------------
 
 
@@ -109,20 +109,19 @@ $(OBJS_DIR):
 									mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
 #------------------------------------
 
-$(RES_DIR):
-									mkdir -p $(RES_DIR) $(addprefix $(RES_DIR)/,$(RES_PATH))
+$(BIN_DIR):
+									mkdir -p $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH))
 
 test:
-									./tester.sh
+									@./tester.sh
 
 clean:
 									@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)object files$(END)"
 									@$(RM) $(OBJS_DIR)/
 
 fclean:						clean
-									@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)executables, objs_dir, res_dir$(END)"
-									@$(RM) $(OBJS_DIR)
-									@$(RM) $(RES_DIR)
+									@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)executables, objs_dir, bin_dir$(END)"
+									@$(RM) $(OBJS_DIR) $(BIN_DIR) res
 
 re:							fclean all
 
