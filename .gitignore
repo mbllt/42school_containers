@@ -1,6 +1,6 @@
 *.o
 *.o
-res_myvector.txt
-res_vector.txt
 .vscode/*
-containers
+*_std
+*_mine
+res
