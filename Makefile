@@ -42,6 +42,7 @@ PATH_OBJS=		vector stack map
 CC=				c++
 FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/
 SAN=			-fsanitize=address -g3
+LEAK=			leaks -atExit --
 #------------------------------------
 
 
@@ -71,6 +72,9 @@ RM=				/bin/rm -rf
 
 
 all:						$(BIN_DIR) $(EXE_STD) $(EXE_MINE) $(EXE_STD_SAN) $(EXE_MINE_SAN)
+
+#bin/%:	.obj/%.o .obj/main.o | $(BIN_DIR)
+#	$(CC) -o $@ $^ $(CFLAGS)
 
 #-------------- EXE -----------------
 $(EXE_STD):					$(OBJS)

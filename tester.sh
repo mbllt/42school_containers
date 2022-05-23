@@ -1,7 +1,5 @@
 #!/bin/bash
 
-make
-
 test_diff() {
 
 	arg=$(echo "$2" | sed 's;/;\ ;g' | sed 's/_mine//g' | sed 's/_san//g')
