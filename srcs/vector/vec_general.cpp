@@ -1,6 +1,5 @@
 #include "test_vector.hpp"
 
-// void vec_general() {
 void test() {
 
 	std::cout << "vec(n, int())" << std::endl;

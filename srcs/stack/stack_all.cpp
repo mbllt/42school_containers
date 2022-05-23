@@ -1,7 +1,6 @@
 #include "test_stack.hpp"
 #include <deque>
 
-// void stack_all() {
 void test() {
 
 	std::deque<int> deq(5, 42);

@@ -1,18 +1,23 @@
 #!/bin/bash
 
+make
+
 test_diff() {
 
-	arg=$(echo "$2" | sed 's;/;\ ;g' | sed 's/_mine//g')
+	arg=$(echo "$2" | sed 's;/;\ ;g' | sed 's/_mine//g' | sed 's/_san//g')
 	name=$(echo "$arg" | cut -d" " -f4)
 
-	mkdir -p res res/$name
+	mkdir res res/$name
 
-	if [ -d "$1" ]; then
-		./$1 >> res/$name/san_std
-		./$2 >> res/$name/san_mine
+	if [ "$3" -eq 1 ]; then
+		$1 >> res/$name/san_std
+		$2 >> res/$name/san_mine
+	elif [ "$3" -eq 2 ]; then
+		$1 >> res/$name/leak_std
+		$2 >> res/$name/leak_mine
 	else
-		./$1 >> res/$name/out_std
-		./$2 >> res/$name/out_mine
+		$1 >> res/$name/out_std
+		$2 >> res/$name/out_mine
 	fi
 
 	if cmp -s res/$name/out_std res/$name/out_mine; then
@@ -37,5 +42,6 @@ while [ $IT -lt $IT_END ]
 do
 	test_diff ./${ARRAY_STD[IT]} ./${ARRAY_MINE[IT]} 0
 	test_diff ./${ARRAY_STD_SAN[IT]} ./${ARRAY_MINE_SAN[IT]} 1
+	test_diff ./${ARRAY_STD[IT]} ./${ARRAY_MINE[IT]} 2
 	((++IT))
 done

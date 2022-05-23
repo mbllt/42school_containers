@@ -1,7 +1,6 @@
 
 #include "test_vector.hpp"
 
-// void vec_it() {
 void test() {
 
 	vector<std::string> vec(20, std::string());

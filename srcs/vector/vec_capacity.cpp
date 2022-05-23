@@ -1,6 +1,5 @@
 #include "test_vector.hpp"
 
-// void vec_capacity() {
 void test() {
 			
 	vector<int> vec;

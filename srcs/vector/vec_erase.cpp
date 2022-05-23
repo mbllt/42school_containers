@@ -1,6 +1,5 @@
 #include "test_vector.hpp"
 
-// void vec_erase() {
 void test() {
 
 	vector<std::string> vec(10, std::string());

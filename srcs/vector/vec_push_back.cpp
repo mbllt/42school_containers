@@ -1,6 +1,5 @@
 #include "test_vector.hpp"
 
-// void vec_push_back() {
 void test() {
 
 	vector<std::string> vec;

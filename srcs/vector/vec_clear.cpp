@@ -1,6 +1,5 @@
 #include "test_vector.hpp"
 
-// void vec_clear() {
 void test() {
 
 	vector<int> vec(10, int());

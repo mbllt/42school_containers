@@ -32,8 +32,8 @@ BIN_PATH=		vector stack map
 #-------------- OBJS ----------------
 OBJS_DIR=		.objs
 OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS_FILES:.cpp=_std.o))\
-				$(addprefix $(OBJS_DIR)/,$(SRCS_FILES:.cpp=_mine.o))\
-				$(addprefix $(OBJS_DIR)/,main.o)
+				$(addprefix $(OBJS_DIR)/,$(SRCS_FILES:.cpp=_mine.o))
+#				$(addprefix $(OBJS_DIR)/,main.o)
 PATH_OBJS=		vector stack map
 #------------------------------------
 
@@ -42,7 +42,6 @@ PATH_OBJS=		vector stack map
 CC=				c++
 FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/
 SAN=			-fsanitize=address -g3
-LEAK=			leaks -atExit --
 #------------------------------------
 
 
@@ -93,15 +92,15 @@ $(EXE_MINE_SAN):			$(OBJS)
 
 
 #------------- OBJS ----------------
-$(OBJS_DIR)/%_std.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)
+$(OBJS_DIR)/%_std.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)/main.o
 #									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
 									$(CC) $(FLAGS) -c $< -o $@
 
-$(OBJS_DIR)/%_mine.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)
+$(OBJS_DIR)/%_mine.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)/main.o
 #									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
 									$(CC) $(FLAGS) -D MINE=1 -c $< -o $@
 
-$(OBJS_DIR)/main.o:			$(SRCS_DIR)/main.cpp $(INCLUDES)
+$(OBJS_DIR)/main.o:			$(SRCS_DIR)/main.cpp $(INCLUDES) | $(OBJS_DIR)
 #									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
 									$(CC) $(FLAGS) -c $< -o $@
 
