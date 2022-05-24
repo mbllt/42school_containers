@@ -2,5 +2,9 @@
 *.o
 .vscode/*
 *_std
+*_std_san
 *_mine
+*_mine_san
 res
+bin
+.objs
