@@ -125,6 +125,13 @@ template< class T1, class T2 >
 		return pair<T1, T2>(t, u);
 	}
 
+template< class Arg1, class Arg2, class Result >
+	struct binary_function {
+		typedef Arg1 first_argument_type;
+		typedef Arg2 second_argument_type;
+		typedef Result result_type;
+	};
+
 }
 
 #undef IS_INTEGRAL
