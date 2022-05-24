@@ -1,8 +1,8 @@
 #------------- NAME -----------------
-EXE_STD=		$(SRCS_FILES:.cpp=_std)
-EXE_MINE=		$(SRCS_FILES:.cpp=_mine)
-EXE_STD_SAN=	$(SRCS_FILES:.cpp=_std_san)
-EXE_MINE_SAN=	$(SRCS_FILES:.cpp=_mine_san)
+EXE_STD=		$(SRCS_FILES:%.cpp=bin/%_std)
+EXE_MINE=		$(SRCS_FILES:%.cpp=bin/%_mine)
+EXE_STD_SAN=	$(SRCS_FILES:%.cpp=bin/%_std_san)
+EXE_MINE_SAN=	$(SRCS_FILES:%.cpp=bin/%_mine_san)
 #------------------------------------
 
 
@@ -21,8 +21,8 @@ SRCS_FILES=		vector/vec_general.cpp\
 				vector/vec_clear.cpp\
 				vector/vec_erase.cpp\
 				vector/vec_insert.cpp\
-				stack/stack_all.cpp\
-				map/map_general.cpp
+				stack/stack_all.cpp
+#				map/map_general.cpp
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
 
@@ -42,7 +42,6 @@ PATH_OBJS=		vector stack map
 CC=				c++
 FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/
 SAN=			-fsanitize=address -g3
-LEAK=			leaks -atExit --
 #------------------------------------
 
 
@@ -57,8 +56,8 @@ INC_FILES=		vector.hpp\
 				utility.hpp\
 				tests.hpp\
 				test_vector.hpp\
-				test_stack.hpp\
-				test_map.hpp
+				test_stack.hpp
+#				test_map.hpp
 INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 #------------------------------------
 
@@ -71,27 +70,27 @@ RM=				/bin/rm -rf
 #------------------------------------------------------------------------
 
 
-all:						$(BIN_DIR) $(EXE_STD) $(EXE_MINE) $(EXE_STD_SAN) $(EXE_MINE_SAN)
+all:						make_dir $(EXE_STD) $(EXE_MINE) $(EXE_STD_SAN) $(EXE_MINE_SAN)
 
-#bin/%:	.obj/%.o .obj/main.o | $(BIN_DIR)
-#	$(CC) -o $@ $^ $(CFLAGS)
+# bin/%:	.obj/%.o .obj/main.o | $(BIN_DIR)
+# 	$(CC) -o $@ $^ $(CFLAGS)
 
 #-------------- EXE -----------------
-$(EXE_STD):					$(OBJS)
+$(BIN_DIR)/%_std:			$(OBJS_DIR)/%_std.o
 #									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$<$(END)"
-									$(CC) $(FLAGS) .objs/main.o $< -o $(BIN_DIR)/$@
+									$(CC) $(FLAGS) $(OBJS_DIR)/main.o $< -o $@
 
-$(EXE_MINE):				$(OBJS)
+$(BIN_DIR)/%_mine:			$(OBJS_DIR)/%_mine.o
 #									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_MINE)$(END)"
-									$(CC) $(FLAGS) .objs/main.o $< -o $(BIN_DIR)/$@
+									$(CC) $(FLAGS) $(OBJS_DIR)/main.o $< -o $@
 
-$(EXE_STD_SAN):				$(OBJS)
+$(BIN_DIR)/%_std_san:		$(OBJS_DIR)/%_std.o
 #									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$<$(END)"
-									$(CC) $(FLAGS) $(SAN) .objs/main.o $< -o $(BIN_DIR)/$@
+									$(CC) $(FLAGS) $(SAN) $(OBJS_DIR)/main.o $< -o $@
 
-$(EXE_MINE_SAN):			$(OBJS)
+$(BIN_DIR)/%_mine_san:		$(OBJS_DIR)/%_mine.o
 #									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_MINE)$(END)"
-									$(CC) $(FLAGS) $(SAN) .objs/main.o $< -o $(BIN_DIR)/$@
+									$(CC) $(FLAGS) $(SAN) $(OBJS_DIR)/main.o $< -o $@
 #------------------------------------
 
 
@@ -104,16 +103,14 @@ $(OBJS_DIR)/%_mine.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)/main.o
 #									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
 									$(CC) $(FLAGS) -D MINE=1 -c $< -o $@
 
-$(OBJS_DIR)/main.o:			$(SRCS_DIR)/main.cpp $(INCLUDES) | $(OBJS_DIR)
+$(OBJS_DIR)/main.o:			$(SRCS_DIR)/main.cpp $(INCLUDES)
 #									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
 									$(CC) $(FLAGS) -c $< -o $@
 
-$(OBJS_DIR):
+make_dir:
+									mkdir -p $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH))
 									mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
 #------------------------------------
-
-$(BIN_DIR):
-									mkdir -p $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH))
 
 test:
 									@./tester.sh
