@@ -108,7 +108,7 @@ clean:
 
 fclean:						clean
 									@echo "$(green)$(bold)Deleting$(end) executables$(end)"
-									@$(RM) $(BIN_DIR)
+									@$(RM) $(BIN_DIR) res
 
 re:							fclean all
 
