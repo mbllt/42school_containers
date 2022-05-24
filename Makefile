@@ -72,56 +72,43 @@ RM=				/bin/rm -rf
 
 all:						make_dir $(EXE_STD) $(EXE_MINE) $(EXE_STD_SAN) $(EXE_MINE_SAN)
 
-# bin/%:	.obj/%.o .obj/main.o | $(BIN_DIR)
-# 	$(CC) -o $@ $^ $(CFLAGS)
-
 #-------------- EXE -----------------
-$(BIN_DIR)/%_std:			$(OBJS_DIR)/%_std.o
-#									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$<$(END)"
+$(BIN_DIR)/%:				$(OBJS_DIR)/%.o
+									@echo "\n$(green)$(bold)Linking $(end)$@$(end)"
 									$(CC) $(FLAGS) $(OBJS_DIR)/main.o $< -o $@
 
-$(BIN_DIR)/%_mine:			$(OBJS_DIR)/%_mine.o
-#									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_MINE)$(END)"
-									$(CC) $(FLAGS) $(OBJS_DIR)/main.o $< -o $@
-
-$(BIN_DIR)/%_std_san:		$(OBJS_DIR)/%_std.o
-#									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$<$(END)"
-									$(CC) $(FLAGS) $(SAN) $(OBJS_DIR)/main.o $< -o $@
-
-$(BIN_DIR)/%_mine_san:		$(OBJS_DIR)/%_mine.o
-#									@echo "$(GREEN)$(BOLD)Linking$(END) $(GREEN)$(EXE_MINE)$(END)"
+$(BIN_DIR)/%_san:			$(OBJS_DIR)/%.o
+									@echo "\n$(green)$(bold)Linking $(end)$@$(end)"
 									$(CC) $(FLAGS) $(SAN) $(OBJS_DIR)/main.o $< -o $@
 #------------------------------------
 
 
 #------------- OBJS ----------------
 $(OBJS_DIR)/%_std.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)/main.o
-#									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
 									$(CC) $(FLAGS) -c $< -o $@
 
 $(OBJS_DIR)/%_mine.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)/main.o
-#									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
-									$(CC) $(FLAGS) -D MINE=1 -c $< -o $@
+									$(CC) $(FLAGS)  -D MINE=1 -c $< -o $@
 
 $(OBJS_DIR)/main.o:			$(SRCS_DIR)/main.cpp $(INCLUDES)
-#									@echo "$(GREEN)$(BOLD)Compiling$(END) $(GREEN)$<$(END)"
 									$(CC) $(FLAGS) -c $< -o $@
 
 make_dir:
-									mkdir -p $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH))
-									mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
+									@echo "$(green)$(bold)Making$(end) $(green)directories$(end) : $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH)) $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))"
+									@mkdir -p $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH))
+									@mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
 #------------------------------------
 
 test:
 									@./tester.sh
 
 clean:
-									@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)object files$(END)"
-									@$(RM) $(OBJS_DIR)/
+									@echo "$(green)$(bold)Deleting$(end) object files$(end)"
+									@$(RM) $(OBJS_DIR)
 
 fclean:						clean
-									@echo "$(GREEN)$(BOLD)Deleting$(END) $(GREEN)executables, objs_dir, bin_dir$(END)"
-									@$(RM) $(OBJS_DIR) $(BIN_DIR) res
+									@echo "$(green)$(bold)Deleting$(end) executables$(end)"
+									@$(RM) $(BIN_DIR)
 
 re:							fclean all
 
@@ -129,7 +116,7 @@ re:							fclean all
 
 
 #------------- COLORS --------------
-GREEN	= \033[32m
-END		= \033[0m
-BOLD	= \033[1m
+green	= \033[32m
+end		= \033[0m
+bold	= \033[1m
 #------------------------------------
