@@ -1,6 +1,7 @@
 #pragma once
 
 #include "iterator_traits.hpp"
+#include <uchar.h>
 
 #define IS_INTEGRAL(TYPE)	  \
 	template <>			    \

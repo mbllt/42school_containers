@@ -1,4 +1,5 @@
 #include "test_vector.hpp"
+#include <cstring>
 
 void test() {
 

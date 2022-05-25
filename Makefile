@@ -22,7 +22,7 @@ SRCS_FILES=		vector/vec_general.cpp\
 				vector/vec_erase.cpp\
 				vector/vec_insert.cpp\
 				stack/stack_all.cpp
-#				map/map_general.cpp
+
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
 
@@ -33,7 +33,7 @@ BIN_PATH=		vector stack map
 OBJS_DIR=		.objs
 OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS_FILES:.cpp=_std.o))\
 				$(addprefix $(OBJS_DIR)/,$(SRCS_FILES:.cpp=_mine.o))
-#				$(addprefix $(OBJS_DIR)/,main.o)
+
 PATH_OBJS=		vector stack map
 #------------------------------------
 
@@ -70,15 +70,13 @@ RM=				/bin/rm -rf
 #------------------------------------------------------------------------
 
 
-all:						make_dir $(EXE_STD) $(EXE_MINE) $(EXE_STD_SAN) $(EXE_MINE_SAN)
+all:							make_dir $(EXE_STD) $(EXE_MINE) $(EXE_STD_SAN) $(EXE_MINE_SAN)
 
 #-------------- EXE -----------------
 $(BIN_DIR)/%:				$(OBJS_DIR)/%.o
-									@echo "\n$(green)$(bold)Linking $(end)$@$(end)"
 									$(CC) $(FLAGS) $(OBJS_DIR)/main.o $< -o $@
 
 $(BIN_DIR)/%_san:			$(OBJS_DIR)/%.o
-									@echo "\n$(green)$(bold)Linking $(end)$@$(end)"
 									$(CC) $(FLAGS) $(SAN) $(OBJS_DIR)/main.o $< -o $@
 #------------------------------------
 
@@ -88,15 +86,15 @@ $(OBJS_DIR)/%_std.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)/main.o
 									$(CC) $(FLAGS) -c $< -o $@
 
 $(OBJS_DIR)/%_mine.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)/main.o
-									$(CC) $(FLAGS)  -D MINE=1 -c $< -o $@
+									$(CC) $(FLAGS) -D MINE=1 -c $< -o $@
 
 $(OBJS_DIR)/main.o:			$(SRCS_DIR)/main.cpp $(INCLUDES)
 									$(CC) $(FLAGS) -c $< -o $@
 
 make_dir:
 									@echo "$(green)$(bold)Making$(end) $(green)directories$(end) : $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH)) $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))"
-									@mkdir -p $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH))
-									@mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
+									mkdir -p $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH))
+									mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
 #------------------------------------
 
 test:
@@ -113,10 +111,11 @@ fclean:						clean
 re:							fclean all
 
 .PHONY:						all clean fclean re
-
+.SECONDARY: $(OBJS)
 
 #------------- COLORS --------------
 green	= \033[32m
 end		= \033[0m
 bold	= \033[1m
+#------------------------------------
 #------------------------------------
