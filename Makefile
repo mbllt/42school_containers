@@ -73,10 +73,16 @@ RM=				/bin/rm -rf
 all:							make_dir $(EXE_STD) $(EXE_MINE) $(EXE_STD_SAN) $(EXE_MINE_SAN)
 
 #-------------- EXE -----------------
-$(BIN_DIR)/%:				$(OBJS_DIR)/%.o
+$(BIN_DIR)/%_std:				$(OBJS_DIR)/%_std.o
 									$(CC) $(FLAGS) $(OBJS_DIR)/main.o $< -o $@
 
-$(BIN_DIR)/%_san:			$(OBJS_DIR)/%.o
+$(BIN_DIR)/%_mine:				$(OBJS_DIR)/%_mine.o
+									$(CC) $(FLAGS) $(OBJS_DIR)/main.o $< -o $@
+
+$(BIN_DIR)/%_std_san:			$(OBJS_DIR)/%_std.o
+									$(CC) $(FLAGS) $(SAN) $(OBJS_DIR)/main.o $< -o $@
+
+$(BIN_DIR)/%_mine_san:			$(OBJS_DIR)/%_mine.o
 									$(CC) $(FLAGS) $(SAN) $(OBJS_DIR)/main.o $< -o $@
 #------------------------------------
 

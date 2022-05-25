@@ -49,7 +49,6 @@ void test()
 
 	// []
 	it = vec.rbegin();
-
 	std::cout << "it[0] :" << it[0] << " | it[3] :" << it[3] << "\n";
 
 	for (int i = 0; i < 5; ++i)

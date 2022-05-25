@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -rf res
+
 test_diff() {
 
 	arg=$(echo "$2" | sed 's;/;\ ;g' | sed 's/_mine//g' | sed 's/_san//g')
@@ -32,8 +34,6 @@ ARRAY_STD=($(ls -d bin/*/*_std))
 ARRAY_MINE=($(ls -d bin/*/*_mine))
 ARRAY_STD_SAN=($(ls -d bin/*/*_std_san))
 ARRAY_MINE_SAN=($(ls -d bin/*/*_mine_san))
-
-echo $ARRAY_STD
 
 IT=0
 IT_END=($(ls bin/*/*_std | wc -l))
