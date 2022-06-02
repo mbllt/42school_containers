@@ -21,7 +21,8 @@ SRCS_FILES=		vector/vec_general.cpp\
 				vector/vec_clear.cpp\
 				vector/vec_erase.cpp\
 				vector/vec_insert.cpp\
-				stack/stack_all.cpp
+				stack/stack_all.cpp\
+				map/map_general.cpp
 
 SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
 #------------------------------------
@@ -49,15 +50,15 @@ SAN=			-fsanitize=address -g3
 INC_DIR=		includes
 INC_FILES=		vector.hpp\
 				stack.hpp\
-				map.hpp\
 				iterator_traits.hpp\
 				iterator.hpp\
 				reverse_iterator.hpp\
 				utility.hpp\
 				tests.hpp\
 				test_vector.hpp\
-				test_stack.hpp
-#				test_map.hpp
+				test_stack.hpp\
+				map.hpp\
+				test_map.hpp
 INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 #------------------------------------
 
@@ -96,12 +97,12 @@ $(OBJS_DIR)/%_mine.o:		$(SRCS_DIR)/%.cpp $(INCLUDES) | $(OBJS_DIR)/main.o
 
 $(OBJS_DIR)/main.o:			$(SRCS_DIR)/main.cpp $(INCLUDES)
 									$(CC) $(FLAGS) -c $< -o $@
+#------------------------------------
 
 make_dir:
 									@echo "$(green)$(bold)Making$(end) $(green)directories$(end) : $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH)) $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))"
 									mkdir -p $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH))
 									mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
-#------------------------------------
 
 test:
 									@./tester.sh
@@ -111,7 +112,7 @@ clean:
 									@$(RM) $(OBJS_DIR)
 
 fclean:						clean
-									@echo "$(green)$(bold)Deleting$(end) executables$(end)"
+									@echo "$(green)$(bold)Deleting$(end) executables and directories res bin .objs$(end)"
 									@$(RM) $(BIN_DIR) res
 
 re:							fclean all
@@ -119,9 +120,9 @@ re:							fclean all
 .PHONY:						all clean fclean re
 .SECONDARY: $(OBJS)
 
+
 #------------- COLORS --------------
 green	= \033[32m
 end		= \033[0m
 bold	= \033[1m
-#------------------------------------
 #------------------------------------

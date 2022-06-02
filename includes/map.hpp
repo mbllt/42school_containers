@@ -44,21 +44,29 @@ class map {
 
 	private :
 
-		struct bst_node {
-			struct bst_node		*child[2]; //left = 0 if key < parent->key | right = 1 if key > paretn->key
-			value_type			value;
-			bool				color;
-			struct bst			*parent;
-		};
-
-		struct bst {
-			struct bst_node		*root;
+		struct node {
+			value_type	pair;
+			node*		left;
+			node*		right;
+			node*		parent;
 		};
 
 		allocator_type	_alloc;
-		bst				_tree;
+		Compare			_comp;
+		node			_tree;
 		size_type		_size;
 		size_type		_height;
+		node			_begin;
+		node			_end;
+
+		void _copy(map const &copy) {
+			_size = copy._size();
+			_height = copy._height();
+			_begin = copy._begin;
+			_end = copy._end;
+			insert(copy._begin, copy._end);
+		}
+
 
 	public :
 
@@ -81,41 +89,28 @@ class map {
 
 		explicit map( const key_compare& comp,
 						const allocator_type& alloc = allocator_type() ) :
-						_alloc(alloc), _tree(NIL), _size(0), _cap(0) {(void)comp;}
+						_alloc(alloc), _comp(comp), _tree(NIL), _size(0), _height(0), _begin(NIL), _end(NIL) {}
 
 		template< class InputIt >
 		map(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last,
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type() ) :
-				_alloc(alloc), _tree(NIL), _size(0), _cap(0)
-		{
-			size_type count = 0;
-			while (first != last) {
-				++count;
-				++first;
-			}
-			for (size_type i = 0;i < count;++i)
-				--first;
-			_tree = _alloc.allocate(count);
-			for (size_type i = 0; i < count; ++i) {
-				_alloc.construct(&(_tree[i].root.value), *first);
-				++first;
-			}
-			_size = count;
-			_cap = count;
-			(void)comp;
+				_alloc(alloc), _comp(comp), _tree(NIL), _size(0), _height(0), _begin(NIL), _end(NIL) {
+			insert(first, last);
 		}
 
-		map( const map& other );
+		map( const map& other ) {
+			insert(other.begin(), other.end());
+		}
 
-		~map() {}
+		~map() {clear();}
 
 //	------------------------------------------------
 
 
 //	---------------->> GENERAL <<-----------------
 
-		map & operator=(map const& other);
+		map & operator=(map const& other) {clear(); _copy(other); return *this;}
 
 //	------------------------------------------------
 
@@ -133,13 +128,13 @@ class map {
 
 //	---------------->> ITERATORS <<-----------------
 
-		iterator begin() {return bst.root.value;}
+		iterator begin() {return _begin != NULL ? _begin : iterator();}
 
-		const_iterator begin() const {return bst[_size].root.value;}
+		const_iterator begin() const {return _begin != NULL ? _begin : const_iterator();}
 
-		iterator end();
+		iterator end() {return _end != NULL ? _end : iterator();}
 
-		const_iterator end() const;
+		const_iterator end() const {return _end != NULL ? _end : const_iterator();}
 
 		reverse_iterator rbegin();
 
@@ -156,9 +151,9 @@ class map {
 
 		size_type size() const {return _size;}
 
-		bool empty() const;
+		bool empty() const {return _tree != NIL ? true : false;}
 
-		size_type max_size() const;
+		size_type max_size() const {return allocator_type().max_size();}
 
 //	------------------------------------------------
 
@@ -207,7 +202,7 @@ class map {
 
 		key_compare key_comp() const;
 
-		std::map::value_compare value_comp() const;
+		map::value_compare value_comp() const;
 
 //	------------------------------------------------
 

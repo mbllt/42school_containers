@@ -7,23 +7,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-// void	vec_general();
-// void	vec_ope();
-// void	vec_it();
-// void	vec_rev_it();
-// void	vec_capacity();
-// void	vec_accessors();
-// void	vec_resize();
-// void	vec_push_back();
-// void	vec_pop_back();
-// void	vec_swap();
-// void	vec_clear();
-// void	vec_erase();
-// void	vec_insert();
-
-// void	stack_all();
-
-// void	map_general();
 
 template<typename Vec>
 void displayVec(Vec& vec) {

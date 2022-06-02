@@ -69,6 +69,7 @@ namespace ft
 		}
 
 	public:
+
 		//	--------------->> CONSTRUCTORS <<---------------
 
 		explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _tab(), _size(0), _cap(0) {}
@@ -110,14 +111,10 @@ namespace ft
 
 		//	------------------------------------------------
 
+
 		//	---------------->> GENERAL <<-----------------
 
-		vector &operator=(vector const &src)
-		{
-			_delete();
-			_copy(src);
-			return *this;
-		}
+		vector &operator=(vector const &src) {_delete(); _copy(src); return *this;}
 
 		allocator_type get_allocator() const
 		{
@@ -139,49 +136,27 @@ namespace ft
 
 		//	------------------------------------------------
 
+
 		//	---------------->> ITERATORS <<-----------------
 
-		iterator begin()
-		{
-			return iterator(_tab);
-		}
+		iterator begin() {return iterator(_tab);}
 
-		const_iterator begin() const
-		{
-			return const_iterator(_tab);
-		}
+		const_iterator begin() const {return const_iterator(_tab);}
 
-		iterator end()
-		{
-			return _tab != NULL ? iterator(_tab + _size) : iterator();
-		}
+		iterator end() {return _tab != NULL ? iterator(_tab + _size) : iterator();}
 
-		const_iterator end() const
-		{
-			return _tab != NULL ? const_iterator(_tab + _size) : const_iterator();
-		}
+		const_iterator end() const {return _tab != NULL ? const_iterator(_tab + _size) : const_iterator();}
 
-		reverse_iterator rbegin()
-		{
-			return _tab != NULL ? reverse_iterator(_tab + _size - 1) : reverse_iterator();
-		}
+		reverse_iterator rbegin() {return _tab != NULL ? reverse_iterator(_tab + _size - 1) : reverse_iterator();}
 
-		const_reverse_iterator rbegin() const
-		{
-			return _tab != NULL ? const_reverse_iterator(_tab + _size - 1) : const_reverse_iterator();
-		}
+		const_reverse_iterator rbegin() const {return _tab != NULL ? const_reverse_iterator(_tab + _size - 1) : const_reverse_iterator();}
 
-		reverse_iterator rend()
-		{
-			return reverse_iterator(_tab - 1);
-		}
+		reverse_iterator rend() {return reverse_iterator(_tab - 1);}
 
-		const_reverse_iterator rend() const
-		{
-			return const_reverse_iterator(_tab - 1);
-		}
+		const_reverse_iterator rend() const {return const_reverse_iterator(_tab - 1);}
 
 		//	------------------------------------------------
+
 
 		//	---------------->> CAPACITY <<------------------
 
@@ -218,6 +193,7 @@ namespace ft
 		}
 
 		//	------------------------------------------------
+
 
 		//	----------------->> ACCESS <<-------------------
 
@@ -268,6 +244,7 @@ namespace ft
 		}
 
 		//	------------------------------------------------
+
 
 		//	--------------->> MODIFIERS <<------------------
 
@@ -398,9 +375,6 @@ namespace ft
 
 		void swap(vector &other)
 		{
-			// if (this == &other)
-			// 	return ;
-
 			size_type tmp_size = _size;
 			size_type tmp_cap = _cap;
 			pointer tmp_tab = _tab;
