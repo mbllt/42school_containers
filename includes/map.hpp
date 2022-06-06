@@ -99,7 +99,7 @@ class map {
 			insert(other.begin(), other.end());
 		}
 
-		~map() {clear();}
+		~map() {}
 
 //	------------------------------------------------
 
