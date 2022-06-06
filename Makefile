@@ -50,6 +50,7 @@ SAN=			-fsanitize=address -g3
 INC_DIR=		includes
 INC_FILES=		vector.hpp\
 				stack.hpp\
+				map.hpp\
 				iterator_traits.hpp\
 				iterator.hpp\
 				reverse_iterator.hpp\
@@ -57,7 +58,6 @@ INC_FILES=		vector.hpp\
 				tests.hpp\
 				test_vector.hpp\
 				test_stack.hpp\
-				map.hpp\
 				test_map.hpp
 INCLUDES=		$(addprefix $(INC_DIR)/,$(INC_FILES))
 #------------------------------------

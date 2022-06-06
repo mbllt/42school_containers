@@ -10,10 +10,6 @@
 #include "reverse_iterator.hpp"
 #include "utility.hpp"
 
-#define NIL		NULL
-#define BLACK	0
-#define RED		1
-
 namespace ft {
 
 template<
@@ -87,15 +83,15 @@ class map {
 
 //	--------------->> CONSTRUCTORS <<---------------
 
-		explicit map( const key_compare& comp,
+		explicit map( const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type() ) :
-						_alloc(alloc), _comp(comp), _tree(NIL), _size(0), _height(0), _begin(NIL), _end(NIL) {}
+						_alloc(alloc), _comp(comp), _tree(), _size(0), _height(0), _begin(), _end() {}
 
 		template< class InputIt >
 		map(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last,
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type() ) :
-				_alloc(alloc), _comp(comp), _tree(NIL), _size(0), _height(0), _begin(NIL), _end(NIL) {
+				_alloc(alloc), _comp(comp), _tree(), _size(0), _height(0), _begin(), _end() {
 			insert(first, last);
 		}
 
@@ -151,7 +147,7 @@ class map {
 
 		size_type size() const {return _size;}
 
-		bool empty() const {return _tree != NIL ? true : false;}
+		bool empty() const {return _tree != NULL ? true : false;}
 
 		size_type max_size() const {return allocator_type().max_size();}
 

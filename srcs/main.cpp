@@ -1,5 +1,8 @@
-#include <exception>
-#include <iostream>
+// #include <iostream>
+// #include <string>
+// #include <iomanip>
+// #include <map>
+// #include <vector>
 #include "tests.hpp"
 
 void test();
@@ -13,5 +16,5 @@ int main(void) {
 	} catch (const std::exception& e) {
 		std::cout << e.what() << std::endl;
 	}
-	return 0;
 }
+
