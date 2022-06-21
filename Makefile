@@ -1,14 +1,25 @@
 #------------- NAME -----------------
-EXE_STD=		$(SRCS_FILES:%.cpp=bin/%_std)
-EXE_MINE=		$(SRCS_FILES:%.cpp=bin/%_mine)
-EXE_STD_SAN=	$(SRCS_FILES:%.cpp=bin/%_std_san)
-EXE_MINE_SAN=	$(SRCS_FILES:%.cpp=bin/%_mine_san)
+VEC_EXE_STD=		$(SRCS_VEC:%.cpp=bin/%_std)
+VEC_EXE_MINE=		$(SRCS_VEC:%.cpp=bin/%_mine)
+VEC_EXE_STD_SAN=	$(SRCS_VEC:%.cpp=bin/%_std_san)
+VEC_EXE_MINE_SAN=	$(SRCS_VEC:%.cpp=bin/%_mine_san)
+
+STACK_EXE_STD=		$(SRCS_STACK:%.cpp=bin/%_std)
+STACK_EXE_MINE=		$(SRCS_STACK:%.cpp=bin/%_mine)
+STACK_EXE_STD_SAN=	$(SRCS_STACK:%.cpp=bin/%_std_san)
+STACK_EXE_MINE_SAN=	$(SRCS_STACK:%.cpp=bin/%_mine_san)
+
+MAP_EXE_STD=		$(SRCS_MAP:%.cpp=bin/%_std)
+MAP_EXE_MINE=		$(SRCS_MAP:%.cpp=bin/%_mine)
+MAP_EXE_STD_SAN=	$(SRCS_MAP:%.cpp=bin/%_std_san)
+MAP_EXE_MINE_SAN=	$(SRCS_MAP:%.cpp=bin/%_mine_san)
 #------------------------------------
 
 
 #------------- SRCS -----------------
 SRCS_DIR=		srcs
-SRCS_FILES=		vector/vec_general.cpp\
+SRCS_PATH=		vector stack map
+SRCS_VEC=		vector/vec_general.cpp\
 				vector/vec_ope.cpp\
 				vector/vec_it.cpp\
 				vector/vec_rev_it.cpp\
@@ -20,11 +31,9 @@ SRCS_FILES=		vector/vec_general.cpp\
 				vector/vec_swap.cpp\
 				vector/vec_clear.cpp\
 				vector/vec_erase.cpp\
-				vector/vec_insert.cpp\
-				stack/stack_all.cpp\
-				map/map_general.cpp
-
-SRCS=			$(addprefix $(SRCS_DIR)/,$(SRCS_FILES))
+				vector/vec_insert.cpp
+SRCS_STACK=		stack/stack_all.cpp
+SRCS_MAP=		map/map_general.cpp
 #------------------------------------
 
 BIN_DIR=		bin
@@ -32,8 +41,12 @@ BIN_PATH=		vector stack map
 
 #-------------- OBJS ----------------
 OBJS_DIR=		.objs
-OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS_FILES:.cpp=_std.o))\
-				$(addprefix $(OBJS_DIR)/,$(SRCS_FILES:.cpp=_mine.o))
+OBJS=			$(addprefix $(OBJS_DIR)/,$(SRCS_VEC:.cpp=_std.o))\
+				$(addprefix $(OBJS_DIR)/,$(SRCS_VEC:.cpp=_mine.o))\
+				$(addprefix $(OBJS_DIR)/,$(SRCS_STACK:.cpp=_std.o))\
+				$(addprefix $(OBJS_DIR)/,$(SRCS_STACK:.cpp=_mine.o))\
+				$(addprefix $(OBJS_DIR)/,$(SRCS_VEC:.cpp=_std.o))\
+				$(addprefix $(OBJS_DIR)/,$(SRCS_VEC:.cpp=_mine.o))
 
 PATH_OBJS=		vector stack map
 #------------------------------------
@@ -72,7 +85,15 @@ RM=				/bin/rm -rf
 #------------------------------------------------------------------------
 
 
-all:							make_dir $(EXE_STD) $(EXE_MINE) $(EXE_STD_SAN) $(EXE_MINE_SAN)
+all:							make_dir vector stack map
+
+
+vector:							make_dir $(VEC_EXE_STD) $(VEC_EXE_MINE) $(VEC_EXE_STD_SAN) $(VEC_EXE_MINE_SAN)
+
+stack:							make_dir $(STACK_EXE_STD) $(STACK_EXE_MINE) $(STACK_EXE_STD_SAN) $(STACK_EXE_MINE_SAN)
+
+map:							make_dir $(MAP_EXE_STD) $(MAP_EXE_MINE) $(MAP_EXE_STD_SAN) $(MAP_EXE_MINE_SAN)
+
 
 #-------------- EXE -----------------
 $(BIN_DIR)/%_std:				$(OBJS_DIR)/%_std.o
