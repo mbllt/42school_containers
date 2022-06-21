@@ -47,4 +47,19 @@ void fillVecString(Vec* cont) {
 	}
 }
 
+template<typename Map>
+void displayMap(Map& map) {
+	
+	typename Map::iterator it = map.begin();
+	typename Map::iterator ite = map.end();
+	
+	std::cout << "{ ";
+		std::cout << "begin(" << it->first << ";" << it->second << ") ";
+		std::cout << "end(" << ite->first << ";" << ite->second << ") ";
+		// for (typename Vec::iterator it = vec.begin(); it != vec.end(); ++it){
+		// 	std::cout << *it << " ";
+		// }
+	std::cout << "}\n";
+}
+
 #endif

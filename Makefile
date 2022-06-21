@@ -53,6 +53,7 @@ INC_FILES=		vector.hpp\
 				map.hpp\
 				iterator_traits.hpp\
 				iterator.hpp\
+				iterator_map.hpp\
 				reverse_iterator.hpp\
 				utility.hpp\
 				tests.hpp\
@@ -103,6 +104,7 @@ make_dir:
 									@echo "$(green)$(bold)Making$(end) $(green)directories$(end) : $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH)) $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))"
 									mkdir -p $(BIN_DIR) $(addprefix $(BIN_DIR)/,$(BIN_PATH))
 									mkdir -p $(OBJS_DIR) $(addprefix $(OBJS_DIR)/,$(PATH_OBJS))
+									rm -rf res
 
 test:
 									@./tester.sh

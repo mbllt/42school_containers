@@ -82,48 +82,57 @@ template< class T1, class T2 >
 			pair( const T1& x, const T2& y ) : first(x), second(y) {}
 
 		template< class U1, class U2 >
-			pair( const pair<U1, U2>& p ) : first(p.first), second(p.second) {}
+			pair( U1& x, U2& y ) : first(x), second(y) {}
 
-			pair & operator=(pair const &src) { first = src.first;second = src.second; }
+			pair(const pair & copy) : first(copy.first), second(copy.second) {}
 
-			friend bool operator==( const pair & lhs, const pair & rhs ) {
-				return lhs.first = rhs.first && lhs.second = rhs.second;
-			}
+			pair & operator=(pair const &src) {second = src.second; return *this;}
 
-			friend bool operator!=( const pair & lhs, const pair & rhs ) {
-				return !(lhs == rhs);
-			}
-
-			friend bool operator<( const pair & lhs, const pair & rhs ) {
-				if (lhs.first < rhs.first)
-						return true;
-				else if (lhs.first == rhs.first)
-					if (lhs.second < rhs.second)
-						return true;
-				return false;
-			}
-
-			friend bool operator<=( const pair & lhs, const pair & rhs ) {
-				if (lhs == rhs)
-					return true;
-				return lhs < rhs;
-			}
-
-			friend bool operator>( const pair & lhs, const pair & rhs ) {
-				if (lhs == rhs)
-					return false;
-				return !(lhs < rhs);
-			}
-
-			friend bool operator>=( const pair & lhs, const pair & rhs ) {
-				return !(lhs < rhs);
-			}
 
 	};
 
 template< class T1, class T2 >
-	pair<T1,T2> make_pair( T1 t, T2 u ) {
-		return pair<T1, T2>(t, u);
+	bool operator==( const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs ) {
+		return (lhs.first == rhs.first && lhs.second == rhs.second);
+	}
+
+template< class T1, class T2 >
+	bool operator!=( const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs ) {
+		return !(lhs == rhs);
+	}
+
+template< class T1, class T2 >
+	bool operator<( const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs ) {
+		if (lhs.first < rhs.first)
+				return true;
+		else if (lhs.first == rhs.first)
+			if (lhs.second < rhs.second)
+				return true;
+		return false;
+	}
+
+template< class T1, class T2 >
+	bool operator<=( const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs ) {
+		if (lhs == rhs)
+			return true;
+		return lhs < rhs;
+	}
+
+template< class T1, class T2 >
+	bool operator>( const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs ) {
+		if (lhs == rhs)
+			return false;
+		return !(lhs < rhs);
+	}
+
+template< class T1, class T2 >
+	bool operator>=( const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs ) {
+		return !(lhs < rhs);
+	}
+
+template< class T1, class T2 >
+	ft::pair<T1,T2> make_pair( T1 t, T2 u ) {
+		return ft::pair<T1, T2>(t, u);
 	}
 
 template< class Arg1, class Arg2, class Result >
@@ -131,6 +140,27 @@ template< class Arg1, class Arg2, class Result >
 		typedef Arg1 first_argument_type;
 		typedef Arg2 second_argument_type;
 		typedef Result result_type;
+	};
+
+template<class T>
+	struct Node {
+		Node() :
+			value(T()), left(0), right(0), parent(0) {}
+		Node(T val) :
+			value(val), left(0), right(0), parent(0) {}
+		Node(const Node& copy) :
+			value(copy.value), left(copy.left), right(copy.right), parent(copy.parent) {}
+		Node& operator=(const Node& src) {
+			value = src.value;
+			left = src.left;
+			right = src.right;
+			parent = src.parent;
+			return *this;
+		}
+		T			value;
+		Node*		left;
+		Node*		right;
+		Node*		parent;
 	};
 
 }

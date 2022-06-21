@@ -18,18 +18,18 @@ namespace ft
 	{
 
 	public:
-		typedef T value_type;
-		typedef size_t size_type;
-		typedef Alloc allocator_type;
-		typedef std::ptrdiff_t difference_type;
-		typedef value_type &reference;
-		typedef value_type const &const_reference;
-		typedef value_type *pointer;
-		typedef value_type const *const_pointer;
-		typedef ft::iterator<T> iterator;
-		typedef ft::iterator<const T> const_iterator;
-		typedef ft::reverse_iterator<T> reverse_iterator;
-		typedef ft::reverse_iterator<const T> const_reverse_iterator;
+		typedef T								value_type;
+		typedef size_t							size_type;
+		typedef Alloc							allocator_type;
+		typedef std::ptrdiff_t					difference_type;
+		typedef value_type&						reference;
+		typedef const value_type&				const_reference;
+		typedef value_type*						pointer;
+		typedef const value_type*				const_pointer;
+		typedef ft::iterator<T>					iterator;
+		typedef ft::iterator<const T>			const_iterator;
+		typedef ft::reverse_iterator<T>			reverse_iterator;
+		typedef ft::reverse_iterator<const T>	const_reverse_iterator;
 
 	private:
 		allocator_type _alloc;
@@ -116,10 +116,7 @@ namespace ft
 
 		vector &operator=(vector const &src) {_delete(); _copy(src); return *this;}
 
-		allocator_type get_allocator() const
-		{
-			return _alloc;
-		}
+		allocator_type get_allocator() const { return _alloc; }
 
 		void assign(size_type count, const T &value)
 		{

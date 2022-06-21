@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <memory>
 #include <algorithm>
-#include "iterator.hpp"
+#include "iterator_map.hpp"
 #include "reverse_iterator.hpp"
 #include "utility.hpp"
 
@@ -25,35 +25,34 @@ class map {
 		typedef Key														key_type;
 		typedef T														mapped_type;
 		typedef ft::pair<const Key, T>									value_type;
-		typedef size_t													size_type;
-		typedef std::ptrdiff_t											difference_type;
+		typedef typename Allocator::size_type							size_type;
+		typedef typename Allocator::difference_type						difference_type;
 		typedef Compare													key_compare;
 		typedef Allocator												allocator_type;
-		typedef value_type&												reference;
-		typedef value_type const&										const_reference;
+		typedef Node<value_type>										node;
+		typedef typename Allocator::rebind<Node<value_type> >::other	alloc_node;
+//				mon allocator de base est fait pour allouer des ft::pair. Pour changer ca,
+//				jutilise rebind, cest un typedef template que tous les allocators ont. 
+		typedef typename Allocator::reference							reference;
+		typedef typename Allocator::const_reference						const_reference;
 		typedef typename Allocator::pointer								pointer;
 		typedef typename Allocator::const_pointer						const_pointer;
-		typedef ft::iterator<ft::pair<const Key, T> >					iterator;
-		typedef ft::iterator<const ft::pair<const Key, T> >				const_iterator;
-		typedef ft::reverse_iterator<ft::pair<const Key, T> >			reverse_iterator;
-		typedef ft::reverse_iterator<const ft::pair<const Key, T> >		const_reverse_iterator;
+		typedef ft::iterator_map<value_type>							iterator;
+		typedef ft::iterator_map<value_type>							const_iterator;
+		// typedef ft::reverse_iterator<ft::pair<const Key, T> >			reverse_iterator;
+		// typedef ft::reverse_iterator<const ft::pair<const Key, T> >		const_reverse_iterator;
+
 
 	private :
 
-		struct node {
-			value_type	pair;
-			node*		left;
-			node*		right;
-			node*		parent;
-		};
-
-		allocator_type	_alloc;
-		Compare			_comp;
-		node			_tree;
-		size_type		_size;
-		size_type		_height;
-		node			_begin;
-		node			_end;
+		allocator_type		_alloc;
+		alloc_node			_alloc_node;
+		Compare				_comp;
+		Node<value_type>*	_tree;
+		Node<value_type>*	_begin;
+		Node<value_type>*	_end;
+		size_type			_size;
+		size_type			_height;
 
 		void _copy(map const &copy) {
 			_size = copy._size();
@@ -63,6 +62,15 @@ class map {
 			insert(copy._begin, copy._end);
 		}
 
+		node* init_node(value_type value) {
+			node* new_node = _alloc_node.allocate(1);
+			_alloc_node.construct(new_node, value);
+			// il va utiliser le constructeur de value_type. Jaurais pu mettre
+			// en deuxieme parametre Node(value) mais ca m'aurait creer un objet 
+			// pour ensuite copier lobjet dans new-node. Ici, je lui assigne directement
+			// les valeurs.
+			return new_node;
+		}
 
 	public :
 
@@ -85,21 +93,29 @@ class map {
 
 		explicit map( const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type() ) :
-						_alloc(alloc), _comp(comp), _tree(), _size(0), _height(0), _begin(), _end() {}
+						_alloc(alloc), _alloc_node(alloc), _comp(comp), _size(0), _height(0) {
+			
+			node * new_node = init_node(value_type());
+			_begin = new_node;
+			_end = new_node;
+		}
 
 		template< class InputIt >
 		map(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last,
 				const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type() ) :
-				_alloc(alloc), _comp(comp), _tree(), _size(0), _height(0), _begin(), _end() {
-			insert(first, last);
+				_alloc(alloc), _alloc_node(alloc), _comp(comp), _size(0), _height(0) {
+			node* new_node = init_node(value_type());
+			_begin = new_node;
+			_end = new_node;
+			// insert(first, last);
 		}
 
 		map( const map& other ) {
 			insert(other.begin(), other.end());
 		}
 
-		~map() {}
+		~map() {clear();}
 
 //	------------------------------------------------
 
@@ -108,12 +124,17 @@ class map {
 
 		map & operator=(map const& other) {clear(); _copy(other); return *this;}
 
+		allocator_type get_allocator() const { return _alloc; }
+
 //	------------------------------------------------
 
 
 //	----------------->> ACCESS <<-------------------
 
-		T& operator[]( const Key& key );
+		T& operator[]( const Key& key ) {
+			value_type value= ft::make_pair<const Key, T>(key, mapped_type());
+			return (insert(value).first)->second;
+		}
 
 		T& at( const Key& key );
 		
@@ -132,22 +153,22 @@ class map {
 
 		const_iterator end() const {return _end != NULL ? _end : const_iterator();}
 
-		reverse_iterator rbegin();
+		// reverse_iterator rbegin();
 
-		const_reverse_iterator rbegin() const;
+		// const_reverse_iterator rbegin() const;
 
-		reverse_iterator rend();
+		// reverse_iterator rend();
 
-		const_reverse_iterator rend() const;
+		// const_reverse_iterator rend() const;
 
 //	------------------------------------------------
 
 
 //	---------------->> CAPACITY <<------------------
 
-		size_type size() const {return _size;}
+		size_type size() const { return _size; }
 
-		bool empty() const {return _tree != NULL ? true : false;}
+		bool empty() const {return _tree == NULL;}
 
 		size_type max_size() const {return allocator_type().max_size();}
 
@@ -156,11 +177,30 @@ class map {
 
 //	--------------->> MODIFIERS <<------------------
 
-		void clear();
+		void clear() {
+			node* tmp(_end);
 
-		std::pair<iterator, bool> insert( const value_type& value );
+			while (_end) {
+				tmp = _end;
+				_end = tmp->parent;
+				_alloc_node.destroy(_end);
+			}
+			_size = 0;
+		}
+
+		pair<iterator, bool> insert( const value_type& value ) {
+			if (_end->value == value)
+				return ft::make_pair(iterator(_end), false);
+			node* new_node = init_node(value);
+			(_end->value).first > value.first ? _end->right = new_node : _end->left = new_node;
+			++_size;
+			return ft::make_pair(iterator(_end), true);
+		}
 
 		iterator insert( iterator hint, const value_type& value );
+
+		template< class InputIt >
+		void insert(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last);
 
 		iterator erase(iterator pos);
 
@@ -179,9 +219,9 @@ class map {
 
 		const_iterator find( const Key& key ) const;
 
-		std::pair<iterator,iterator> equal_range( const Key& key );
+		pair<iterator,iterator> equal_range( const Key& key );
 
-		std::pair<const_iterator,const_iterator> equal_range( const Key& key ) const;
+		pair<const_iterator,const_iterator> equal_range( const Key& key ) const;
 
 		iterator lower_bound( const Key& key );
 
@@ -196,9 +236,9 @@ class map {
 
 //	--------------->> OBSERVERS <<------------------
 
-		key_compare key_comp() const;
+		key_compare key_comp() const { return _comp; }
 
-		map::value_compare value_comp() const;
+		map::value_compare value_comp() const { return _comp; }
 
 //	------------------------------------------------
 
