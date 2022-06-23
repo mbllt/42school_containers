@@ -33,36 +33,76 @@ class iterator_map {
 		iterator_map(iterator_map const & copy) : p(copy.p) {}
 		~iterator_map() {}
 
-		pointer getP() const { return (p->value); }
+		pointer getP() const { return (&(p->value)); }
 
 //	------------------------------------------------
 
 
 //	---------------->> OPERATORS <<-----------------
 
-		iterator_map&					operator=(const iterator_map& src) {p = src.p; return *this;}
+		iterator_map&		operator=(const iterator_map& src) {p = src.p; return *this;}
 
-		reference						operator*() {return p->value;}
-		const_reference					operator*() const {return p->value;}
+		reference			operator*() {return p->value;}
+		const_reference		operator*() const {return p->value;}
 
-		pointer							operator->() {return &(p->value);}
-		const_pointer					operator->() const {return &(p->value);}
+		pointer				operator->() {return &(p->value);}
+		const_pointer		operator->() const {return &(p->value);}
 
-		iterator_map&					operator++() {++p;return *this;}
+		iterator_map&		operator++() {
+								if (!(p->right) && !(p->left)) {
+									node *tmp = p->parent;
+									while (tmp && (p->value).first < (tmp->value).first)
+										tmp = tmp->parent;
+									if (!tmp) {
+										p = p->parent;
+										return *this;
+									}
+								}
+								if (p->right) {
+									p = p->right;
+									while (p->left) {
+										p = p->left;
+									}
+								}
+								else if (p->parent) {
+									node *tmp = p->parent;
+									while (tmp && (p->value).first > (tmp->value).first)
+										tmp = tmp->parent;
+									p = tmp;
+								}
+								return *this;
+							}
 
-		iterator_map					operator++(const int n) {(void)n;iterator_map tmp(*this); operator++(); return tmp;}
+		iterator_map		operator++(const int n) {
+								(void)n;
+								iterator_map tmp(*this);
+								operator++();
+								return tmp;
+							}
 
-		iterator_map&					operator--() {--p;return *this;}
+		iterator_map&		operator--() {
+								if (p->left) {
+									p = p->left;
+									while (p->right) {
+										p = p->right;
+									}
+								}
+								else if (p->parent) {
+									while (p->parent && (p->value).first < (p->parent->value).first)
+										p = p->parent;
+								}
+								return *this;
+							}
 
 		template <typename A, typename B>
-			friend bool	operator==(const ft::iterator_map<A> src,
-									const ft::iterator_map<B> cmp)
-									{return (src.getP() == cmp.getP());}
+			friend bool		operator==(const ft::iterator_map<A> src,
+										const ft::iterator_map<B> cmp)
+							{return (src.getP() == cmp.getP());}
 
 		template <typename A, typename B>
-			friend bool	operator!=(const ft::iterator_map<A> src,
-									const ft::iterator_map<B> cmp)
-									{return (src.getP() != cmp.getP());}
+			friend bool		operator!=(const ft::iterator_map<A> src,
+										const ft::iterator_map<B> cmp)
+							{return (src.getP() != cmp.getP());}
 
 };
 

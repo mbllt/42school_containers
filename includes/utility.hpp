@@ -145,9 +145,9 @@ template< class Arg1, class Arg2, class Result >
 template<class T>
 	struct Node {
 		Node() :
-			value(T()), left(0), right(0), parent(0) {}
+			value(T()), left(NULL), right(NULL), parent(NULL) {}
 		Node(T val) :
-			value(val), left(0), right(0), parent(0) {}
+			value(val), left(NULL), right(NULL), parent(NULL) {}
 		Node(const Node& copy) :
 			value(copy.value), left(copy.left), right(copy.right), parent(copy.parent) {}
 		Node& operator=(const Node& src) {
