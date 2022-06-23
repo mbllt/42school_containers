@@ -10,7 +10,7 @@ void test() {
 	cont_map[4] = 40;
 	cont_map[1] = 10;
 	cont_map[5] = 50;
-	cont_map[0] = 00;
+	cont_map[6] = 60;
 	cont_map[2] = 20;
 	cont_map[3] = 30;
 	std::cout << "size af :" << cont_map.size() << std::endl;

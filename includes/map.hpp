@@ -96,9 +96,7 @@ namespace ft
 		{
 			_tree = NULL;
 			_begin = NULL;
-			_end = NULL;
-			// node *new_node = init_node(value_type());
-			// _end = new_node;
+			_end = init_node(value_type());
 		}
 
 		template <class InputIt>
@@ -109,9 +107,7 @@ namespace ft
 		{
 			_tree = NULL;
 			_begin = NULL;
-			_end = NULL;
-			// node *new_node = init_node(value_type());
-			// _end = new_node;
+			_end = init_node(value_type());
 			// insert(first, last);
 		}
 
@@ -157,9 +153,9 @@ namespace ft
 
 		const_iterator begin() const { return _begin != NULL ? iterator( _begin) : const_iterator(); }
 
-		iterator end() { return _end != NULL ? iterator(_end) : iterator(); }
+		iterator end() { return _end != NULL ? iterator(_end->right) : iterator(); }
 
-		const_iterator end() const { return _end != NULL ? iterator(_end) : const_iterator(); }
+		const_iterator end() const { return _end != NULL ? iterator(_end->right) : const_iterator(); }
 
 		// reverse_iterator rbegin();
 
@@ -187,27 +183,28 @@ namespace ft
 // leaks !
 		void clear()
 		{
-			node* tmp = _begin;
+			// //_alloc_node.destroy(_end->right);
+			// node* tmp = _begin;
 
-			while (_size){
-				if (!(_begin->right)) {
-					if (tmp->parent)
-						tmp = tmp->parent;
-					// std::cout << "HERE1\n";
-					_alloc_node.destroy(_begin);
-					_begin = tmp;
-					--_size;
-				}
-				else {
-					_begin = _begin->right;
-					while (_begin && _begin->left)
-						_begin = _begin->left;
-				}
-			}
-			_size = 0;
-			_begin = NULL;
-			_end = NULL; //
-			_tree = NULL;
+			// while (_size){
+			// 	if (!(_begin->right)) {
+			// 		if (tmp->parent)
+			// 			tmp = tmp->parent;
+			// 		// std::cout << "HERE1\n";
+			// 		_alloc_node.destroy(_begin);
+			// 		_begin = tmp;
+			// 		--_size;
+			// 	}
+			// 	else {
+			// 		_begin = _begin->right;
+			// 		while (_begin && _begin->left)
+			// 			_begin = _begin->left;
+			// 	}
+			// }
+			// _size = 0;
+			// _begin = NULL;
+			// _end = NULL; //
+			// _tree = NULL;
 		}
 
 		pair<iterator, bool> insert(const value_type &value)
@@ -217,8 +214,9 @@ namespace ft
 			if (!_tree) {
 				_tree = new_node;
 				_begin = new_node;
-				// new_node->right = _end;
-				_end = new_node; //
+				new_node->right = _end;
+				_end = new_node;
+				new_node->right = NULL;
 				++_size;
 				return ft::make_pair(iterator(new_node), true);
 			}
@@ -254,8 +252,9 @@ namespace ft
 			if (_comp((pivot->value).first, (_begin->value).first))
 				_begin = pivot;
 			if (_comp((_end->value).first, (pivot->value).first)) {
-				// pivot->right = _end;
-				_end = pivot; //
+				pivot->right = _end;
+				_end = pivot;
+				pivot->right = NULL;
 			}
 			++_size;
 			return ft::make_pair(iterator(new_node), true);
