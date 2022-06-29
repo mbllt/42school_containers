@@ -23,35 +23,35 @@ namespace ft
 	{
 
 	public:
-		typedef Key key_type;
-		typedef T mapped_type;
-		typedef ft::pair<const Key, T> value_type;
-		typedef typename Allocator::size_type size_type;
-		typedef typename Allocator::difference_type difference_type;
-		typedef Compare key_compare;
-		typedef Allocator allocator_type;
-		typedef Node<value_type> node;
-		typedef typename Allocator::rebind<Node<value_type> >::other alloc_node;
-		//				mon allocator de base est fait pour allouer des ft::pair. Pour changer ca,
-		//				jutilise rebind, cest un typedef template que tous les allocators ont.
-		typedef typename Allocator::reference reference;
-		typedef typename Allocator::const_reference const_reference;
-		typedef typename Allocator::pointer pointer;
-		typedef typename Allocator::const_pointer const_pointer;
-		typedef ft::iterator_map<value_type> iterator;
-		typedef ft::iterator_map<value_type> const_iterator;
-		// typedef ft::reverse_iterator<ft::pair<const Key, T> >			reverse_iterator;
-		// typedef ft::reverse_iterator<const ft::pair<const Key, T> >		const_reverse_iterator;
+		typedef Key																key_type;
+		typedef T																mapped_type;
+		typedef ft::pair<const Key, T>											value_type;
+		typedef typename Allocator::size_type									size_type;
+		typedef typename Allocator::difference_type								difference_type;
+		typedef Compare															key_compare;
+		typedef Allocator														allocator_type;
+		typedef Node<value_type>												node;
+		typedef typename Allocator::template rebind<Node<value_type> >::other	alloc_node;
+		//	->mon allocator de base est fait pour allouer des ft::pair. Pour changer ca,
+		//	jutilise rebind, cest un typedef template que tous les allocators ont.
+		typedef typename Allocator::reference									reference;
+		typedef typename Allocator::const_reference								const_reference;
+		typedef typename Allocator::pointer										pointer;
+		typedef typename Allocator::const_pointer								const_pointer;
+		typedef ft::iterator_map<value_type>									iterator;
+		typedef ft::iterator_map<value_type>									const_iterator;
+		// typedef ft::reverse_iterator<ft::pair<const Key, T> >				reverse_iterator;
+		// typedef ft::reverse_iterator<const ft::pair<const Key, T> >			const_reverse_iterator;
 
 	private:
-		allocator_type _alloc;
-		alloc_node _alloc_node;
-		Compare _comp;
-		Node<value_type> *_tree;
-		Node<value_type> *_begin;
-		Node<value_type> *_end;
-		size_type _size;
-		size_type _height;
+		allocator_type		_allocPair;
+		alloc_node			_allocNode;
+		Compare				_comp;
+		Node<value_type>*	_tree;
+		Node<value_type>*	_begin;
+		Node<value_type>*	_end;
+		size_type			_size;
+		size_type			_height;
 
 		void _copy(map const &copy)
 		{
@@ -62,15 +62,32 @@ namespace ft
 			insert(copy._begin, copy._end);
 		}
 
-		node *init_node(value_type value)
+		node *_init_node(value_type value)
 		{
-			node *new_node = _alloc_node.allocate(1);
-			_alloc_node.construct(new_node, value);
+			node *new_node = _allocNode.allocate(1);
+			_allocNode.construct(new_node, value);
 			// il va utiliser le constructeur de value_type. Jaurais pu mettre
 			// en deuxieme parametre Node(value) mais ca m'aurait creer un objet
 			// pour ensuite copier lobjet dans new-node. Ici, je lui assigne directement
 			// les valeurs.
 			return new_node;
+		}
+
+		void _delete_node(node *deleteNode) {
+			if (!deleteNode)
+				return ;
+			_allocNode.destroy(deleteNode);
+			_allocNode.deallocate(deleteNode, 1);
+			deleteNode = NULL;
+			--_size;
+		}
+
+		void _clear_node(node *clearNode) {
+			if (!clearNode)
+				return ;
+			_clear_node(clearNode->left);
+			_clear_node(clearNode->right);
+			_delete_node(clearNode);
 		}
 
 	public:
@@ -92,22 +109,22 @@ namespace ft
 
 		explicit map(const key_compare &comp = key_compare(),
 					 const allocator_type &alloc = allocator_type()) :
-					 _alloc(alloc), _alloc_node(alloc), _comp(comp), _size(0), _height(0)
+					 _allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
 		{
 			_tree = NULL;
 			_begin = NULL;
-			_end = init_node(value_type());
+			_end = _init_node(value_type());
 		}
 
 		template <class InputIt>
 		map(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last,
 			const key_compare &comp = key_compare(),
 			const allocator_type &alloc = allocator_type()) :
-			_alloc(alloc), _alloc_node(alloc), _comp(comp), _size(0), _height(0)
+			_allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
 		{
 			_tree = NULL;
 			_begin = NULL;
-			_end = init_node(value_type());
+			_end = _init_node(value_type());
 			// insert(first, last);
 		}
 
@@ -129,7 +146,7 @@ namespace ft
 			return *this;
 		}
 
-		allocator_type get_allocator() const { return _alloc; }
+		allocator_type get_allocator() const { return _allocPair; }
 
 		//	------------------------------------------------
 
@@ -183,33 +200,15 @@ namespace ft
 // leaks !
 		void clear()
 		{
-			// //_alloc_node.destroy(_end->right);
-			// node* tmp = _begin;
-
-			// while (_size){
-			// 	if (!(_begin->right)) {
-			// 		if (tmp->parent)
-			// 			tmp = tmp->parent;
-			// 		// std::cout << "HERE1\n";
-			// 		_alloc_node.destroy(_begin);
-			// 		_begin = tmp;
-			// 		--_size;
-			// 	}
-			// 	else {
-			// 		_begin = _begin->right;
-			// 		while (_begin && _begin->left)
-			// 			_begin = _begin->left;
-			// 	}
-			// }
-			// _size = 0;
-			// _begin = NULL;
-			// _end = NULL; //
-			// _tree = NULL;
+			_clear_node(_tree);
+			_begin = NULL;
+			_end = NULL; //
+			_tree = NULL;
 		}
 
 		pair<iterator, bool> insert(const value_type &value)
 		{
-			node* new_node = init_node(value);
+			node* new_node = _init_node(value);
 
 			if (!_tree) {
 				_tree = new_node;

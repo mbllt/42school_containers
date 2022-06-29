@@ -53,8 +53,8 @@ PATH_OBJS=		vector stack map
 
 
 #------------- COMPILER -------------
-CC=				c++
 FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/
+CC=				c++
 SAN=			-fsanitize=address -g3
 #------------------------------------
 
@@ -87,13 +87,17 @@ RM=				/bin/rm -rf
 
 all:							make_dir vector stack map
 
-
 vector:							make_dir $(VEC_EXE_STD) $(VEC_EXE_MINE) $(VEC_EXE_STD_SAN) $(VEC_EXE_MINE_SAN)
 
 stack:							make_dir $(STACK_EXE_STD) $(STACK_EXE_MINE) $(STACK_EXE_STD_SAN) $(STACK_EXE_MINE_SAN)
 
 map:							make_dir $(MAP_EXE_STD) $(MAP_EXE_MINE) $(MAP_EXE_STD_SAN) $(MAP_EXE_MINE_SAN)
 
+re_vector:						fclean vector
+
+re_stack:						fclean stack
+
+re_map:							fclean map
 
 #-------------- EXE -----------------
 $(BIN_DIR)/%_std:				$(OBJS_DIR)/%_std.o
