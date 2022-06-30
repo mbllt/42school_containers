@@ -70,6 +70,7 @@ namespace ft
 			// en deuxieme parametre Node(value) mais ca m'aurait creer un objet
 			// pour ensuite copier lobjet dans new-node. Ici, je lui assigne directement
 			// les valeurs.
+			++_size;
 			return new_node;
 		}
 
@@ -113,7 +114,7 @@ namespace ft
 		{
 			_tree = NULL;
 			_begin = NULL;
-			_end = _init_node(value_type());
+			_end = NULL;
 		}
 
 		template <class InputIt>
@@ -124,7 +125,7 @@ namespace ft
 		{
 			_tree = NULL;
 			_begin = NULL;
-			_end = _init_node(value_type());
+			_end = NULL;
 			// insert(first, last);
 		}
 
@@ -202,7 +203,7 @@ namespace ft
 		{
 			_clear_node(_tree);
 			_begin = NULL;
-			_end = NULL; //
+			_end = NULL;
 			_tree = NULL;
 		}
 
@@ -213,10 +214,7 @@ namespace ft
 			if (!_tree) {
 				_tree = new_node;
 				_begin = new_node;
-				new_node->right = _end;
 				_end = new_node;
-				new_node->right = NULL;
-				++_size;
 				return ft::make_pair(iterator(new_node), true);
 			}
 			// check if exists with find
@@ -250,12 +248,8 @@ namespace ft
 				parent->left = pivot;
 			if (_comp((pivot->value).first, (_begin->value).first))
 				_begin = pivot;
-			if (_comp((_end->value).first, (pivot->value).first)) {
-				pivot->right = _end;
+			if (_comp((_end->value).first, (pivot->value).first))
 				_end = pivot;
-				pivot->right = NULL;
-			}
-			++_size;
 			return ft::make_pair(iterator(new_node), true);
 		}
 
