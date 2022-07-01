@@ -28,7 +28,7 @@ class iterator_map {
 
 //	--------------->> CONSTRUCTORS <<---------------
 
-		iterator_map() {p->value = value_type();p->left = 0;p->right = 0;p->parent = 0;}
+		iterator_map() : p() {}
 		iterator_map(node_pointer new_node) : p(new_node) {}
 		iterator_map(iterator_map const & copy) : p(copy.p) {}
 		~iterator_map() {}

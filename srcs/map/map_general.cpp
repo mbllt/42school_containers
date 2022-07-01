@@ -20,11 +20,8 @@ void test() {
 	std::cout << "print af :";
 	displayMap(cont_map);
 
-	cont_map.clear();
-
-	std::cout << "test clear and print after :\n";
-	std::cout << "print :";
-	displayMap(cont_map);
+	typename map<int, int>::iterator it = cont_map.find(8);
+	std::cout << "test find :" << it->first << "\n";
 }
 
 // try to use a valid map with items in it and then clear it

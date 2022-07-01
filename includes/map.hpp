@@ -74,6 +74,18 @@ namespace ft
 			return new_node;
 		}
 
+		node* _find_node(node *tree, const Key& key) {
+			if (!tree)
+				return _end;
+			if (key == (tree->value).first)
+				return tree;
+			if (_comp(key, (tree->value).first))
+				tree = _find_node(tree->left, key);
+			else
+				tree = _find_node(tree->right, key);
+			return tree;
+		}
+
 		void _delete_node(node *deleteNode) {
 			if (!deleteNode)
 				return ;
@@ -270,7 +282,9 @@ namespace ft
 
 		size_type count(const Key &key) const;
 
-		iterator find(const Key &key);
+		iterator find(const Key &key) {
+			return _find_node(_tree, key);
+		}
 
 		const_iterator find(const Key &key) const;
 
