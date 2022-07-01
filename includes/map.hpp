@@ -86,6 +86,14 @@ namespace ft
 			return tree;
 		}
 
+		node* _insert_node(node* tree, const value_type &value) {
+			if (tree->left && _comp(value.first, (tree->value).first))
+				tree = _insert_node(tree->left, value);
+			else if (tree->right)
+				tree = _insert_node(tree->right, value);
+			return tree;
+		}
+
 		void _delete_node(node *deleteNode) {
 			if (!deleteNode)
 				return ;
@@ -221,6 +229,10 @@ namespace ft
 
 		pair<iterator, bool> insert(const value_type &value)
 		{
+			iterator it = _find_node(_tree, value.first);
+			if (it != iterator(_end)) 
+				return ft::make_pair(iterator(it), false);
+
 			node* new_node = _init_node(value);
 
 			if (!_tree) {
@@ -229,39 +241,18 @@ namespace ft
 				_end = new_node;
 				return ft::make_pair(iterator(new_node), true);
 			}
-			// check if exists with find
 
-			// put it in the right place
-			bool child = 0;
-			node* pivot = _tree;
-			node* tmp = pivot;
-			node* parent = _tree;
-			(void)tmp;
-			while (pivot) {
-				tmp = pivot;
-				while (pivot && _comp(value.first, (pivot->value).first)) {
-					parent = pivot;
-					pivot = pivot->left;
-					if (!pivot)
-						child = 0;
-				}
-				while (pivot && _comp((pivot->value).first, value.first)) {
-					parent = pivot;
-					pivot = pivot->right;
-					if (!pivot)
-						child = 1;
-				}
-			}
-			pivot = new_node;
-			pivot->parent = parent;
-			if (child)
-				parent->right = pivot;
+			node* tmp = _insert_node(_tree, value);
+
+			new_node->parent = tmp;
+			if (_comp(value.first, (tmp->value).first))
+				tmp->left = new_node;
 			else
-				parent->left = pivot;
-			if (_comp((pivot->value).first, (_begin->value).first))
-				_begin = pivot;
-			if (_comp((_end->value).first, (pivot->value).first))
-				_end = pivot;
+				tmp->right = new_node;
+			if (_comp((new_node->value).first, (_begin->value).first))
+				_begin = new_node;
+			if (_comp((_end->value).first, (new_node->value).first))
+				_end = new_node;
 			return ft::make_pair(iterator(new_node), true);
 		}
 

@@ -16,6 +16,7 @@ void test() {
 	cont_map[6] = 60;
 	cont_map[2] = 20;
 	cont_map[3] = 30;
+	cont_map[3] = 40;
 	std::cout << "size af :" << cont_map.size() << std::endl;
 	std::cout << "print af :";
 	displayMap(cont_map);
