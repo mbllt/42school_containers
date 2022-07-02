@@ -72,7 +72,9 @@ namespace ft
 		// }
 
 		size_type _get_height(node* tree) const {
-			if (!tree || (!tree->right && !tree->left))
+			if (!tree)
+				return -1;
+			if (!tree->right && !tree->left)
 				return 0;
 			
 			size_type H = 0;
@@ -86,6 +88,12 @@ namespace ft
 
 			H = std::max(Tr, Tl) + 1;
 			return H;
+		}
+
+		bool _is_balanced() {
+			return (_get_height(_tree->right) + _get_height(_tree->left) <= 1
+					&& _get_height(_tree->right) + _get_height(_tree->left) >= 0)
+					 ? true : false;
 		}
 
 		node *_init_node(value_type value)
@@ -122,16 +130,14 @@ namespace ft
 			b->right = tmp;
 		}
 
-		// same thing...
-		void _left_rot(node* b, node *a) {
-			node tmp = b;
-
-			b->parent = a;
-			b->right = a->left;
-			if (a->left)
-				(a->left)->parent = b;
-			a->parent = tmp->parent;
-			a->left = tmp;
+		void _left_rot(node* a, node *b) {
+			node tmp = a;
+			a->parent = b;
+			a->right = b->left;
+			if (b->left)
+				(b->left)->parent = a;
+			b->parent = tmp->parent;
+			b->left = tmp;
 		}
 
 		node* _insert_node(node* tree, const value_type &value) {

@@ -25,8 +25,6 @@ void test() {
 	typename map<int, int>::iterator it = cont_map.find(8);
 	std::cout << "test find :" << it->first << "\n";
 
-	std::cout << "test height :" << cont_map.height() << "\n";
-
 }
 
 // try to use a valid map with items in it and then clear it
