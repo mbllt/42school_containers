@@ -62,6 +62,32 @@ namespace ft
 			insert(copy._begin, copy._end);
 		}
 
+		// unsigned int _right_height(node *tree, unsigned int h) {
+			
+		// }
+
+		// unsigned int _left_height(node *tree, unsigned int h) {
+
+
+		// }
+
+		size_type _get_height(node* tree) const {
+			if (!tree || (!tree->right && !tree->left))
+				return 0;
+			
+			size_type H = 0;
+			size_type Tl = 0;
+			size_type Tr = 0;
+
+			if (tree->left)
+				Tl += _get_height(tree->left);
+			if (tree->right)
+				Tr += _get_height(tree->right);
+
+			H = std::max(Tr, Tl) + 1;
+			return H;
+		}
+
 		node *_init_node(value_type value)
 		{
 			node *new_node = _allocNode.allocate(1);
@@ -84,6 +110,28 @@ namespace ft
 			else
 				tree = _find_node(tree->right, key);
 			return tree;
+		}
+
+		void _right_rot(node* a, node *b) {
+			node tmp = a;
+			a->parent = b;
+			a->left = b->right;
+			if (b->right)
+				(b->right)->parent = a;
+			b->parent = tmp->parent;
+			b->right = tmp;
+		}
+
+		// same thing...
+		void _left_rot(node* b, node *a) {
+			node tmp = b;
+
+			b->parent = a;
+			b->right = a->left;
+			if (a->left)
+				(a->left)->parent = b;
+			a->parent = tmp->parent;
+			a->left = tmp;
 		}
 
 		node* _insert_node(node* tree, const value_type &value) {
@@ -249,10 +297,12 @@ namespace ft
 				tmp->left = new_node;
 			else
 				tmp->right = new_node;
+
 			if (_comp((new_node->value).first, (_begin->value).first))
 				_begin = new_node;
 			if (_comp((_end->value).first, (new_node->value).first))
 				_end = new_node;
+
 			return ft::make_pair(iterator(new_node), true);
 		}
 
