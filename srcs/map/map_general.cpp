@@ -17,15 +17,14 @@ void test() {
 	cont_map[2] = 20;
 	cont_map[7] = 70;
 	cont_map[8] = 80;
-	// cont_map[9] = 90;
+	cont_map[9] = 90;
 	std::cout << "size af :" << cont_map.size() << std::endl;
 	std::cout << "print af :";
 	displayMap(cont_map);
 
-	// END not working or find but not likely
-	// typename map<int, int>::iterator it = cont_map.find(8);
-	// if (it != cont_map.end())
-	// 	std::cout << "n was found :" << it->first << "\n";
+	typename map<int, int>::iterator it = cont_map.find(74);
+	if (it != cont_map.end())
+		std::cout << "n was found :" << it->first << "\n";
 
 }
 

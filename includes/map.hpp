@@ -17,41 +17,40 @@ namespace ft
 		class Key,
 		class T,
 		class Compare = std::less<Key>,
-		class Allocator = std::allocator<ft::pair<const Key, T> >
-	>
+		class Allocator = std::allocator<ft::pair<const Key, T> > >
 	class map
 	{
 
 	public:
-		typedef Key																key_type;
-		typedef T																mapped_type;
-		typedef ft::pair<const Key, T>											value_type;
-		typedef typename Allocator::size_type									size_type;
-		typedef typename Allocator::difference_type								difference_type;
-		typedef Compare															key_compare;
-		typedef Allocator														allocator_type;
-		typedef Node<value_type>												node;
-		typedef typename Allocator::template rebind<Node<value_type> >::other	alloc_node;
+		typedef Key key_type;
+		typedef T mapped_type;
+		typedef ft::pair<const Key, T> value_type;
+		typedef typename Allocator::size_type size_type;
+		typedef typename Allocator::difference_type difference_type;
+		typedef Compare key_compare;
+		typedef Allocator allocator_type;
+		typedef Node<value_type> node;
+		typedef typename Allocator::template rebind<Node<value_type> >::other alloc_node;
 		//	->mon allocator de base est fait pour allouer des ft::pair. Pour changer ca,
 		//	jutilise rebind, cest un typedef template que tous les allocators ont.
-		typedef typename Allocator::reference									reference;
-		typedef typename Allocator::const_reference								const_reference;
-		typedef typename Allocator::pointer										pointer;
-		typedef typename Allocator::const_pointer								const_pointer;
-		typedef ft::iterator_map<value_type>									iterator;
-		typedef ft::iterator_map<value_type>									const_iterator;
+		typedef typename Allocator::reference reference;
+		typedef typename Allocator::const_reference const_reference;
+		typedef typename Allocator::pointer pointer;
+		typedef typename Allocator::const_pointer const_pointer;
+		typedef ft::iterator_map<value_type> iterator;
+		typedef ft::iterator_map<value_type> const_iterator;
 		// typedef ft::reverse_iterator<ft::pair<const Key, T> >				reverse_iterator;
 		// typedef ft::reverse_iterator<const ft::pair<const Key, T> >			const_reverse_iterator;
 
 	private:
-		allocator_type		_allocPair;
-		alloc_node			_allocNode;
-		Compare				_comp;
-		Node<value_type>*	_root;
-		Node<value_type>*	_begin;
-		Node<value_type>*	_end;
-		size_type			_size;
-		size_type			_height;
+		allocator_type _allocPair;
+		alloc_node _allocNode;
+		Compare _comp;
+		Node<value_type> *_root;
+		Node<value_type> *_begin;
+		Node<value_type> *_end;
+		size_type _size;
+		size_type _height;
 
 		void _copy(map const &copy)
 		{
@@ -62,12 +61,31 @@ namespace ft
 			insert(copy._begin, copy._end);
 		}
 
-		int _get_height(node* tree) const {
+		void print_info_node(node *node) {
+			std::cout << "\n-------\n";
+			std::cout << "size of tree : " << _size << "\n";
+			std::cout << "node : " << (node->value).first << "\n";
+			std::cout << "node->parent : " << (node->parent->value).first << "\n";
+			if (node->parent->right && node->parent->right != _end)
+				std::cout << "parent->right : " << (node->parent->right->value).first << "\n";
+			if (node->parent->left)
+				std::cout << "parent->left : " << (node->parent->left->value).first << "\n";
+			std::cout << "begin : " << (_begin->value).first << "\n";
+			std::cout << "last : " << (_end->parent->value).first << "\n";
+			std::cout << "-------\n";
+		}
+
+		bool _end_of_branch(node* tree) const {
+			return (!tree || tree->right == _end);
+		}
+
+		int _get_height(node *tree) const
+		{
 			if (!tree)
 				return -1;
-			if (!tree->right && !tree->left)
+			if (tree == _end || (!tree->right && !tree->left))
 				return 0;
-			
+
 			int H = 0;
 			int Tl = 0;
 			int Tr = 0;
@@ -81,24 +99,26 @@ namespace ft
 			return H;
 		}
 
-		bool _is_balanced() {
-			return (_get_height(_root->right) - _get_height(_root->left) <= 1
-					&& _get_height(_root->right) - _get_height(_root->left) >= -1)
-					 ? true : false;
+		bool _is_balanced()
+		{
+			return (_get_height(_root->right) - _get_height(_root->left) <= 1 && _get_height(_root->right) - _get_height(_root->left) >= -1)
+					   ? true
+					   : false;
 		}
 
-		void _balance(node *tree) {
+		void _balance(node *tree)
+		{
 			if (_is_balanced())
-				return ;
-			(void)tree;
-			// std::cout << "NOT BALANCED\n";
-			if (_get_height(tree->left) > _get_height(tree->right)) {
-				return ;
+				return;
+			if (_get_height(tree->left) > _get_height(tree->right))
+			{
+				return;
 				if (tree->left && (tree->left)->right)
 					_left_rot(tree->left, (tree->left)->right);
 				_right_rot(tree, tree->left);
 			}
-			else {
+			else if (tree->right && tree->right != _end)
+			{
 				if (tree->right && (tree->right)->left)
 					_right_rot(tree->right, (tree->right)->left);
 				_left_rot(tree, tree->right);
@@ -117,8 +137,9 @@ namespace ft
 			return new_node;
 		}
 
-		node* _find_node(node *tree, const Key& key) {
-			if (!tree)
+		node *_find_node(node *tree, const Key &key)
+		{
+			if (_end_of_branch(tree))
 				return _end;
 			if (key == (tree->value).first)
 				return tree;
@@ -129,26 +150,28 @@ namespace ft
 			return tree;
 		}
 
-		void _right_rot(node* a, node *b) {
+		void _right_rot(node *a, node *b)
+		{
 			a->left = b->right;
 			if (b->right)
 				(b->right)->parent = a;
 			b->right = a;
 			b->parent = a->parent;
 
-//	if a parent exists they have to point to the good child
+			//	if a parent exists they have to point to the good child
 			if (a->parent && a->parent->right == a)
 				a->parent->right = b;
 			else if (a->parent)
 				a->parent->left = b;
 
-//	updtae of root if we switched it
+			//	updtae of root if we switched it
 			a->parent = b;
 			if (!b->parent)
 				_root = b;
 		}
 
-		void _left_rot(node* a, node *b) {
+		void _left_rot(node *a, node *b)
+		{
 			a->right = b->left;
 			if (b->left)
 				(b->left)->parent = a;
@@ -163,7 +186,10 @@ namespace ft
 				_root = b;
 		}
 
-		node* _insert_node(node* tree, const value_type &value) {
+		node *_insert_node(node *tree, const value_type &value)
+		{
+			if (_end_of_branch(tree))
+				return tree;
 			if (tree->left && _comp(value.first, (tree->value).first))
 				tree = _insert_node(tree->left, value);
 			else if (tree->right)
@@ -171,18 +197,21 @@ namespace ft
 			return tree;
 		}
 
-		void _delete_node(node *deleteNode) {
+		void _delete_node(node *deleteNode)
+		{
 			if (!deleteNode)
-				return ;
+				return;
 			_allocNode.destroy(deleteNode);
 			_allocNode.deallocate(deleteNode, 1);
 			deleteNode = NULL;
-			--_size;
+			if (_size)
+				--_size;
 		}
 
-		void _clear_node(node *clearNode) {
+		void _clear_node(node *clearNode)
+		{
 			if (!clearNode)
-				return ;
+				return;
 			_clear_node(clearNode->left);
 			_clear_node(clearNode->right);
 			_delete_node(clearNode);
@@ -193,12 +222,12 @@ namespace ft
 
 		class value_compare : ft::binary_function<value_type, value_type, bool>
 		{
-			public:
-				bool operator()(const value_type &lhs, const value_type &rhs) const { return comp(lhs.first, rhs.first); }
+		public:
+			bool operator()(const value_type &lhs, const value_type &rhs) const { return comp(lhs.first, rhs.first); }
 
-			protected:
-				value_compare(Compare C) : comp(C) {}
-				Compare comp;
+		protected:
+			value_compare(Compare C) : comp(C) {}
+			Compare comp;
 		};
 
 		//	------------------------------------------------
@@ -206,23 +235,28 @@ namespace ft
 		//	--------------->> CONSTRUCTORS <<---------------
 
 		explicit map(const key_compare &comp = key_compare(),
-					 const allocator_type &alloc = allocator_type()) :
-					 _allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
+					 const allocator_type &alloc = allocator_type()) : _allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
 		{
 			_root = NULL;
 			_begin = NULL;
-			_end = NULL;
+			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
+			node *new_node = _init_node(value);
+			_end = new_node;
+			--_size;
 		}
 
 		template <class InputIt>
 		map(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last,
 			const key_compare &comp = key_compare(),
-			const allocator_type &alloc = allocator_type()) :
-			_allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
+			const allocator_type &alloc = allocator_type()) : _allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
 		{
 			_root = NULL;
 			_begin = NULL;
 			_end = NULL;
+			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
+			node *new_node = _init_node(value);
+			_end = new_node;
+			--_size;
 			// insert(first, last);
 		}
 
@@ -266,11 +300,11 @@ namespace ft
 
 		iterator begin() { return _begin != NULL ? iterator(_begin) : iterator(); }
 
-		const_iterator begin() const { return _begin != NULL ? iterator( _begin) : const_iterator(); }
+		const_iterator begin() const { return _begin != NULL ? iterator(_begin) : const_iterator(); }
 
-		iterator end() { return _end != NULL ? iterator(_end->right) : iterator(); }
+		iterator end() { return _end; }
 
-		const_iterator end() const { return _end != NULL ? iterator(_end->right) : const_iterator(); }
+		const_iterator end() const { return _end; }
 
 		// reverse_iterator rbegin();
 
@@ -294,44 +328,50 @@ namespace ft
 
 		//	--------------->> MODIFIERS <<------------------
 
-
-// leaks !
 		void clear()
 		{
+			if (!_root)
+				_delete_node(_end);
 			_clear_node(_root);
-			_begin = NULL;
-			_end = NULL;
-			_root = NULL;
 		}
 
 		pair<iterator, bool> insert(const value_type &value)
 		{
 			iterator it = _find_node(_root, value.first);
-			if (it != iterator(_end)) 
+			if (it != iterator(_end))
 				return ft::make_pair(iterator(it), false);
 
-			node* new_node = _init_node(value);
+			node *new_node = _init_node(value);
 
-			if (!_root) {
+			if (!_root)
+			{
+				new_node->right = _end;
+				_end->parent = new_node;
 				_root = new_node;
 				_begin = new_node;
-				_end = new_node;
 				return ft::make_pair(iterator(new_node), true);
 			}
 
-			node* tmp = _insert_node(_root, value);
 
+			node *tmp = _insert_node(_root, value);
 			new_node->parent = tmp;
 			if (_comp(value.first, (tmp->value).first))
-				tmp->left = new_node;
+				new_node->parent->left = new_node;
 			else
-				tmp->right = new_node;
+				new_node->parent->right = new_node;
 
+			//	reset _begin _end if needed
+			if (_comp((_end->parent->value).first, (new_node->value).first))
+			{
+				if (_end->parent->parent && _end->parent->right == _end)
+					_end->parent->right = NULL;
+				new_node->right = _end;
+				_end->parent = new_node;
+			}
 			if (_comp((new_node->value).first, (_begin->value).first))
 				_begin = new_node;
-			if (_comp((_end->value).first, (new_node->value).first))
-				_end = new_node;
 
+			// print_info_node(new_node);
 			_balance(_root);
 
 			return ft::make_pair(iterator(new_node), true);
@@ -354,7 +394,8 @@ namespace ft
 
 		size_type count(const Key &key) const;
 
-		iterator find(const Key &key) {
+		iterator find(const Key &key)
+		{
 			return _find_node(_root, key);
 		}
 
