@@ -14,6 +14,7 @@ void test() {
 	std::cout << "map(copy)\n";
 	map<int, std::string> tres(bis);
 	displayMap(tres);
+	std::cout << "map == copy : " << (tres == bis) << "\n";
 
 }
 

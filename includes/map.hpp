@@ -426,33 +426,47 @@ namespace ft
 	// //	the first param is the instance of the class : this.
 	// //	Here we want the first element to be specifically something.
 
-	// template< class Key, class T, class Compare, class Alloc >
-	// bool operator==( const std::map<Key,T,Compare,Alloc>& lhs,
-	//                  const std::map<Key,T,Compare,Alloc>& rhs );
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator==( const map<Key,T,Compare,Alloc>& lhs,
+					 const map<Key,T,Compare,Alloc>& rhs ) {
+			typename ft::map<Key,T,Compare,Alloc>::iterator itr = rhs.begin();
+			typename ft::map<Key,T,Compare,Alloc>::iterator itl = lhs.begin();
+			typename ft::map<Key,T,Compare,Alloc>::iterator itel = lhs.end();
+
+			while (itl != itel) {
+				if (itr != itl)
+					return false;
+				++itr;
+				++itl;
+			}
+			if (itr == rhs.end())
+				return true;
+			return false;
+		}
 
 	// template< class Key, class T, class Compare, class Alloc >
 	// bool operator!=( const std::map<Key,T,Compare,Alloc>& lhs,
-	//                  const std::map<Key,T,Compare,Alloc>& rhs );
+	//				  const std::map<Key,T,Compare,Alloc>& rhs );
 
 	// template< class Key, class T, class Compare, class Alloc >
 	// bool operator<( const std::map<Key,T,Compare,Alloc>& lhs,
-	//                 const std::map<Key,T,Compare,Alloc>& rhs );
+	//				 const std::map<Key,T,Compare,Alloc>& rhs );
 
 	// template< class Key, class T, class Compare, class Alloc >
 	// bool operator<=( const std::map<Key,T,Compare,Alloc>& lhs,
-	//                  const std::map<Key,T,Compare,Alloc>& rhs );
+	//				  const std::map<Key,T,Compare,Alloc>& rhs );
 
 	// template< class Key, class T, class Compare, class Alloc >
 	// bool operator>( const std::map<Key,T,Compare,Alloc>& lhs,
-	//                 const std::map<Key,T,Compare,Alloc>& rhs );
+	//				 const std::map<Key,T,Compare,Alloc>& rhs );
 
 	// template< class Key, class T, class Compare, class Alloc >
 	// bool operator>=( const std::map<Key,T,Compare,Alloc>& lhs,
-	//                  const std::map<Key,T,Compare,Alloc>& rhs );
+	//				  const std::map<Key,T,Compare,Alloc>& rhs );
 
 	// template< class Key, class T, class Compare, class Alloc >
 	// void swap( std::map<Key,T,Compare,Alloc>& lhs,
-	//            std::map<Key,T,Compare,Alloc>& rhs );
+	//			std::map<Key,T,Compare,Alloc>& rhs );
 
 }
 

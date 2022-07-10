@@ -33,7 +33,7 @@ class iterator_map {
 		iterator_map(iterator_map const & copy) : p(copy.p) {}
 		~iterator_map() {}
 
-		pointer getP() const { return (&(p->value)); }
+		value_type getP() const { return (p->value); }
 
 //	------------------------------------------------
 
@@ -102,7 +102,7 @@ class iterator_map {
 		template <typename A, typename B>
 			friend bool		operator!=(const ft::iterator_map<A> src,
 										const ft::iterator_map<B> cmp)
-							{return (src.getP() != cmp.getP());}
+							{return !(src == cmp);}
 
 };
 
