@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "utility.hpp"
 
 
 template<typename Vec>
@@ -53,11 +54,33 @@ void displayMap(Map& map) {
 		std::cout << " map is empty\n";
 		return ;
 	}
-	std::cout << "{ ";
+	std::cout << "map : { ";
 	for (typename Map::iterator it = map.begin(); it != map.end();++it) {
 		std::cout << "(" << it->first << ";" << it->second << ")" << " ";
 	}
-	std::cout << "}\n";
+	std::cout << "}\n\n";
 }
+
+#ifdef MINE
+  using namespace ft;
+#else
+  using namespace std;
+#endif
+
+template<typename Map>
+void fillMapIntString(Map *map) {
+
+	srand(time(NULL));
+	std::string str[20] = { "test", "pop", "essay", "beeze", "youhou",
+							"orange", "blue", "black", "sun", "best",
+							"yes", "nine", "kakao", "lione", "search",
+							"biking", "mont-blanc", "testing", "ring", "marvelous"};
+	for (int i = 0; i < 10; ++i) {
+		int val = rand() % 20;
+		map->insert(pair<const int, std::string>(i, str[val]));
+	}
+
+}
+
 
 #endif

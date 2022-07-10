@@ -52,8 +52,7 @@ namespace ft
 		size_type _size;
 		size_type _height;
 
-		void _copy(map const &copy)
-		{
+		void _copy(map const &copy) {
 			_size = copy._size();
 			_height = copy._height();
 			_begin = copy._begin;
@@ -76,11 +75,11 @@ namespace ft
 		}
 
 		bool _end_of_branch(node* tree) const {
-			return (!tree || tree->right == _end);
+			// return (!tree || tree->right == _end);
+			return ((!tree->right && !tree->left) || (tree->right == _end && !tree->left));
 		}
 
-		int _get_height(node *tree) const
-		{
+		int _get_height(node *tree) const {
 			if (!tree)
 				return -1;
 			if (tree == _end || (!tree->right && !tree->left))
@@ -99,15 +98,13 @@ namespace ft
 			return H;
 		}
 
-		bool _is_balanced()
-		{
+		bool _is_balanced() {
 			return (_get_height(_root->right) - _get_height(_root->left) <= 1 && _get_height(_root->right) - _get_height(_root->left) >= -1)
 					   ? true
 					   : false;
 		}
 
-		void _balance(node *tree)
-		{
+		void _balance(node *tree) {
 			if (_is_balanced())
 				return;
 			if (_get_height(tree->left) > _get_height(tree->right))
@@ -125,8 +122,7 @@ namespace ft
 			}
 		}
 
-		node *_init_node(value_type value)
-		{
+		node *_init_node(value_type value) {
 			node *new_node = _allocNode.allocate(1);
 			_allocNode.construct(new_node, value);
 			// il va utiliser le constructeur de value_type. Jaurais pu mettre
@@ -137,9 +133,8 @@ namespace ft
 			return new_node;
 		}
 
-		node *_find_node(node *tree, const Key &key)
-		{
-			if (_end_of_branch(tree))
+		node *_find_node(node *tree, const Key &key) {
+			if (!tree || tree->right == _end)
 				return _end;
 			if (key == (tree->value).first)
 				return tree;
@@ -150,8 +145,7 @@ namespace ft
 			return tree;
 		}
 
-		void _right_rot(node *a, node *b)
-		{
+		void _right_rot(node *a, node *b) {
 			a->left = b->right;
 			if (b->right)
 				(b->right)->parent = a;
@@ -170,8 +164,7 @@ namespace ft
 				_root = b;
 		}
 
-		void _left_rot(node *a, node *b)
-		{
+		void _left_rot(node *a, node *b) {
 			a->right = b->left;
 			if (b->left)
 				(b->left)->parent = a;
@@ -186,9 +179,8 @@ namespace ft
 				_root = b;
 		}
 
-		node *_insert_node(node *tree, const value_type &value)
-		{
-			if (_end_of_branch(tree))
+		node *_insert_node(node *tree, const value_type &value) {
+			if (!tree || tree->right == _end)
 				return tree;
 			if (tree->left && _comp(value.first, (tree->value).first))
 				tree = _insert_node(tree->left, value);
@@ -197,8 +189,7 @@ namespace ft
 			return tree;
 		}
 
-		void _delete_node(node *deleteNode)
-		{
+		void _delete_node(node *deleteNode) {
 			if (!deleteNode)
 				return;
 			_allocNode.destroy(deleteNode);
@@ -208,8 +199,7 @@ namespace ft
 				--_size;
 		}
 
-		void _clear_node(node *clearNode)
-		{
+		void _clear_node(node *clearNode) {
 			if (!clearNode)
 				return;
 			_clear_node(clearNode->left);
@@ -220,8 +210,7 @@ namespace ft
 	public:
 		//	----------------->> CLASSES <<-----------------
 
-		class value_compare : ft::binary_function<value_type, value_type, bool>
-		{
+		class value_compare : ft::binary_function<value_type, value_type, bool> {
 		public:
 			bool operator()(const value_type &lhs, const value_type &rhs) const { return comp(lhs.first, rhs.first); }
 
@@ -239,6 +228,7 @@ namespace ft
 		{
 			_root = NULL;
 			_begin = NULL;
+			_end = NULL;
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _init_node(value);
 			_end = new_node;
@@ -257,11 +247,18 @@ namespace ft
 			node *new_node = _init_node(value);
 			_end = new_node;
 			--_size;
-			// insert(first, last);
+			insert(first, last);
 		}
 
-		map(const map &other)
+		map(const map &other) : _allocPair(other._allocPair), _allocNode(other._allocNode), _comp(other._comp), _size(0), _height(0)
 		{
+			_root = NULL;
+			_begin = NULL;
+			_end = NULL;
+			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
+			node *new_node = _init_node(value);
+			_end = new_node;
+			--_size;
 			insert(other.begin(), other.end());
 		}
 
@@ -271,8 +268,7 @@ namespace ft
 
 		//	---------------->> GENERAL <<-----------------
 
-		map &operator=(map const &other)
-		{
+		map &operator=(map const &other) {
 			clear();
 			_copy(other);
 			return *this;
@@ -284,8 +280,7 @@ namespace ft
 
 		//	----------------->> ACCESS <<-------------------
 
-		T &operator[](const Key &key)
-		{
+		T &operator[](const Key &key) {
 			value_type value = ft::make_pair<const Key, T>(key, mapped_type());
 			return (insert(value).first)->second;
 		}
@@ -328,15 +323,13 @@ namespace ft
 
 		//	--------------->> MODIFIERS <<------------------
 
-		void clear()
-		{
+		void clear() {
 			if (!_root)
 				_delete_node(_end);
 			_clear_node(_root);
 		}
 
-		pair<iterator, bool> insert(const value_type &value)
-		{
+		pair<iterator, bool> insert(const value_type &value) {
 			iterator it = _find_node(_root, value.first);
 			if (it != iterator(_end))
 				return ft::make_pair(iterator(it), false);
@@ -380,7 +373,12 @@ namespace ft
 		iterator insert(iterator hint, const value_type &value);
 
 		template <class InputIt>
-		void insert(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last);
+		void insert(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last) {
+			while (first != last) {
+				insert(*first);
+				++first;
+			}
+		}
 
 		iterator erase(iterator pos);
 
@@ -394,9 +392,8 @@ namespace ft
 
 		size_type count(const Key &key) const;
 
-		iterator find(const Key &key)
-		{
-			return _find_node(_root, key);
+		iterator find(const Key &key) {
+			return iterator(_find_node(_root, key));
 		}
 
 		const_iterator find(const Key &key) const;

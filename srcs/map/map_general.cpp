@@ -1,30 +1,19 @@
 #include "test_map.hpp"
-#include <list>
 
 void test() {
 
-	std::list<int> test;
-
-	map<int, int> cont_map;
-
-	std::cout << "size bf :" << cont_map.size() << std::endl;
-	std::cout << "print bf :";
-	displayMap(cont_map);
-	cont_map[4] = 40;
-	cont_map[1] = 10;
-	cont_map[5] = 50;
-	cont_map[6] = 60;
-	cont_map[2] = 20;
-	cont_map[7] = 70;
-	cont_map[8] = 80;
-	cont_map[9] = 90;
-	std::cout << "size af :" << cont_map.size() << std::endl;
-	std::cout << "print af :";
+	std::cout << "map default\n";
+	map<int, std::string> cont_map;
+	fillMapIntString(&cont_map);
 	displayMap(cont_map);
 
-	typename map<int, int>::iterator it = cont_map.find(74);
-	if (it != cont_map.end())
-		std::cout << "n was found :" << it->first << "\n";
+	std::cout << "map(it first, it last)\n";
+	map<int, std::string> bis(cont_map.begin(), cont_map.end());
+	displayMap(bis);
+
+	std::cout << "map(copy)\n";
+	map<int, std::string> tres(bis);
+	displayMap(tres);
 
 }
 
