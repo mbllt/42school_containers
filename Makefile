@@ -33,7 +33,10 @@ SRCS_VEC=		vector/vec_general.cpp\
 				vector/vec_erase.cpp\
 				vector/vec_insert.cpp
 SRCS_STACK=		stack/stack_all.cpp
-SRCS_MAP=		map/map_general.cpp
+SRCS_MAP=		map/map_general.cpp\
+				map/map_accessors.cpp\
+				map/map_it.cpp\
+				map/map_rev_it.cpp
 #------------------------------------
 
 BIN_DIR=		bin
@@ -66,8 +69,9 @@ INC_FILES=		vector.hpp\
 				map.hpp\
 				iterator_traits.hpp\
 				iterator.hpp\
-				iterator_map.hpp\
 				reverse_iterator.hpp\
+				iterator_map.hpp\
+				reverse_iterator_map.hpp\
 				utility.hpp\
 				tests.hpp\
 				test_vector.hpp\

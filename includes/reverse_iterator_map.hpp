@@ -1,5 +1,5 @@
-#ifndef ITERATOR_MAP_HPP
-#define ITERATOR_MAP_HPP
+#ifndef REVERSE_ITERATOR_MAP_HPP
+#define REVERSE_ITERATOR_MAP_HPP
 
 #include <functional>
 #include <memory>
@@ -8,7 +8,7 @@
 namespace ft {
 
 template< class T >
-class iterator_map {
+class reverse_iterator_map {
 
 	public:
 		typedef T							value_type;
@@ -28,10 +28,10 @@ class iterator_map {
 
 //	--------------->> CONSTRUCTORS <<---------------
 
-		iterator_map() : p() {}
-		iterator_map(node_pointer new_node) : p(new_node) {}
-		iterator_map(iterator_map const & copy) : p(copy.p) {}
-		~iterator_map() {}
+		reverse_iterator_map() : p() {}
+		reverse_iterator_map(node_pointer new_node) : p(new_node) {}
+		reverse_iterator_map(reverse_iterator_map const & copy) : p(copy.p) {}
+		~reverse_iterator_map() {}
 
 		value_type getP() const { return (p->value); }
 
@@ -40,7 +40,7 @@ class iterator_map {
 
 //	---------------->> OPERATORS <<-----------------
 
-		iterator_map&		operator=(const iterator_map& src) {p = src.p; return *this;}
+		reverse_iterator_map&		operator=(const reverse_iterator_map& src) {p = src.p; return *this;}
 
 		reference			operator*() {return p->value;}
 		const_reference		operator*() const {return p->value;}
@@ -48,8 +48,29 @@ class iterator_map {
 		pointer				operator->() {return &(p->value);}
 		const_pointer		operator->() const {return &(p->value);}
 
-		iterator_map&		operator++() {
+		reverse_iterator_map&		operator++() {
 
+			if (p->left) {
+				p = p->left;
+				while (p->right) {
+					p = p->right;
+				}
+			}
+			else if (p->parent) {
+				while (p->parent && (p->value).first < (p->parent->value).first)
+					p = p->parent;
+			}
+			return *this;
+		}
+
+		reverse_iterator_map		operator++(const int n) {
+			(void)n;
+			reverse_iterator_map tmp(*this);
+			operator++();
+			return tmp;
+		}
+
+		reverse_iterator_map&		operator--() {
 			if (!(p->right) && !(p->left)) {
 				node *tmp = p->parent;
 				while (tmp && (p->value).first < (tmp->value).first)
@@ -74,42 +95,21 @@ class iterator_map {
 			return *this;
 		}
 
-		iterator_map		operator++(const int n) {
+		reverse_iterator_map		operator--(const int n) {
 			(void)n;
-			iterator_map tmp(*this);
-			operator++();
-			return tmp;
-		}
-
-		iterator_map&		operator--() {
-			if (p->left) {
-				p = p->left;
-				while (p->right) {
-					p = p->right;
-				}
-			}
-			else if (p->parent) {
-				while (p->parent && (p->value).first < (p->parent->value).first)
-					p = p->parent;
-			}
-			return *this;
-		}
-
-		iterator_map		operator--(const int n) {
-			(void)n;
-			iterator_map tmp(*this);
+			reverse_iterator_map tmp(*this);
 			operator--();
 			return tmp;
 		}
 
 		template <typename A, typename B>
-			friend bool		operator==(const ft::iterator_map<A> src,
-										const ft::iterator_map<B> cmp)
+			friend bool		operator==(const ft::reverse_iterator_map<A> src,
+										const ft::reverse_iterator_map<B> cmp)
 			{return (src.getP() == cmp.getP());}
 
 		template <typename A, typename B>
-			friend bool		operator!=(const ft::iterator_map<A> src,
-										const ft::iterator_map<B> cmp)
+			friend bool		operator!=(const ft::reverse_iterator_map<A> src,
+										const ft::reverse_iterator_map<B> cmp)
 			{return !(src == cmp);}
 
 };

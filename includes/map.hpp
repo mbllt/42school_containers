@@ -39,8 +39,11 @@ namespace ft
 		typedef typename Allocator::const_pointer const_pointer;
 		typedef ft::iterator_map<value_type> iterator;
 		typedef ft::iterator_map<value_type> const_iterator;
-		// typedef ft::reverse_iterator<ft::pair<const Key, T> >				reverse_iterator;
-		// typedef ft::reverse_iterator<const ft::pair<const Key, T> >			const_reverse_iterator;
+		// typedef ft::iterator_map<const value_type> const_iterator;
+		typedef ft::reverse_iterator<ft::pair<const Key, T> >				reverse_iterator;
+		typedef ft::reverse_iterator<const ft::pair<const Key, T> >			const_reverse_iterator;
+		// typedef ft::reverse_iterator<value_type> reverse_iterator;
+		// typedef ft::reverse_iterator<const value_type> const_reverse_iterator;
 
 	private:
 		allocator_type _allocPair;
@@ -53,11 +56,18 @@ namespace ft
 		size_type _height;
 
 		void _copy(map const &copy) {
-			_size = copy._size();
-			_height = copy._height();
-			_begin = copy._begin;
-			_end = copy._end;
-			insert(copy._begin, copy._end);
+			_size = 0;
+			_height = 0;
+			_root = NULL;
+			_begin = NULL;
+			_end = NULL;
+			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
+			node *new_node = _init_node(value);
+			_end = new_node;
+			if (copy._root) {
+				--_size;
+				insert(copy.begin(), copy.end());
+			}
 		}
 
 		void print_info_node(node *node) {
@@ -75,7 +85,6 @@ namespace ft
 		}
 
 		bool _end_of_branch(node* tree) const {
-			// return (!tree || tree->right == _end);
 			return ((!tree->right && !tree->left) || (tree->right == _end && !tree->left));
 		}
 
@@ -134,7 +143,7 @@ namespace ft
 		}
 
 		node *_find_node(node *tree, const Key &key) {
-			if (!tree || tree->right == _end)
+			if (!tree || tree == _end)
 				return _end;
 			if (key == (tree->value).first)
 				return tree;
@@ -221,10 +230,12 @@ namespace ft
 
 		//	------------------------------------------------
 
+
 		//	--------------->> CONSTRUCTORS <<---------------
 
 		explicit map(const key_compare &comp = key_compare(),
-					 const allocator_type &alloc = allocator_type()) : _allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
+					 const allocator_type &alloc = allocator_type()) :
+					_allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
 		{
 			_root = NULL;
 			_begin = NULL;
@@ -238,7 +249,8 @@ namespace ft
 		template <class InputIt>
 		map(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last,
 			const key_compare &comp = key_compare(),
-			const allocator_type &alloc = allocator_type()) : _allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
+			const allocator_type &alloc = allocator_type()) :
+			_allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
 		{
 			_root = NULL;
 			_begin = NULL;
@@ -250,7 +262,8 @@ namespace ft
 			insert(first, last);
 		}
 
-		map(const map &other) : _allocPair(other._allocPair), _allocNode(other._allocNode), _comp(other._comp), _size(0), _height(0)
+		map(const map &other) :
+		_allocPair(other._allocPair), _allocNode(other._allocNode), _comp(other._comp), _size(0), _height(0)
 		{
 			_root = NULL;
 			_begin = NULL;
@@ -258,13 +271,16 @@ namespace ft
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _init_node(value);
 			_end = new_node;
-			--_size;
-			insert(other.begin(), other.end());
+			if (other._root) {
+				--_size;
+				insert(other.begin(), other.end());
+			}
 		}
 
 		~map() { clear(); }
 
 		//	------------------------------------------------
+
 
 		//	---------------->> GENERAL <<-----------------
 
@@ -278,6 +294,7 @@ namespace ft
 
 		//	------------------------------------------------
 
+
 		//	----------------->> ACCESS <<-------------------
 
 		T &operator[](const Key &key) {
@@ -285,41 +302,44 @@ namespace ft
 			return (insert(value).first)->second;
 		}
 
-		T &at(const Key &key);
+		T &at(const Key &key) {
+			iterator it = find(key);
+			if (it == end())
+				throw std::out_of_range("map::at");
+			return it->second;
+		}
 
 		const T &at(const Key &key) const;
 
 		//	------------------------------------------------
 
+
 		//	---------------->> ITERATORS <<-----------------
 
 		iterator begin() { return _begin != NULL ? iterator(_begin) : iterator(); }
-
 		const_iterator begin() const { return _begin != NULL ? iterator(_begin) : const_iterator(); }
-
 		iterator end() { return _end; }
-
 		const_iterator end() const { return _end; }
-
-		// reverse_iterator rbegin();
-
-		// const_reverse_iterator rbegin() const;
-
-		// reverse_iterator rend();
-
-		// const_reverse_iterator rend() const;
+		reverse_iterator rbegin() { return _end; }
+		const_reverse_iterator rbegin() const { return _end; }
+		reverse_iterator rend() { return _begin != NULL ? iterator(_begin) : const_iterator(); }
+		const_reverse_iterator rend() const { return _begin != NULL ? iterator(_begin) : const_iterator(); }
+		// reverse_iterator rbegin() { return (reverse_iterator)--(end()); }
+		// const_reverse_iterator rbegin() const { return (const_reverse_iterator)--(end()); }
+		// reverse_iterator rend() { return _begin != NULL ? iterator(_begin) : iterator(); }
+		// const_reverse_iterator rend() const { return _begin != NULL ? const_iterator(_begin) : const_iterator(); }
 
 		//	------------------------------------------------
+
 
 		//	---------------->> CAPACITY <<------------------
 
 		size_type size() const { return _size; }
-
 		bool empty() const { return _root == NULL; }
-
 		size_type max_size() const { return allocator_type().max_size(); }
 
 		//	------------------------------------------------
+
 
 		//	--------------->> MODIFIERS <<------------------
 
@@ -380,6 +400,7 @@ namespace ft
 			}
 		}
 
+// it has to balance itself after each erase
 		iterator erase(iterator pos);
 
 		void erase(iterator first, iterator last);
@@ -387,6 +408,7 @@ namespace ft
 		void swap(map &other);
 
 		//	------------------------------------------------
+
 
 		//	---------------->> LOOKUP <<--------------------
 
@@ -412,6 +434,7 @@ namespace ft
 
 		//	------------------------------------------------
 
+
 		//	--------------->> OBSERVERS <<------------------
 
 		key_compare key_comp() const { return _comp; }
@@ -421,10 +444,10 @@ namespace ft
 		//	------------------------------------------------
 	};
 
-	// //	---------------->> NON MEMBERS <<---------------
-	// // why use non members ? Because by default in a class,
-	// //	the first param is the instance of the class : this.
-	// //	Here we want the first element to be specifically something.
+	//	---------------->> NON MEMBERS <<---------------
+	// why use non members ? Because by default in a class,
+	//	the first param is the instance of the class : this.
+	//	Here we want the first element to be specifically something.
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator==( const map<Key,T,Compare,Alloc>& lhs,
@@ -432,6 +455,11 @@ namespace ft
 			typename ft::map<Key,T,Compare,Alloc>::iterator itr = rhs.begin();
 			typename ft::map<Key,T,Compare,Alloc>::iterator itl = lhs.begin();
 			typename ft::map<Key,T,Compare,Alloc>::iterator itel = lhs.end();
+
+			if (rhs.empty() && lhs.empty())
+				return true;
+			if (rhs.empty() ||  lhs.empty())
+				return false;
 
 			while (itl != itel) {
 				if (itr != itl)
@@ -444,9 +472,10 @@ namespace ft
 			return false;
 		}
 
-	// template< class Key, class T, class Compare, class Alloc >
-	// bool operator!=( const std::map<Key,T,Compare,Alloc>& lhs,
-	//				  const std::map<Key,T,Compare,Alloc>& rhs );
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator!=( const map<Key,T,Compare,Alloc>& lhs,
+					  const map<Key,T,Compare,Alloc>& rhs )
+						{return !(lhs == rhs); }
 
 	// template< class Key, class T, class Compare, class Alloc >
 	// bool operator<( const std::map<Key,T,Compare,Alloc>& lhs,

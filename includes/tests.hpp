@@ -51,14 +51,19 @@ void fillVecString(Vec* cont) {
 template<typename Map>
 void displayMap(Map& map) {
 	if (map.empty()) {
-		std::cout << " map is empty\n";
+		std::cout << "map is empty\n";
 		return ;
 	}
 	std::cout << "map : { ";
 	for (typename Map::iterator it = map.begin(); it != map.end();++it) {
 		std::cout << "(" << it->first << ";" << it->second << ")" << " ";
 	}
-	std::cout << "}\n\n";
+	std::cout << "}\n";
+}
+
+template<typename It>
+void displayMapNode(It& it) {
+	std::cout << "(" << it->first << ";" << it->second << ")";
 }
 
 #ifdef MINE
@@ -71,11 +76,13 @@ template<typename Map>
 void fillMapIntString(Map *map) {
 
 	srand(time(NULL));
+
+// at each compilation srand initialized but not at each funcion use...
 	std::string str[20] = { "test", "pop", "essay", "beeze", "youhou",
 							"orange", "blue", "black", "sun", "best",
 							"yes", "nine", "kakao", "lione", "search",
 							"biking", "mont-blanc", "testing", "ring", "marvelous"};
-	for (int i = 0; i < 10; ++i) {
+	for (int i = 1; i < 11; ++i) {
 		int val = rand() % 20;
 		map->insert(pair<const int, std::string>(i, str[val]));
 	}
