@@ -10,7 +10,7 @@ void test() {
 
 	typename map<int, std::string>::iterator it = mapp.begin();
 
-	//	++(int)
+	//	it++
 	std::cout << "it : ";
 	displayMapNode(it);
 	std::cout << "| ";
@@ -19,7 +19,7 @@ void test() {
 	displayMapNode(it);
 	std::cout << "\n";
 
-	//	--(int)
+	//	it--
 	std::cout << "it : ";
 	displayMapNode(it);
 	std::cout << "| ";
@@ -28,7 +28,7 @@ void test() {
 	displayMapNode(it);
 	std::cout << "\n";
 
-	//	++()
+	//	++it
 	std::cout << "it : ";
 	displayMapNode(it);
 	std::cout << "| ";
@@ -37,7 +37,7 @@ void test() {
 	displayMapNode(it);
 	std::cout << "\n";
 
-	//	--()
+	//	--it
 	std::cout << "it : ";
 	displayMapNode(it);
 	std::cout << "| ";
@@ -46,5 +46,47 @@ void test() {
 	displayMapNode(it);
 	std::cout << "\n";
 
-	std::cout << "--(++it) == it : " << (--(++it) == it) << "\n";
+	std::cout << "_______\n";
+	std::cout << "const iterators\n";
+	map<int, std::string> bis;
+	fillMapIntString(&bis);
+	displayMap(bis);
+
+	typename map<int, std::string>::iterator itbis = bis.begin();
+
+	//	it++
+	std::cout << "itbis : ";
+	displayMapNode(itbis);
+	std::cout << "| ";
+	itbis++;
+	std::cout << "itbis++ : ";
+	displayMapNode(itbis);
+	std::cout << "\n";
+
+	//	it--
+	std::cout << "itbis : ";
+	displayMapNode(itbis);
+	std::cout << "| ";
+	itbis--;
+	std::cout << "itbis-- : ";
+	displayMapNode(itbis);
+	std::cout << "\n";
+
+	//	++it
+	std::cout << "itbis : ";
+	displayMapNode(itbis);
+	std::cout << "| ";
+	++itbis;
+	std::cout << "++itbis : ";
+	displayMapNode(itbis);
+	std::cout << "\n";
+
+	//	--it
+	std::cout << "itbis : ";
+	displayMapNode(itbis);
+	std::cout << "| ";
+	--itbis;
+	std::cout << "--itbis : ";
+	displayMapNode(itbis);
+	std::cout << "\n";
 }

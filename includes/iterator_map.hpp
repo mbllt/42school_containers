@@ -89,8 +89,10 @@ class iterator_map {
 				}
 			}
 			else if (p->parent) {
-				while (p->parent && (p->value).first < (p->parent->value).first)
-					p = p->parent;
+				node *tmp = p->parent;
+				while (tmp && (p->value).first < (tmp->value).first)
+					tmp = tmp->parent;
+				p = tmp;
 			}
 			return *this;
 		}
