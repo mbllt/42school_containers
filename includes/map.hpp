@@ -341,6 +341,8 @@ namespace ft
 		void clear() {
 			if (!this->empty())
 				_clear_node(&_root);
+			_root = NULL;
+			_begin = NULL;
 			_end->parent = NULL;
 		}
 
