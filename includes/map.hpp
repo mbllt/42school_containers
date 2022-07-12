@@ -58,10 +58,6 @@ namespace ft
 			_height = 0;
 			_root = NULL;
 			_begin = NULL;
-			_end = NULL;
-			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
-			node *new_node = _init_node(value);
-			_end = new_node;
 			if (copy._root) {
 				--_size;
 				insert(copy.begin(), copy.end());
@@ -197,10 +193,10 @@ namespace ft
 		}
 
 		void _delete_node(node** deleteNode) {
-			if (!(*deleteNode))
+			if (!(*deleteNode) || *deleteNode == _end)
 				return;
-			_allocNode.destroy(*deleteNode);
-			_allocNode.deallocate(*deleteNode, 1);
+			_allocNode.destroy((*deleteNode));
+			_allocNode.deallocate((*deleteNode), 1);
 			*deleteNode = NULL;
 			if (_size)
 				--_size;
@@ -275,7 +271,12 @@ namespace ft
 			}
 		}
 
-		~map() { clear(); }
+		~map() {
+			clear();
+			_allocNode.destroy(_end);
+			_allocNode.deallocate(_end, 1);
+			_end = NULL;
+		}
 
 		//	------------------------------------------------
 
@@ -338,13 +339,9 @@ namespace ft
 		//	--------------->> MODIFIERS <<------------------
 
 		void clear() {
-// my problem comes from here, sometime I go here when I should not
-			if (this->empty() && _end)
-				_delete_node(&_end);
-			if (!this->empty()) {
+			if (!this->empty())
 				_clear_node(&_root);
-				_end = NULL;
-			}
+			_end->parent = NULL;
 		}
 
 		pair<iterator, bool> insert(const value_type &value) {

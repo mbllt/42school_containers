@@ -20,9 +20,19 @@ void test() {
 	mapp.clear();
 	std::cout << "size map cleared : " << mapp.size() << "\n";
 
-	
 	std::cout << "_______\n";
 	std::cout << "test empty\n";
-	std::cout << "";
+	std::cout << "map is empty : " << mapp.empty() << " - yes\n";
+
+	mapp[90] = "youpi";
+	mapp[91] = "youpi";
+	mapp[92] = "youpi";
+	// mapp[94] = "youpi";
+	// mapp[93] = "youpi";
+	std::cout << "map is empty : " << mapp.empty() << " - no\n";
+
+	fillMapIntString(&mapp);
+	// std::cout << "map is empty : " << mapp.empty() << " - no\n";
+	// displayMap(mapp);
 
 }
