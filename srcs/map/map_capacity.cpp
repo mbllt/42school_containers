@@ -27,12 +27,16 @@ void test() {
 	mapp[90] = "youpi";
 	mapp[91] = "youpi";
 	mapp[92] = "youpi";
-	// mapp[94] = "youpi";
-	// mapp[93] = "youpi";
 	std::cout << "map is empty : " << mapp.empty() << " - no\n";
 
 	fillMapIntString(&mapp);
-	// std::cout << "map is empty : " << mapp.empty() << " - no\n";
-	// displayMap(mapp);
+	std::cout << "map is empty : " << mapp.empty() << " - no\n";
+	displayMap(mapp);
 
+	std::cout << "_______\n";
+	std::cout << "test max_size\n";
+	std::cout << "map<int, std::string> max size : " << mapp.max_size() << "\n";
+
+	map<int, int> bis;
+	std::cout << "map<int, int> max size : " << bis.max_size() << "\n";
 }
