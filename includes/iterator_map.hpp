@@ -30,7 +30,7 @@ class iterator_map {
 
 		iterator_map() : p() {}
 		iterator_map(node_pointer new_node) : p(new_node) {}
-		iterator_map(iterator_map const & copy) : p(copy.p) {}
+		iterator_map(const iterator_map& copy) : p(copy.p) {}
 		~iterator_map() {}
 
 		value_type getP() const { return (p->value); }

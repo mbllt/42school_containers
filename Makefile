@@ -36,7 +36,8 @@ SRCS_STACK=		stack/stack_all.cpp
 SRCS_MAP=		map/map_general.cpp\
 				map/map_accessors.cpp\
 				map/map_it.cpp\
-				map/map_rev_it.cpp
+				map/map_rev_it.cpp\
+				map/map_capacity.cpp
 #------------------------------------
 
 BIN_DIR=		bin

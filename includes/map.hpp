@@ -38,8 +38,8 @@ namespace ft
 		typedef typename Allocator::pointer pointer;
 		typedef typename Allocator::const_pointer const_pointer;
 		typedef ft::iterator_map<value_type> iterator;
-		// typedef ft::iterator_map<value_type> const_iterator;
-		typedef ft::iterator_map<const value_type> const_iterator;
+		typedef ft::iterator_map<value_type> const_iterator;
+		// typedef ft::iterator_map<const value_type> const_iterator;
 		typedef ft::reverse_iterator_map<value_type> reverse_iterator;
 		typedef ft::reverse_iterator_map<const value_type> const_reverse_iterator;
 
@@ -196,21 +196,21 @@ namespace ft
 			return tree;
 		}
 
-		void _delete_node(node *deleteNode) {
-			if (!deleteNode)
+		void _delete_node(node** deleteNode) {
+			if (!(*deleteNode))
 				return;
-			_allocNode.destroy(deleteNode);
-			_allocNode.deallocate(deleteNode, 1);
-			deleteNode = NULL;
+			_allocNode.destroy(*deleteNode);
+			_allocNode.deallocate(*deleteNode, 1);
+			*deleteNode = NULL;
 			if (_size)
 				--_size;
 		}
 
-		void _clear_node(node *clearNode) {
-			if (!clearNode)
+		void _clear_node(node** clearNode) {
+			if (!(*clearNode))
 				return;
-			_clear_node(clearNode->left);
-			_clear_node(clearNode->right);
+			_clear_node(&(*clearNode)->left);
+			_clear_node(&(*clearNode)->right);
 			_delete_node(clearNode);
 		}
 
@@ -338,9 +338,13 @@ namespace ft
 		//	--------------->> MODIFIERS <<------------------
 
 		void clear() {
-			if (!_root)
-				_delete_node(_end);
-			_clear_node(_root);
+// my problem comes from here, sometime I go here when I should not
+			if (this->empty() && _end)
+				_delete_node(&_end);
+			if (!this->empty()) {
+				_clear_node(&_root);
+				_end = NULL;
+			}
 		}
 
 		pair<iterator, bool> insert(const value_type &value) {
