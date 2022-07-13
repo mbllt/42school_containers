@@ -6,10 +6,10 @@ template< class Iter >
 	struct iterator_traits {
 
 		typedef typename Iter::iterator_category	iterator_category;
-		typedef typename Iter::std::ptrdiff_t		difference_type;
-		typedef typename Iter::Iter 				value_type;
-		typedef typename Iter::value_type *			pointer;
-		typedef typename Iter::value_type &			reference;
+		typedef typename Iter::difference_type		difference_type;
+		typedef typename Iter::value_type 			value_type;
+		typedef typename Iter::pointer				pointer;
+		typedef typename Iter::reference			reference;
 	};
 
 template< class T >

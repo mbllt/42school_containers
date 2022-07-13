@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <memory>
+#include <iterator>
 #include "utility.hpp"
 
 namespace ft {
@@ -11,14 +12,13 @@ template< class T >
 class iterator_map {
 
 	public:
-		typedef T							value_type;
-		typedef Node<value_type>			node;
-		typedef node*						node_pointer;
-		typedef std::ptrdiff_t				difference_type;
-		typedef value_type*					pointer;
-		typedef const value_type*			const_pointer;
-		typedef value_type&					reference;
-		typedef const value_type&			const_reference;
+		typedef T									value_type;
+		typedef Node<value_type>					node;
+		typedef node*								node_pointer;
+		typedef std::ptrdiff_t						difference_type;
+		typedef value_type*							pointer;
+		typedef value_type&							reference;
+		typedef std::bidirectional_iterator_tag		iterator_category;
 
 	private:
 
@@ -43,10 +43,8 @@ class iterator_map {
 		iterator_map&		operator=(const iterator_map& src) {p = src.p; return *this;}
 
 		reference			operator*() {return p->value;}
-		const_reference		operator*() const {return p->value;}
 
 		pointer				operator->() {return &(p->value);}
-		const_pointer		operator->() const {return &(p->value);}
 
 		iterator_map&		operator++() {
 			if (p->right) {
@@ -95,14 +93,10 @@ class iterator_map {
 		}
 
 		template <typename A, typename B>
-			friend bool		operator==(const ft::iterator_map<A> src,
-										const ft::iterator_map<B> cmp)
-			{return (src.getP() == cmp.getP());}
+			friend bool operator==(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return (src.getP() == cmp.getP());}
 
 		template <typename A, typename B>
-			friend bool		operator!=(const ft::iterator_map<A> src,
-										const ft::iterator_map<B> cmp)
-			{return !(src == cmp);}
+			friend bool operator!=(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return !(src == cmp);}
 
 };
 

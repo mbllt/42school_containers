@@ -1,117 +1,107 @@
-	#ifndef REVERSE_ITERATOR_MAP_HPP
-	#define REVERSE_ITERATOR_MAP_HPP
+#ifndef REVERSE_ITERATOR_MAP_HPP
+#define REVERSE_ITERATOR_MAP_HPP
 
-	#include <functional>
-	#include <memory>
-	#include "utility.hpp"
+#include "iterator_traits.hpp"
 
-	namespace ft {
+namespace ft {
 
-	template< class T >
-	class reverse_iterator_map {
+template< class Iterator >
+class reverse_iterator_map {
 
-		public:
-			typedef T							value_type;
-			typedef Node<value_type>			node;
-			typedef node*						node_pointer;
-			typedef std::ptrdiff_t				difference_type;
-			typedef value_type*					pointer;
-			typedef const value_type*			const_pointer;
-			typedef value_type&					reference;
-			typedef const value_type&			const_reference;
+	public:
+		typedef Iterator													iterator_type;
+		typedef typename iterator_traits<Iterator>::iterator_category		iterator_category;
+		typedef typename iterator_traits<Iterator>::value_type				value_type;
+		typedef typename iterator_traits<Iterator>::difference_type			difference_type;
+		typedef typename iterator_traits<Iterator>::pointer					pointer;
+		typedef typename iterator_traits<Iterator>::reference				reference;
 
-		private:
+	private:
 
-			node_pointer p;
+		iterator_type _base;
 
-		public:
+	public:
 
-	//	--------------->> CONSTRUCTORS <<---------------
+//	--------------->> CONSTRUCTORS <<---------------
 
-			reverse_iterator_map() : p() {}
+		reverse_iterator_map() : _base() {}
+		explicit reverse_iterator_map (iterator_type it) : _base(it) {}
+		template <class Iter>
+			reverse_iterator_map (const reverse_iterator_map<Iter>& rev_it) : _base(rev_it._base) {}
 
-			reverse_iterator_map(node_pointer new_node) : p(new_node) {}
-
-			template <class Iter>
-			reverse_iterator (const reverse_iterator<Iter>& rev_it);
-
-			reverse_iterator_map(reverse_iterator_map const & copy) : p(copy.p) {}
-
-			~reverse_iterator_map() {}
-
-			value_type getP() const { return (p->value); }
-
-	//	------------------------------------------------
+//	------------------------------------------------
 
 
-	//	---------------->> OPERATORS <<-----------------
+//	---------------->> OPERATORS <<-----------------
 
-			reverse_iterator_map&		operator=(const reverse_iterator_map& src) {p = src.p; return *this;}
+		iterator_type base() const {return _base;}
 
-			reference			operator*() {return p->value;}
-			const_reference		operator*() const {return p->value;}
+		reference operator*() const {
+			iterator_type tmp = _base;
+			return *--tmp;
+		}
 
-			pointer				operator->() {return &(p->value);}
-			const_pointer		operator->() const {return &(p->value);}
+		reverse_iterator_map operator+ (difference_type n) const {
+			return reverse_iterator(_base - n);
+		}
 
-			reverse_iterator_map&		operator++() {
-				if (p->left) {
-					p = p->left;
-					while (p->right) {
-						p = p->right;
-					}
-				}
-				else if (p->parent) {
-					node *tmp = p->parent;
-					while (tmp && (p->value).first < (tmp->value).first)
-						tmp = tmp->parent;
-					p = tmp;
-				}
-				return *this;
-			}
+		reverse_iterator_map& operator++() {
+			--_base;
+			return *this;
+		}
 
-			reverse_iterator_map		operator++(const int n) {
-				(void)n;
-				reverse_iterator_map tmp(*this);
-				operator++();
-				return tmp;
-			}
+		reverse_iterator_map  operator++(int) {
+			reverse_iterator_map tmp = *this;
+			++(*this);
+			return tmp;
+		}
 
-			reverse_iterator_map&		operator--() {
-				if (p->right) {
-					p = p->right;
-					while (p->left) {
-						p = p->left;
-					}
-				}
-				else if (p->parent) {
-					node *tmp = p->parent;
-					while (tmp && (p->value).first > (tmp->value).first)
-						tmp = tmp->parent;
-					p = tmp;
-				}
-				return *this;
-			}
+		reverse_iterator_map& operator+= (difference_type n) {
+			_base -= n;
+			return *this;
+		}
 
-			reverse_iterator_map		operator--(const int n) {
-				(void)n;
-				reverse_iterator_map tmp(*this);
-				operator--();
-				return tmp;
-			}
+		reverse_iterator_map operator- (difference_type n) const {
+			return reverse_iterator(_base + n);
+		}
 
-			template <typename A, typename B>
-				friend bool		operator==(const ft::reverse_iterator_map<A> src,
-											const ft::reverse_iterator_map<B> cmp)
-				{return (src.getP() == cmp.getP());}
+		reverse_iterator_map& operator--() {
+			++_base;
+			return *this;
+		}
 
-			template <typename A, typename B>
-				friend bool		operator!=(const ft::reverse_iterator_map<A> src,
-											const ft::reverse_iterator_map<B> cmp)
-				{return !(src == cmp);}
+		reverse_iterator_map  operator--(int) {
+			reverse_iterator_map tmp = *this;
+			--*this;
+			return tmp;
+		}
 
-	};
+		reverse_iterator_map& operator-= (difference_type n) {
+			_base += n;
+			return *this;
+		}
 
-	}
+		pointer operator->() const {
+			return &(operator*());
+		}
 
-	#endif
+		reference operator[] (difference_type n) const {
+			return *(*this + n);
+		}
+
+//	--------------->> NON MEMBERS <<----------------
+
+friend bool operator== (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {return lhs._base == rhs._base;}
+friend bool operator!= (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {return !(lhs._base == rhs._base);}
+friend bool operator<  (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {return lhs._base > rhs._base;}
+friend bool operator<= (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {return lhs._base >= rhs._base;}
+friend bool operator>  (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {return lhs._base < rhs._base;}
+friend bool operator>= (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {return lhs._base <= rhs._base;}
+friend reverse_iterator_map<Iterator> operator+ (typename reverse_iterator_map<Iterator>::difference_type n, const reverse_iterator_map<Iterator>& rev_it) {return rev_it._base+n;}
+friend typename reverse_iterator_map<Iterator>::difference_type operator- (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {return lhs._base - rhs._base;}
+
+};
+
+}
+
+#endif

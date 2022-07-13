@@ -40,8 +40,8 @@ namespace ft
 		typedef ft::iterator_map<value_type>												iterator;
 		typedef ft::iterator_map<value_type>												const_iterator;
 		// typedef ft::iterator_map<const value_type>										const_iterator;
-		typedef ft::reverse_iterator_map<value_type>										reverse_iterator;
-		typedef ft::reverse_iterator_map<const value_type>									const_reverse_iterator;
+		typedef ft::reverse_iterator_map<iterator>										reverse_iterator;
+		typedef ft::reverse_iterator_map<const iterator>									const_reverse_iterator;
 
 	private:
 		allocator_type _allocPair;
@@ -319,10 +319,10 @@ namespace ft
 		const_iterator begin() const { return _begin != NULL ? const_iterator(_begin) : const_iterator(); }
 		iterator end() { return iterator(_end); }
 		const_iterator end() const { return const_iterator(_end); }
-		reverse_iterator rbegin() { return _end->parent != NULL ? reverse_iterator(_end->parent) : reverse_iterator(); }
-		const_reverse_iterator rbegin() const { return _end->parent != NULL ? const_reverse_iterator(_end->parent) : const_reverse_iterator(); }
-		reverse_iterator rend() { return _begin != NULL ? reverse_iterator(_begin) : reverse_iterator(); }
-		const_reverse_iterator rend() const { return _begin != NULL ? const_reverse_iterator(_begin) : const_reverse_iterator(); }
+		reverse_iterator rbegin() { return _end->parent != NULL ? reverse_iterator(iterator(_end->parent)) : reverse_iterator(); }
+		const_reverse_iterator rbegin() const { return _end->parent != NULL ? const_reverse_iterator(iterator(_end->parent)) : const_reverse_iterator(); }
+		reverse_iterator rend() { return _begin != NULL ? reverse_iterator(iterator(_begin)) : reverse_iterator(); }
+		const_reverse_iterator rend() const { return _begin != NULL ? const_reverse_iterator(iterator(_begin)) : const_reverse_iterator(); }
 
 		//	------------------------------------------------
 
