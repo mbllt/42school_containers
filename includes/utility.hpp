@@ -84,12 +84,15 @@ template< class T1, class T2 >
 		template< class U1, class U2 >
 			pair( U1& x, U2& y ) : first(x), second(y) {}
 
+		template<class U, class V>
+			pair (const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
+
 			pair(const pair & copy) : first(copy.first), second(copy.second) {}
 
 			pair & operator=(pair const &src) {second = src.second; return *this;}
 
-
 	};
+
 
 template< class T1, class T2 >
 	bool operator==( const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs ) {

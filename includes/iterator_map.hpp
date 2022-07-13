@@ -49,16 +49,6 @@ class iterator_map {
 		const_pointer		operator->() const {return &(p->value);}
 
 		iterator_map&		operator++() {
-
-			if (!(p->right) && !(p->left)) {
-				node *tmp = p->parent;
-				while (tmp && (p->value).first < (tmp->value).first)
-					tmp = tmp->parent;
-				if (!tmp) {
-					p = p->parent;
-					return *this;
-				}
-			}
 			if (p->right) {
 				p = p->right;
 				while (p->left) {

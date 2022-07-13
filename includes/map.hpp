@@ -331,7 +331,7 @@ namespace ft
 
 		size_type size() const { return _size; }
 		bool empty() const { return _root == NULL; }
-		size_type max_size() const { return _allocPair.max_size(); }
+		size_type max_size() const { return _allocNode.max_size(); }
 
 		//	------------------------------------------------
 

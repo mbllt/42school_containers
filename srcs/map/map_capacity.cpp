@@ -32,11 +32,4 @@ void test() {
 	fillMapIntString(&mapp);
 	std::cout << "map is empty : " << mapp.empty() << " - no\n";
 	displayMap(mapp);
-
-	std::cout << "_______\n";
-	std::cout << "test max_size\n";
-	std::cout << "map<int, std::string> max size : " << mapp.max_size() << "\n";
-
-	map<int, int> bis;
-	std::cout << "map<int, int> max size : " << bis.max_size() << "\n";
 }

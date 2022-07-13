@@ -29,8 +29,14 @@
 	//	--------------->> CONSTRUCTORS <<---------------
 
 			reverse_iterator_map() : p() {}
+
 			reverse_iterator_map(node_pointer new_node) : p(new_node) {}
+
+			template <class Iter>
+			reverse_iterator (const reverse_iterator<Iter>& rev_it);
+
 			reverse_iterator_map(reverse_iterator_map const & copy) : p(copy.p) {}
+
 			~reverse_iterator_map() {}
 
 			value_type getP() const { return (p->value); }
@@ -49,16 +55,6 @@
 			const_pointer		operator->() const {return &(p->value);}
 
 			reverse_iterator_map&		operator++() {
-
-				// if (!(p->right) && !(p->left)) {
-				// 	node *tmp = p->parent;
-				// 	while (tmp && (p->value).first > (tmp->value).first)
-				// 		tmp = tmp->parent;
-				// 	if (!tmp) {
-				// 		p = p->parent;
-				// 		return *this;
-				// 	}
-				// }
 				if (p->left) {
 					p = p->left;
 					while (p->right) {
@@ -82,15 +78,6 @@
 			}
 
 			reverse_iterator_map&		operator--() {
-				if (!(p->right) && !(p->left)) {
-					node *tmp = p->parent;
-					while (tmp && (p->value).first < (tmp->value).first)
-						tmp = tmp->parent;
-					if (!tmp) {
-						p = p->parent;
-						return *this;
-					}
-				}
 				if (p->right) {
 					p = p->right;
 					while (p->left) {
