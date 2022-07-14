@@ -7,7 +7,7 @@
 #include <memory>
 #include <algorithm>
 #include "iterator.hpp"
-#include "reverse_iterator.hpp"
+#include "reverse_iterator_map.hpp"
 #include "utility.hpp"
 
 namespace ft
@@ -28,8 +28,8 @@ namespace ft
 		typedef const value_type*				const_pointer;
 		typedef ft::iterator<T>					iterator;
 		typedef ft::iterator<const T>			const_iterator;
-		typedef ft::reverse_iterator<T>			reverse_iterator;
-		typedef ft::reverse_iterator<const T>	const_reverse_iterator;
+		typedef ft::reverse_iterator_map<iterator>			reverse_iterator;
+		typedef ft::reverse_iterator_map<const iterator>	const_reverse_iterator;
 
 	private:
 		allocator_type _alloc;
@@ -137,20 +137,13 @@ namespace ft
 		//	---------------->> ITERATORS <<-----------------
 
 		iterator begin() {return iterator(_tab);}
-
 		const_iterator begin() const {return const_iterator(_tab);}
-
 		iterator end() {return _tab != NULL ? iterator(_tab + _size) : iterator();}
-
 		const_iterator end() const {return _tab != NULL ? const_iterator(_tab + _size) : const_iterator();}
-
-		reverse_iterator rbegin() {return _tab != NULL ? reverse_iterator(_tab + _size - 1) : reverse_iterator();}
-
-		const_reverse_iterator rbegin() const {return _tab != NULL ? const_reverse_iterator(_tab + _size - 1) : const_reverse_iterator();}
-
-		reverse_iterator rend() {return reverse_iterator(_tab - 1);}
-
-		const_reverse_iterator rend() const {return const_reverse_iterator(_tab - 1);}
+		reverse_iterator rbegin() {return _tab != NULL ? reverse_iterator(end()) : reverse_iterator();}
+		const_reverse_iterator rbegin() const {return _tab != NULL ? const_reverse_iterator(end()) : const_reverse_iterator();}
+		reverse_iterator rend() {return reverse_iterator(begin());}
+		const_reverse_iterator rend() const {return const_reverse_iterator(begin());}
 
 		//	------------------------------------------------
 

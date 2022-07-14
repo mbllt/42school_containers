@@ -12,13 +12,13 @@ template< class T >
 class iterator_map {
 
 	public:
+		typedef std::bidirectional_iterator_tag		iterator_category;
 		typedef T									value_type;
-		typedef Node<value_type>					node;
-		typedef node*								node_pointer;
 		typedef std::ptrdiff_t						difference_type;
 		typedef value_type*							pointer;
 		typedef value_type&							reference;
-		typedef std::bidirectional_iterator_tag		iterator_category;
+		typedef Node<value_type>					node;
+		typedef node*								node_pointer;
 
 	private:
 
@@ -41,11 +41,8 @@ class iterator_map {
 //	---------------->> OPERATORS <<-----------------
 
 		iterator_map&		operator=(const iterator_map& src) {p = src.p; return *this;}
-
 		reference			operator*() {return p->value;}
-
 		pointer				operator->() {return &(p->value);}
-
 		iterator_map&		operator++() {
 			if (p->right) {
 				p = p->right;
@@ -92,11 +89,8 @@ class iterator_map {
 			return tmp;
 		}
 
-		template <typename A, typename B>
-			friend bool operator==(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return (src.getP() == cmp.getP());}
-
-		template <typename A, typename B>
-			friend bool operator!=(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return !(src == cmp);}
+		friend bool operator==(const iterator_map src, const iterator_map cmp) {return (src.getP() == cmp.getP());}
+		friend bool operator!=(const iterator_map src, const iterator_map cmp) {return !(src == cmp);}
 
 };
 

@@ -38,8 +38,8 @@ namespace ft
 		typedef typename Allocator::pointer													pointer;
 		typedef typename Allocator::const_pointer											const_pointer;
 		typedef ft::iterator_map<value_type>												iterator;
-		typedef ft::iterator_map<value_type>												const_iterator;
-		// typedef ft::iterator_map<const value_type>										const_iterator;
+		// typedef ft::iterator_map<value_type>												const_iterator;
+		typedef ft::iterator_map<const value_type>										const_iterator;
 		typedef ft::reverse_iterator_map<iterator>										reverse_iterator;
 		typedef ft::reverse_iterator_map<const iterator>									const_reverse_iterator;
 
@@ -315,14 +315,14 @@ namespace ft
 
 		//	---------------->> ITERATORS <<-----------------
 
-		iterator begin() { return _begin != NULL ? iterator(_begin) : iterator(); }
-		const_iterator begin() const { return _begin != NULL ? const_iterator(_begin) : const_iterator(); }
-		iterator end() { return iterator(_end); }
-		const_iterator end() const { return const_iterator(_end); }
-		reverse_iterator rbegin() { return _end->parent != NULL ? reverse_iterator(iterator(_end->parent)) : reverse_iterator(); }
-		const_reverse_iterator rbegin() const { return _end->parent != NULL ? const_reverse_iterator(iterator(_end->parent)) : const_reverse_iterator(); }
-		reverse_iterator rend() { return _begin != NULL ? reverse_iterator(iterator(_begin)) : reverse_iterator(); }
-		const_reverse_iterator rend() const { return _begin != NULL ? const_reverse_iterator(iterator(_begin)) : const_reverse_iterator(); }
+		iterator begin() { return _begin != NULL ? iterator(_begin->value) : iterator(); }
+		const_iterator begin() const { return _begin != NULL ? const_iterator(_begin->value) : const_iterator(); }
+		iterator end() { return iterator(_end->parent->value); }
+		const_iterator end() const { return const_iterator(_end->value); }
+		reverse_iterator rbegin() { return const_reverse_iterator(end()); }
+		const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+		reverse_iterator rend() { return reverse_iterator(begin()); }
+		const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 
 		//	------------------------------------------------
 

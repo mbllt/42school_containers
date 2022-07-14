@@ -5,6 +5,9 @@
 
 void test();
 
+#include <vector>
+#include "vector.hpp"
+
 int main(void) {
 
 	try {

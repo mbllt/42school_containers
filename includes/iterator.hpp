@@ -5,7 +5,7 @@
 
 namespace ft {
 
-template<typename T>
+template<class T>
 class iterator {
 
 	public:
@@ -44,52 +44,39 @@ class iterator {
 		iterator& operator--() {--p;return *this;}
 		iterator operator--(const int n) {(void)n;iterator tmp(*this); operator--(); return tmp;}
 		difference_type	 operator-(const iterator & src) {return p - src.p;}
+		difference_type	 operator+(const iterator & src) {return p + src.p;}
 		iterator operator+(difference_type n) {return p + n;}
 		iterator operator-(difference_type n) {return p - n;}
-		template<typename Class>
-			friend iterator operator+(difference_type n, const iterator& src);
-		template<typename Class>
-			friend iterator operator-(difference_type n, const iterator& src);
+		// template<typename Class>
+		// 	friend iterator operator+(difference_type n, const iterator& src);
+		// template<typename Class>
+		// 	friend iterator operator-(difference_type n, const iterator& src);
 		iterator& operator+=(difference_type n) {p += n; return *this;}
 		iterator& operator-=(difference_type n) {p -= n; return *this;}
 
+//	------------------------------------------------
+
+
+//	--------------->> NON MEMBERS <<----------------
+
+		friend iterator operator+(difference_type n, iterator& it) {
+			iterator tmp = it;
+			return (tmp += n);
+		}
+
+		friend iterator operator-(difference_type n, iterator& it) {
+			iterator tmp = it;
+			return (tmp -= n);
+		}
+
+		friend bool operator==(const iterator<T> src, const iterator<T> cmp) {return (src.getP() == cmp.getP());}
+		friend bool operator!=(const iterator src, const iterator cmp) {return (src.getP() != cmp.getP());}
+		friend bool operator<(const iterator src, const iterator cmp) {return (src.getP() < cmp.getP());}
+		friend bool operator<=(const iterator src, const iterator cmp) {return (src.getP() <= cmp.getP());}
+		friend bool operator>(const iterator src, const iterator cmp) {return (src.getP() > cmp.getP());}
+		friend bool operator>=(const iterator src, const iterator cmp) {return (src.getP() >= cmp.getP());}
+
 };
-
-template<typename Class>
-	ft::iterator<Class> operator+(typename ft::iterator<Class>::difference_type n, typename ft::iterator<Class>& it) {
-		iterator<Class> tmp = it;
-		return (tmp += n);
-	}
-template<typename Class>
-	ft::iterator<Class> operator-(typename ft::iterator<Class>::difference_type n, typename ft::iterator<Class>& it) {
-		iterator<Class> tmp = it;
-		return (tmp -= n);
-	}
-template <typename Class>
-	bool operator==(const ft::iterator<Class> src, const ft::iterator<Class> cmp) {return (src.getP() == cmp.getP());}
-template <typename A, typename B>
-	bool operator==(const ft::iterator<A> src, const ft::iterator<B> cmp) {return (src.getP() == cmp.getP());}
-template <typename Class>
-	bool operator!=(const ft::iterator<Class> src, const ft::iterator<Class> cmp) {return (src.getP() != cmp.getP());}
-template <typename A, typename B>
-	bool operator!=(const ft::iterator<A> src, const ft::iterator<B> cmp) {return (src.getP() != cmp.getP());}
-template <typename Class>
-	bool operator<(const ft::iterator<Class> src, const ft::iterator<Class> cmp) {return (src.getP() < cmp.getP());}
-template <typename A, typename B>
-	bool operator<(const ft::iterator<A> src, const ft::iterator<B> cmp) {return (src.getP() < cmp.getP());}
-template <typename Class>
-	bool operator<=(const ft::iterator<Class> src, const ft::iterator<Class> cmp) {return (src.getP() <= cmp.getP());}
-template <typename A, typename B>
-	bool operator<=(const ft::iterator<A> src, const ft::iterator<B> cmp) {return (src.getP() <= cmp.getP());}
-template <typename Class>
-	bool operator>(const ft::iterator<Class> src, const ft::iterator<Class> cmp) {return (src.getP() > cmp.getP());}
-template <typename A, typename B>
-	bool operator>(const ft::iterator<A> src, const ft::iterator<B> cmp) {return (src.getP() > cmp.getP());}
-template <typename Class>
-	bool operator>=(const ft::iterator<Class> src, const ft::iterator<Class> cmp) {return (src.getP() >= cmp.getP());}
-template <typename A, typename B>
-	bool operator>=(const ft::iterator<A> src, const ft::iterator<B> cmp) {return (src.getP() >= cmp.getP());}
-
 
 }
 

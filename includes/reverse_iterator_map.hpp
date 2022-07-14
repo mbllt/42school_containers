@@ -38,12 +38,12 @@ class reverse_iterator_map {
 
 		reference operator*() const {
 			iterator_type tmp = _base;
-			// return *--tmp;
-			return *tmp;
+			return *--tmp;
+			// return *tmp;
 		}
 
-		reverse_iterator_map operator+ (difference_type n) const {
-			return reverse_iterator(_base - n);
+		reverse_iterator_map operator+ (difference_type n) {
+			return reverse_iterator_map((_base - n));
 		}
 
 		reverse_iterator_map& operator++() {
@@ -62,8 +62,8 @@ class reverse_iterator_map {
 			return *this;
 		}
 
-		reverse_iterator_map operator- (difference_type n) const {
-			return reverse_iterator(_base + n);
+		reverse_iterator_map operator- (difference_type n) {
+			return reverse_iterator_map((_base + n));
 		}
 
 		reverse_iterator_map& operator--() {
@@ -87,7 +87,8 @@ class reverse_iterator_map {
 		}
 
 		reference operator[] (difference_type n) const {
-			return *(*this + n);
+			reverse_iterator_map tmp = *this;
+			return *(tmp + n);
 		}
 
 //	--------------->> NON MEMBERS <<----------------
@@ -98,8 +99,15 @@ friend bool operator<  (const reverse_iterator_map<Iterator>& lhs, const reverse
 friend bool operator<= (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {return lhs._base >= rhs._base;}
 friend bool operator>  (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {return lhs._base < rhs._base;}
 friend bool operator>= (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {return lhs._base <= rhs._base;}
-friend reverse_iterator_map<Iterator> operator+ (typename reverse_iterator_map<Iterator>::difference_type n, const reverse_iterator_map<Iterator>& rev_it) {return rev_it._base+n;}
-friend typename reverse_iterator_map<Iterator>::difference_type operator- (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {return lhs._base - rhs._base;}
+friend reverse_iterator_map<Iterator> operator+ (typename reverse_iterator_map<Iterator>::difference_type n, const reverse_iterator_map<Iterator>& rev_it) {
+	Iterator p = rev_it._base;
+	return reverse_iterator_map(p+n);
+}
+friend typename reverse_iterator_map<Iterator>::difference_type operator- (const reverse_iterator_map<Iterator>& lhs, const reverse_iterator_map<Iterator>& rhs) {
+	Iterator l = lhs._base;
+	Iterator r = rhs._base;
+	return l - r;
+}
 
 };
 
