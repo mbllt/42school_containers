@@ -41,6 +41,7 @@ namespace ft
 		// typedef ft::iterator_map<value_type>												const_iterator;
 		typedef ft::iterator_map<const value_type>										const_iterator;
 		typedef ft::reverse_iterator_map<iterator>										reverse_iterator;
+		// typedef ft::reverse_iterator_map<iterator>									const_reverse_iterator;
 		typedef ft::reverse_iterator_map<const iterator>									const_reverse_iterator;
 
 	private:
@@ -315,10 +316,10 @@ namespace ft
 
 		//	---------------->> ITERATORS <<-----------------
 
-		iterator begin() { return _begin != NULL ? iterator(_begin->value) : iterator(); }
-		const_iterator begin() const { return _begin != NULL ? const_iterator(_begin->value) : const_iterator(); }
-		iterator end() { return iterator(_end->parent->value); }
-		const_iterator end() const { return const_iterator(_end->value); }
+		iterator begin() { return _begin != NULL ? iterator(_begin) : iterator(); }
+		const_iterator begin() const { return _begin != NULL ? const_iterator(_begin) : const_iterator(); }
+		iterator end() { return iterator(_end); }
+		const_iterator end() const { return const_iterator(_end); }
 		reverse_iterator rbegin() { return const_reverse_iterator(end()); }
 		const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
 		reverse_iterator rend() { return reverse_iterator(begin()); }
@@ -439,23 +440,18 @@ namespace ft
 		map::value_compare value_comp() const { return value_compare(_comp); }
 
 		//	------------------------------------------------
-	};
 
-	//	---------------->> NON MEMBERS <<---------------
-	// why use non members ? Because by default in a class,
-	//	the first param is the instance of the class : this.
-	//	Here we want the first element to be specifically something.
 
-	template< class Key, class T, class Compare, class Alloc >
-	bool operator==( const map<Key,T,Compare,Alloc>& lhs,
-					 const map<Key,T,Compare,Alloc>& rhs ) {
-			typename ft::map<Key,T,Compare,Alloc>::iterator itr = rhs.begin();
-			typename ft::map<Key,T,Compare,Alloc>::iterator itl = lhs.begin();
-			typename ft::map<Key,T,Compare,Alloc>::iterator itel = lhs.end();
+		//	---------------->> NON MEMBERS <<---------------
+
+		friend bool operator==( const map& lhs, const map& rhs ) {
+			iterator itr = rhs._begin;
+			iterator itl = lhs._begin;
+			iterator itel = lhs._end;
 
 			if (rhs.empty() && lhs.empty())
 				return true;
-			if (rhs.empty() ||  lhs.empty())
+			if (rhs.empty() || lhs.empty())
 				return false;
 
 			while (itl != itel) {
@@ -467,32 +463,23 @@ namespace ft
 			if (itr == rhs.end())
 				return true;
 			return false;
+			return lhs._root == rhs._root;
 		}
 
-	template< class Key, class T, class Compare, class Alloc >
-	bool operator!=( const map<Key,T,Compare,Alloc>& lhs,
-					  const map<Key,T,Compare,Alloc>& rhs )
-						{return !(lhs == rhs); }
+		friend bool operator!=( const map& lhs, const map& rhs ) {return !(lhs == rhs); }
 
-	// template< class Key, class T, class Compare, class Alloc >
-	// bool operator<( const std::map<Key,T,Compare,Alloc>& lhs,
-	//				 const std::map<Key,T,Compare,Alloc>& rhs );
+		// friend bool operator<( const std::map& lhs, const std::map& rhs );
 
-	// template< class Key, class T, class Compare, class Alloc >
-	// bool operator<=( const std::map<Key,T,Compare,Alloc>& lhs,
-	//				  const std::map<Key,T,Compare,Alloc>& rhs );
+		// friend bool operator<=( const std::map& lhs, const std::map& rhs );
 
-	// template< class Key, class T, class Compare, class Alloc >
-	// bool operator>( const std::map<Key,T,Compare,Alloc>& lhs,
-	//				 const std::map<Key,T,Compare,Alloc>& rhs );
+		// friend bool operator>( const std::map& lhs, const std::map& rhs );
 
-	// template< class Key, class T, class Compare, class Alloc >
-	// bool operator>=( const std::map<Key,T,Compare,Alloc>& lhs,
-	//				  const std::map<Key,T,Compare,Alloc>& rhs );
+		// friend bool operator>=( const std::map& lhs, const std::map& rhs );
 
-	// template< class Key, class T, class Compare, class Alloc >
-	// void swap( std::map<Key,T,Compare,Alloc>& lhs,
-	//			std::map<Key,T,Compare,Alloc>& rhs );
+		// friend void swap( std::map& lhs, std::map& rhs );
+
+		//	------------------------------------------------
+	};
 
 }
 

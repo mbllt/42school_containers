@@ -27,7 +27,9 @@ class reverse_iterator_map {
 		reverse_iterator_map() : _base() {}
 		explicit reverse_iterator_map (iterator_type it) : _base(it) {}
 		template <class Iter>
-			reverse_iterator_map (const reverse_iterator_map<Iter>& rev_it) : _base(rev_it._base) {}
+			reverse_iterator_map (const reverse_iterator_map<Iter>& rev_it) : _base(rev_it.getBase()) {}
+
+		iterator_type getBase() const { return _base; }
 
 //	------------------------------------------------
 
@@ -38,8 +40,8 @@ class reverse_iterator_map {
 
 		reference operator*() const {
 			iterator_type tmp = _base;
-			return *--tmp;
-			// return *tmp;
+			// return *--tmp;
+			return *tmp;
 		}
 
 		reverse_iterator_map operator+ (difference_type n) {

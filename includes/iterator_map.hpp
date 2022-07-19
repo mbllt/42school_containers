@@ -29,7 +29,7 @@ class iterator_map {
 //	--------------->> CONSTRUCTORS <<---------------
 
 		iterator_map() : p() {}
-		iterator_map(node_pointer new_node) : p(new_node) {}
+		iterator_map(const node_pointer& new_node) : p(new_node) {}
 		iterator_map(const iterator_map& copy) : p(copy.p) {}
 		~iterator_map() {}
 
@@ -90,9 +90,16 @@ class iterator_map {
 		}
 
 		friend bool operator==(const iterator_map src, const iterator_map cmp) {return (src.getP() == cmp.getP());}
+
 		friend bool operator!=(const iterator_map src, const iterator_map cmp) {return !(src == cmp);}
 
 };
+
+		template<typename A, typename B>
+			bool operator==(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return (src.getP() == cmp.getP());}
+
+		template<typename A, typename B>
+			bool operator!=(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return (src.getP() != cmp.getP());}
 
 }
 
