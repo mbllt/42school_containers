@@ -9,16 +9,17 @@ void test() {
 	displayMap(mapp);
 
 	typename map<int, std::string>::reverse_iterator it = mapp.rbegin();
+	(void)it;
 
 	//	it++
 	std::cout << "it : ";
-	displayMapNode(it);
+//	displayMapNode(it);
 	std::cout << "| ";
 	it++;
 	std::cout << "it++ : ";
 	displayMapNode(it);
 	std::cout << "\n";
-
+/*
 	//	it--
 	std::cout << "it : ";
 	displayMapNode(it);
@@ -90,5 +91,5 @@ void test() {
 	--itbis;
 	std::cout << "--itbis : ";
 	displayMapNode(itbis);
-	std::cout << "\n";
+	std::cout << "\n";*/
 }

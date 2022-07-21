@@ -84,6 +84,8 @@ void fillMapIntString(Map *map) {
 							"biking", "mont-blanc", "testing", "ring", "marvelous"};
 	for (int i = 1; i < 11; ++i) {
 		int val = rand() % 20;
+		int integer = rand() % 100;
+		(void)integer;
 		map->insert(pair<const int, std::string>(i, str[val]));
 	}
 

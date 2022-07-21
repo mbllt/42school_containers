@@ -40,7 +40,7 @@ class reverse_iterator_map {
 
 		reference operator*() const {
 			iterator_type tmp = _base;
-			// return *--tmp;
+			return *--tmp;
 			return *tmp;
 		}
 
