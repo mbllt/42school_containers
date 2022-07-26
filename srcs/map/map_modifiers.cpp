@@ -45,7 +45,9 @@ void test() {
 	std::cout << "second created with it of the first ";
 	displayMap(mappbis);
 
-
+	map<int, std::string> test;
+	std::cout << "begin on empty map : " << (*(test.begin())).first << "\n";
+	std::cout << "end on empty map : " << (*(test.end())).first << "\n";
 
 }
 
