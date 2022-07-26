@@ -26,21 +26,22 @@ void test() {
 	fillMapIntString(&mapp);
 	displayMap(mapp);
 	std::cout << "test pair<iterator, bool> insert(value)\n";
-	pair<map<int, std::string>::iterator, bool> ret = mapp.insert(pair<int,  std::string>(88, "heavy"));
-	std::cout << "Inserting pair(88, 'heavy)'" << std::endl;
+	pair<map<int, std::string>::iterator, bool> ret = mapp.insert(pair<int, std::string>(88, "heavy"));
+	std::cout << "Inserting pair(88, 'heavy')" << std::endl;
 	std::cout << "ret pair first : " << (*(ret.first)).first << ";";
 	std::cout << "ret pair second : " << (*(ret.first)).second << " | ";
 	std::cout << "ret bool : " << ret.second << "\n";
-	mapp.insert(pair<int,  std::string>(99, "heavy"));
-	mapp.insert(pair<int,  std::string>(54, "heavy"));
-	mapp.insert(pair<int,  std::string>(104, "heavy"));
-	mapp.insert(pair<int,  std::string>(0, "heavy"));
+	displayMap(mapp);
+	mapp.insert(pair<int, std::string>(99, "heavy"));
+	mapp.insert(pair<int, std::string>(74, "heavy"));
+	mapp.insert(pair<int, std::string>(54, "heavy"));
+	mapp.insert(pair<int, std::string>(104, "heavy"));
+	mapp.insert(pair<int, std::string>(0, "heavy"));
 
 	std::cout << "test pair<iterator, bool> insert(it first, it last)\n";
-	fillMapIntString(&mapp);
-	map<int, std::string> mappbis(mapp.begin(), mapp.end());
 	std::cout << "first ";
 	displayMap(mapp);
+	map<int, std::string> mappbis(mapp.begin(), mapp.end());
 	std::cout << "second created with it of the first ";
 	displayMap(mappbis);
 

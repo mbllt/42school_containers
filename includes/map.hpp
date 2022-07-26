@@ -65,7 +65,7 @@ namespace ft
 			}
 		}
 
-		void print_info_node(node *node) {
+		void _print_info_node(node *node) {
 			std::cout << "\n-------\n";
 			std::cout << "size of tree : " << _size << "\n";
 			std::cout << "node : " << (node->value).first << "\n";
@@ -77,6 +77,30 @@ namespace ft
 			std::cout << "begin : " << (_begin->value).first << "\n";
 			std::cout << "last : " << (_end->parent->value).first << "\n";
 			std::cout << "-------\n";
+		}
+
+		void _printBT(const std::string& prefix, const node* node, bool isLeft)
+		{
+			if(node && node != _end)
+			{
+				std::cout << prefix;
+
+				std::cout << (isLeft ? "├──" : "└──" );
+
+				// print the value of the node
+				std::cout << (node->value).first << std::endl;
+
+				// enter the next tree level - left and right branch
+				_printBT( prefix + (isLeft ? "│   " : "    "), node->left, true);
+				_printBT( prefix + (isLeft ? "│   " : "    "), node->right, false);
+			}
+		}
+
+		void _printBT(const node* node)
+		{
+			std::cout << "\n----------\n";
+			_printBT("", node, false);
+			std::cout << "\n----------\n";
 		}
 
 		bool _end_of_branch(node* tree) const {
@@ -188,7 +212,7 @@ namespace ft
 				return tree;
 			if (tree->left && _comp(value.first, (tree->value).first))
 				tree = _insert_node(tree->left, value);
-			else if (tree->right)
+			else if (tree->right && _comp((tree->value).first, value.first))
 				tree = _insert_node(tree->right, value);
 			return tree;
 		}
@@ -360,6 +384,7 @@ namespace ft
 				_end->parent = new_node;
 				_root = new_node;
 				_begin = new_node;
+				// _printBT(_root);
 				return ft::make_pair(iterator(new_node), true);
 			}
 
@@ -381,8 +406,9 @@ namespace ft
 			if (_comp((new_node->value).first, (_begin->value).first))
 				_begin = new_node;
 
-			// print_info_node(new_node);
+			// _print_info_node(new_node);
 			_balance(_root);
+			// _printBT(_root);
 
 			return ft::make_pair(iterator(new_node), true);
 		}
