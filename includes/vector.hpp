@@ -29,7 +29,7 @@ namespace ft
 		typedef ft::iterator<T>					iterator;
 		typedef ft::iterator<const T>			const_iterator;
 		typedef ft::reverse_iterator_map<iterator>			reverse_iterator;
-		typedef ft::reverse_iterator_map<const iterator>	const_reverse_iterator;
+		typedef ft::reverse_iterator_map<const_iterator>	const_reverse_iterator;
 
 	private:
 		allocator_type _alloc;

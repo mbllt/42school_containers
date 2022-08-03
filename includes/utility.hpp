@@ -151,8 +151,10 @@ template<class T>
 			value(T()), left(NULL), right(NULL), parent(NULL) {}
 		Node(T val) :
 			value(val), left(NULL), right(NULL), parent(NULL) {}
-		Node(const Node& copy) :
+		template< class A>
+		Node(const Node<A>& copy) :
 			value(copy.value), left(copy.left), right(copy.right), parent(copy.parent) {}
+
 		Node& operator=(const Node& src) {
 			value = src.value;
 			left = src.left;
@@ -166,6 +168,16 @@ template<class T>
 		Node*		parent;
 	};
 
+
+template <class Pair>
+struct GenerateNodeType {
+	typedef Node<Pair> type;
+};
+
+template <class Pair>
+struct GenerateNodeType<const Pair> {
+	typedef const Node<Pair> type;
+};
 }
 
 #undef IS_INTEGRAL

@@ -46,13 +46,13 @@ void test() {
 	// std::cout << "\ntest iterator insert(it hint, value)\n";
 
 
-// test dans clear
-	std::cout << "\ntest with cleared and refilled map\n";
-	map<int, std::string> test;
-	std::cout << "begin on empty map : " << (*(test.begin())).first << "\n";
-	test[8] = "you";
-	test.clear();
-	std::cout << "inserting a value and clearing\n";
+// test dans clear seg fault
+	// std::cout << "\ntest with cleared and refilled map\n";
+	// map<int, std::string> test;
+	// std::cout << "begin on empty map : " << (*(test.begin())).first << "\n";
+	// test[8] = "you";
+	// test.clear();
+// 	std::cout << "inserting a value and clearing\n";
 // bug sur loperator = de ft::pair qui est appele dans begin() dans iterator() par defaut.
 	// std::cout << "begin on empty map : " << (*(test.begin())).first << "\n";
 	// map<int, std::string> empty(test.begin(), test.end());

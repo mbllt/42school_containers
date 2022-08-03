@@ -38,11 +38,9 @@ namespace ft
 		typedef typename Allocator::pointer													pointer;
 		typedef typename Allocator::const_pointer											const_pointer;
 		typedef ft::iterator_map<value_type>												iterator;
-		typedef ft::iterator_map<value_type>												const_iterator;
-		// typedef ft::iterator_map<const value_type>										const_iterator;
+		typedef ft::iterator_map<const value_type>											const_iterator;
 		typedef ft::reverse_iterator_map<iterator>											reverse_iterator;
-		// typedef ft::reverse_iterator_map<iterator>										const_reverse_iterator;
-		typedef ft::reverse_iterator_map<const iterator>									const_reverse_iterator;
+		typedef ft::reverse_iterator_map<const_iterator>									const_reverse_iterator;
 
 	private:
 		allocator_type _allocPair;
@@ -372,7 +370,7 @@ namespace ft
 		//	---------------->> ITERATORS <<-----------------
 
 		iterator begin() { return _begin != NULL ? iterator(_begin) : iterator(); }
-		const_iterator begin() const { return _begin != NULL ? const_iterator(_begin) : iterator(); }
+		const_iterator begin() const { return _begin != NULL ? const_iterator(_begin) : const_iterator(); }
 		iterator end() { return iterator(_end); }
 		const_iterator end() const { return const_iterator(_end); }
 		reverse_iterator rbegin() { return reverse_iterator(end()); }
@@ -506,10 +504,10 @@ namespace ft
 				return it;
 		}
 
-		// const_iterator lower_bound(const Key &key) const {
-		// 	iterator& ret = const_cast<map &>(this*).lower_bound(key);
-		// 	return const_cast<iterator const &>(ret);
-		// }
+		const_iterator lower_bound(const Key &key) const {
+			iterator& ret = const_cast<map &>(*this).lower_bound(key);
+			return ret;
+		}
 
 		iterator upper_bound(const Key &key) {
 			iterator it = begin();
@@ -521,10 +519,10 @@ namespace ft
 				return it;
 		}
 
-		// const_iterator upper_bound(const Key &key) const {
-		// 	iterator& ret = const_cast<map &>(this*).upper_bound(key);
-		// 	return const_cast<iterator const &>(ret);
-		// }
+		const_iterator upper_bound(const Key &key) const {
+			iterator& ret = const_cast<map &>(*this).upper_bound(key);
+			return ret;
+		}
 
 		//	------------------------------------------------
 

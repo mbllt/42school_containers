@@ -38,8 +38,8 @@ SRCS_MAP=		map/map_general.cpp\
 				map/map_it.cpp\
 				map/map_capacity.cpp\
 				map/map_modifiers.cpp\
-				map/map_lookup.cpp
-#				map/map_rev_it.cpp
+				map/map_lookup.cpp\
+				map/map_rev_it.cpp
 #------------------------------------
 
 BIN_DIR=		bin
@@ -59,7 +59,7 @@ PATH_OBJS=		vector stack map
 
 
 #------------- COMPILER -------------
-FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/
+FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/ -g
 CC=				c++
 SAN=			-fsanitize=address -g3
 #------------------------------------

@@ -17,24 +17,19 @@ class iterator_map {
 		typedef std::ptrdiff_t						difference_type;
 		typedef value_type*							pointer;
 		typedef value_type&							reference;
-		typedef Node<value_type>					node;
+		// typedef Node<value_type>					node;
+		typedef typename GenerateNodeType<value_type>::type		node;
 		typedef node*								node_pointer;
 
 	private:
-
 		node_pointer p;
 
 	public:
 
 //	--------------->> CONSTRUCTORS <<---------------
 
-		iterator_map() {
-			p->value = value_type();
-			p->parent = NULL;
-			p->right = NULL;
-			p->left = NULL;
-		}
-		iterator_map(const node_pointer& new_node) : p(new_node) {}
+		iterator_map() : p() {}
+		iterator_map(const node_pointer new_node) : p(new_node) {}
 		iterator_map(const iterator_map& copy) : p(copy.p) {}
 		~iterator_map() {}
 
@@ -80,7 +75,7 @@ class iterator_map {
 			}
 			else if (p->parent) {
 				node *tmp = p->parent;
-				while (tmp && (p->value).first < (tmp->value).first)
+				while (tmp && (p->parent->left == p))
 					tmp = tmp->parent;
 				p = tmp;
 			}
