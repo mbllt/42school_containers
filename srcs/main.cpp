@@ -10,6 +10,8 @@ void test();
 
 int main(void) {
 
+	srand(time(NULL));
+
 	try {
 
 		test();

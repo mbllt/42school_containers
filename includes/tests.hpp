@@ -75,8 +75,6 @@ void displayMapNode(It& it) {
 template<typename Map>
 void fillMapIntString(Map *map) {
 
-	srand(time(NULL));
-
 // at each compilation srand initialized but not at each funcion use...
 	std::string str[20] = { "test", "pop", "essay", "beeze", "youhou",
 							"orange", "blue", "black", "sun", "best",

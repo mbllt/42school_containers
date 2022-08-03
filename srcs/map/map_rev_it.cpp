@@ -14,12 +14,12 @@ void test() {
 	//	it++
 	std::cout << "it : ";
 	displayMapNode(it);
-	// std::cout << "| ";
-	// it++;
-	// std::cout << "it++ : ";
-	// displayMapNode(it);
-	// std::cout << "\n";
-/*
+	std::cout << "| ";
+	it++;
+	std::cout << "it++ : ";
+	displayMapNode(it);
+	std::cout << "\n";
+
 	//	it--
 	std::cout << "it : ";
 	displayMapNode(it);
@@ -91,5 +91,5 @@ void test() {
 	--itbis;
 	std::cout << "--itbis : ";
 	displayMapNode(itbis);
-	std::cout << "\n";*/
+	std::cout << "\n";
 }

@@ -75,7 +75,7 @@ class iterator_map {
 			}
 			else if (p->parent) {
 				node *tmp = p->parent;
-				while (tmp && (p->parent->left == p))
+				while (tmp && (tmp->left == p))
 					tmp = tmp->parent;
 				p = tmp;
 			}
