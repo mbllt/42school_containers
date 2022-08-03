@@ -157,11 +157,14 @@ namespace ft
 			// en deuxieme parametre Node(value) mais ca m'aurait creer un objet
 			// pour ensuite copier lobjet dans new-node. Ici, je lui assigne directement
 			// les valeurs.
+			new_node->parent = NULL;
+			new_node->right = NULL;
+			new_node->left = NULL;
 			++_size;
 			return new_node;
 		}
 
-		node *_find_node(node *tree, const Key &key) {
+		node *_find_node(node* tree, const Key& key) {
 			if (!tree || tree == _end)
 				return _end;
 			if (key == (tree->value).first)
@@ -215,6 +218,34 @@ namespace ft
 			else if (tree->right && _comp((tree->value).first, value.first))
 				tree = _insert_node(tree->right, value);
 			return tree;
+		}
+
+		void _erase_node_two_children(node *tree) {
+			node* lower = tree->right;
+			while (lower->left)
+				lower = lower->left;
+			tree->value = lower->value;
+			if (lower->right || lower->left)
+				_erase_node_one_child(lower);
+			_delete_node(&lower);
+			_balance(_root);
+		}
+
+		void _erase_node_one_child(node *tree) {
+			if (tree->right) {
+				tree->right->parent = tree->parent;
+				if (tree->parent->right == tree)
+					tree->parent->right = tree->right;
+				else if (tree->parent->left == tree)
+					tree->parent->left = tree->right;
+			}
+			else if (tree->left) {
+				tree->left->parent = tree->parent;
+				if (tree->parent->right == tree)
+					tree->parent->right = tree->left;
+				else if (tree->parent->left == tree)
+					tree->parent->left = tree->left;
+			}
 		}
 
 		void _delete_node(node** deleteNode) {
@@ -423,10 +454,28 @@ namespace ft
 			}
 		}
 
-// it has to balance itself after each erase
-		iterator erase(iterator pos);
+		void erase(iterator pos) {
+			node* tree = _find_node(_root, pos->first);
+			if (tree != _end) {
+				if (tree->right && tree->left) {
+					_erase_node_two_children(tree);
+					return ;
+				}
+				if (tree->right || tree->left)
+					_erase_node_one_child(tree);
+				//	reset _begin _end if needed
+				if (tree == _begin && tree->parent) {
+					tree->parent->left = NULL;
+					_begin = tree->parent;
+				}
+				_delete_node(&tree);
+				_balance(_root);
+			}
+		}
 
 		void erase(iterator first, iterator last);
+
+		size_type erase( const Key& key );
 
 		void swap(map &other);
 
@@ -447,13 +496,29 @@ namespace ft
 
 		pair<const_iterator, const_iterator> equal_range(const Key &key) const;
 
-		iterator lower_bound(const Key &key);
+		// iterator lower_bound(const Key &key) {
+		// 	iterator it = (insert(ft::pair<key, mapped_type()>()))->first;
+		// 	iterator ret = --it;
+		// 	erase(it);
+		// 	return ret;
+		// }
 
-		const_iterator lower_bound(const Key &key) const;
+		// const_iterator lower_bound(const Key &key) const {
+		// 	iterator& ret = const_cast<map &>(this*).lower_bound(key);
+		// 	return const_cast<iterator const &>(ret);
+		// }
 
-		iterator upper_bound(const Key &key);
+		// iterator upper_bound(const Key &key) {
+		// 	iterator it = (insert(ft::pair<key, T()>()))->first;
+		// 	iterator ret = ++it;
+		// 	erase(it);
+		// 	return ret;
+		// }
 
-		const_iterator upper_bound(const Key &key) const;
+		// const_iterator upper_bound(const Key &key) const {
+		// 	iterator& ret = const_cast<map &>(this*).upper_bound(key);
+		// 	return const_cast<iterator const &>(ret);
+		// }
 
 		//	------------------------------------------------
 
