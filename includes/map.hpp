@@ -496,24 +496,30 @@ namespace ft
 
 		pair<const_iterator, const_iterator> equal_range(const Key &key) const;
 
-		// iterator lower_bound(const Key &key) {
-		// 	iterator it = (insert(ft::pair<key, mapped_type()>()))->first;
-		// 	iterator ret = --it;
-		// 	erase(it);
-		// 	return ret;
-		// }
+		iterator lower_bound(const Key &key) {
+			iterator it = begin();
+
+				for (; it != end(); ++it)
+					if (!_comp(it->first, key))
+						break;
+				
+				return it;
+		}
 
 		// const_iterator lower_bound(const Key &key) const {
 		// 	iterator& ret = const_cast<map &>(this*).lower_bound(key);
 		// 	return const_cast<iterator const &>(ret);
 		// }
 
-		// iterator upper_bound(const Key &key) {
-		// 	iterator it = (insert(ft::pair<key, T()>()))->first;
-		// 	iterator ret = ++it;
-		// 	erase(it);
-		// 	return ret;
-		// }
+		iterator upper_bound(const Key &key) {
+			iterator it = begin();
+
+				for (; it != end(); ++it)
+					if (!_comp(it->first, key))
+						break;
+				
+				return it;
+		}
 
 		// const_iterator upper_bound(const Key &key) const {
 		// 	iterator& ret = const_cast<map &>(this*).upper_bound(key);

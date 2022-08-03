@@ -36,13 +36,17 @@ void test() {
 	mapp.insert(pair<int, std::string>(104, "heavy"));
 	mapp.insert(pair<int, std::string>(0, "heavy"));
 
-	std::cout << "\ntest pair<iterator, bool> insert(it first, it last)\n";
+	std::cout << "\ntest void insert(it first, it last)\n";
 	std::cout << "first ";
 	displayMap(mapp);
 	map<int, std::string> mappbis(mapp.begin(), mapp.end());
 	std::cout << "second created with it of the first ";
 	displayMap(mappbis);
 
+	// std::cout << "\ntest iterator insert(it hint, value)\n";
+
+
+// test dans clear
 	std::cout << "\ntest with cleared and refilled map\n";
 	map<int, std::string> test;
 	std::cout << "begin on empty map : " << (*(test.begin())).first << "\n";
