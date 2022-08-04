@@ -513,7 +513,7 @@ namespace ft
 			iterator it = begin();
 
 				for (; it != end(); ++it)
-					if (!_comp(it->first, key))
+					if (_comp(key, it->first))
 						break;
 				
 				return it;

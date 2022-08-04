@@ -12,10 +12,7 @@ void test() {
 	mapp[50] = "test";
 	std::cout << "lower_bound(7) :" << (mapp.lower_bound(7))->first << "\n";
 	std::cout << "lower_bound(55) :" << (mapp.lower_bound(55))->first << "\n";
-	typename map<int, std::string>::iterator ret = mapp.find(55);
-	if (ret != mapp.end())
-		std::cout << "55 exists\n";
-	// std::cout << "upper_bound(5) :" << (mapp.upper_bound(5))->first << "\n";
-	// std::cout << "upper_bound(80) :" << (mapp.upper_bound(80))->first << "\n";
-	// std::cout << "upper_bound(50) :" << (mapp.upper_bound(50))->first << "\n";
+	std::cout << "upper_bound(5) :" << (mapp.upper_bound(5))->first << "\n";
+	std::cout << "upper_bound(80) :" << (mapp.upper_bound(80))->first << "\n";
+	std::cout << "upper_bound(50) :" << (mapp.upper_bound(50))->first << "\n";
 }
