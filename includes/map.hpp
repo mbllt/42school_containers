@@ -66,14 +66,22 @@ namespace ft
 		void _print_info_node(node *node) {
 			std::cout << "\n-------\n";
 			std::cout << "size of tree : " << _size << "\n";
-			std::cout << "node : " << (node->value).first << "\n";
-			std::cout << "node->parent : " << (node->parent->value).first << "\n";
-			if (node->parent->right && node->parent->right != _end)
-				std::cout << "parent->right : " << (node->parent->right->value).first << "\n";
-			if (node->parent->left)
-				std::cout << "parent->left : " << (node->parent->left->value).first << "\n";
+			if (node)
+				std::cout << "node : " << (node->value).first << "\n";
+			if (node->parent) {
+				std::cout << "node->parent : " << (node->parent->value).first << "\n";
+				if (node->parent->right && node->parent->right != _end)
+					std::cout << "parent->right : " << (node->parent->right->value).first << "\n";
+				if (node->parent->left)
+					std::cout << "parent->left : " << (node->parent->left->value).first << "\n";
+			}
 			std::cout << "begin : " << (_begin->value).first << "\n";
 			std::cout << "last : " << (_end->parent->value).first << "\n";
+			std::cout << "_root : " << (_root->value).first << "\n";
+			if (_root->right)
+					std::cout << "_root->right : " << (_root->right->value).first << "\n";
+			if (_root->left)
+					std::cout << "_root->left : " << (_root->left->value).first << "\n";
 			std::cout << "-------\n";
 		}
 
@@ -148,7 +156,7 @@ namespace ft
 			}
 		}
 
-		node *_init_node(value_type value) {
+		node *_new_node(value_type value) {
 			node *new_node = _allocNode.allocate(1);
 			_allocNode.construct(new_node, value);
 			// il va utiliser le constructeur de value_type. Jaurais pu mettre
@@ -208,13 +216,25 @@ namespace ft
 				_root = b;
 		}
 
-		node *_insert_node(node *tree, const value_type &value) {
-			if (!tree || tree->right == _end)
-				return tree;
-			if (tree->left && _comp(value.first, (tree->value).first))
-				tree = _insert_node(tree->left, value);
-			else if (tree->right && _comp((tree->value).first, value.first))
-				tree = _insert_node(tree->right, value);
+		node *_insert_node(node* tree, const value_type& value, node* parent) {
+			// if (_root && tree)
+			// 	std::cout << "ooooooo - tree :" << (tree->value).first << "\n";
+			if (!tree || tree == _end) {
+				node* new_node = _new_node(value);
+				if (_root) {
+					new_node->parent = parent;
+					// std::cout << "!!!!!!!node with parent\n";
+					if (_comp((parent->value).first, (new_node->value).first))
+						new_node->parent->right = new_node;
+					else
+						new_node->parent->left = new_node;
+				}
+				return new_node;
+			}
+			if (_comp(value.first, (tree->value).first))
+				tree = _insert_node(tree->left, value, tree);
+			else if (_comp((tree->value).first, value.first))
+				tree = _insert_node(tree->right, value, tree);
 			return tree;
 		}
 
@@ -289,7 +309,7 @@ namespace ft
 			_begin = NULL;
 			_end = NULL;
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
-			node *new_node = _init_node(value);
+			node *new_node = _new_node(value);
 			_end = new_node;
 			--_size;
 		}
@@ -304,7 +324,7 @@ namespace ft
 			_begin = NULL;
 			_end = NULL;
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
-			node *new_node = _init_node(value);
+			node *new_node = _new_node(value);
 			_end = new_node;
 			--_size;
 			insert(first, last);
@@ -317,7 +337,7 @@ namespace ft
 			_begin = NULL;
 			_end = NULL;
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
-			node *new_node = _init_node(value);
+			node *new_node = _new_node(value);
 			_end = new_node;
 			if (other._root) {
 				--_size;
@@ -401,28 +421,41 @@ namespace ft
 		}
 
 		pair<iterator, bool> insert(const value_type &value) {
-			iterator it = _find_node(_root, value.first);
-			if (it != iterator(_end))
-				return ft::make_pair(iterator(it), false);
+			node* found = _find_node(_root, value.first);
+			if (found != _end)
+				return ft::make_pair(iterator(found), false);
 
-			node *new_node = _init_node(value);
+			// node *new_node = _new_node(value);
 
-			if (!_root)
-			{
-				new_node->right = _end;
+			// if (!_root)
+			// {
+			// 	new_node->right = _end;
+			// 	_end->parent = new_node;
+			// 	_root = new_node;
+			// 	_begin = new_node;
+			// 	// _printBT(_root);
+			// 	return ft::make_pair(iterator(new_node), true);
+			// }
+
+			// iterator ret = lower_bound(value.first);
+			// node *parent = _find_node(_root, ret->first);
+			// // std::cout << ">>> parent " << (parent->value).first << "\n";
+			// // std::cout << ">>> parent " << ret->first << "\n";
+			// new_node->parent = parent;
+			// if (_comp(value.first, (parent->value).first))
+			// 	new_node->parent->left = new_node;
+			// else
+				// new_node->parent->right = new_node;
+
+			node* new_node = _insert_node(_root, value, _root);
+
+			if (!_root) {
+				// std::cout << "!!!!!condition only for root\n";
 				_end->parent = new_node;
+				new_node->right = _end;
 				_root = new_node;
 				_begin = new_node;
-				// _printBT(_root);
-				return ft::make_pair(iterator(new_node), true);
 			}
-
-			node *tmp = _insert_node(_root, value);
-			new_node->parent = tmp;
-			if (_comp(value.first, (tmp->value).first))
-				new_node->parent->left = new_node;
-			else
-				new_node->parent->right = new_node;
 
 			//	reset _begin _end if needed
 			if (_comp((_end->parent->value).first, (new_node->value).first))

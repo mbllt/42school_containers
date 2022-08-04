@@ -48,6 +48,11 @@ void fillVecString(Vec* cont) {
 	}
 }
 
+
+template<typename It>
+void displayMapNode(It& it) {
+	std::cout << "(" << it->first << ";" << it->second << ") ";
+}
 template<typename Map>
 void displayMap(Map& map) {
 	if (map.empty()) {
@@ -56,14 +61,9 @@ void displayMap(Map& map) {
 	}
 	std::cout << "map : { ";
 	for (typename Map::iterator it = map.begin(); it != map.end();++it) {
-		std::cout << "(" << it->first << ";" << it->second << ")" << " ";
+		displayMapNode(it);
 	}
 	std::cout << "}\n";
-}
-
-template<typename It>
-void displayMapNode(It& it) {
-	std::cout << "(" << it->first << ";" << it->second << ")";
 }
 
 #ifdef MINE
@@ -83,9 +83,14 @@ void fillMapIntString(Map *map) {
 	for (int i = 1; i < 11; ++i) {
 		int val = rand() % 20;
 		int integer = rand() % 100;
-		(void)integer;
-		map->insert(pair<const int, std::string>(i, str[val]));
+		map->insert(pair<const int, std::string>(integer, str[val]));
 	}
+	// for (int i = 1; i < 11; ++i) {
+	// 	int val = rand() % 20;
+	// 	int integer = rand() % 100;
+	// 	(void)integer;
+	// 	map->insert(pair<const int, std::string>(i, str[val]));
+	// }
 
 }
 
