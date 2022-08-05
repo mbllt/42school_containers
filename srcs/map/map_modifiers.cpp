@@ -1,6 +1,7 @@
 #include "test_map.hpp"
 
-void test() {
+void test()
+{
 
 	std::cout << "_______\n";
 	std::cout << "test clear\n";
@@ -45,15 +46,14 @@ void test() {
 
 	// std::cout << "\ntest iterator insert(it hint, value)\n";
 
-
-// test dans clear seg fault
+	// // test dans clear seg fault
 	// std::cout << "\ntest with cleared and refilled map\n";
 	// map<int, std::string> test;
 	// std::cout << "begin on empty map : " << (*(test.begin())).first << "\n";
 	// test[8] = "you";
 	// test.clear();
-// 	std::cout << "inserting a value and clearing\n";
-// bug sur loperator = de ft::pair qui est appele dans begin() dans iterator() par defaut.
+	// std::cout << "inserting a value and clearing\n";
+	// // bug sur loperator = de ft::pair qui est appele dans begin() dans iterator() par defaut.
 	// std::cout << "begin on empty map : " << (*(test.begin())).first << "\n";
 	// map<int, std::string> empty(test.begin(), test.end());
 
@@ -62,15 +62,15 @@ void test() {
 	map<int, std::string> test_erase;
 	fillMapIntString(&test_erase);
 	displayMap(test_erase);
-	typename map<int, std::string>::iterator it = test_erase.find(7);
+	typename map<int, std::string>::iterator it = test_erase.begin();
 	test_erase.erase(it);
-	it = test_erase.find(4);
-	test_erase.erase(it);
-	it = test_erase.find(10);
-	test_erase.erase(it);
-	it = test_erase.find(1);
-	test_erase.erase(it);
-	std::cout << "erasing pos 7 4 10 1\n";
+	typename map<int, std::string>::iterator ite = test_erase.end();
+	--ite;
+	--ite;
+	--ite;
+	test_erase.erase(ite);
+	typename map<int, std::string>::iterator itbis = test_erase.begin();
+	test_erase.erase(itbis);
+	std::cout << "erasing\n";
 	displayMap(test_erase);
-
 }

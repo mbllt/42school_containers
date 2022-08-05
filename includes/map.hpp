@@ -217,13 +217,10 @@ namespace ft
 		}
 
 		node *_insert_node(node* tree, const value_type& value, node* parent) {
-			// if (_root && tree)
-			// 	std::cout << "ooooooo - tree :" << (tree->value).first << "\n";
 			if (!tree || tree == _end) {
 				node* new_node = _new_node(value);
 				if (_root) {
 					new_node->parent = parent;
-					// std::cout << "!!!!!!!node with parent\n";
 					if (_comp((parent->value).first, (new_node->value).first))
 						new_node->parent->right = new_node;
 					else
@@ -425,32 +422,9 @@ namespace ft
 			if (found != _end)
 				return ft::make_pair(iterator(found), false);
 
-			// node *new_node = _new_node(value);
-
-			// if (!_root)
-			// {
-			// 	new_node->right = _end;
-			// 	_end->parent = new_node;
-			// 	_root = new_node;
-			// 	_begin = new_node;
-			// 	// _printBT(_root);
-			// 	return ft::make_pair(iterator(new_node), true);
-			// }
-
-			// iterator ret = lower_bound(value.first);
-			// node *parent = _find_node(_root, ret->first);
-			// // std::cout << ">>> parent " << (parent->value).first << "\n";
-			// // std::cout << ">>> parent " << ret->first << "\n";
-			// new_node->parent = parent;
-			// if (_comp(value.first, (parent->value).first))
-			// 	new_node->parent->left = new_node;
-			// else
-				// new_node->parent->right = new_node;
-
 			node* new_node = _insert_node(_root, value, _root);
 
 			if (!_root) {
-				// std::cout << "!!!!!condition only for root\n";
 				_end->parent = new_node;
 				new_node->right = _end;
 				_root = new_node;
@@ -488,17 +462,16 @@ namespace ft
 		void erase(iterator pos) {
 			node* tree = _find_node(_root, pos->first);
 			if (tree != _end) {
+				if (tree == _begin && tree->parent) {
+					tree->parent->left = NULL;
+					_begin = tree->parent;
+				}
 				if (tree->right && tree->left) {
 					_erase_node_two_children(tree);
 					return ;
 				}
 				if (tree->right || tree->left)
 					_erase_node_one_child(tree);
-				//	reset _begin _end if needed
-				if (tree == _begin && tree->parent) {
-					tree->parent->left = NULL;
-					_begin = tree->parent;
-				}
 				_delete_node(&tree);
 				_balance(_root);
 			}
