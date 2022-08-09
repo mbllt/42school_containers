@@ -109,10 +109,6 @@ namespace ft
 			std::cout << "\n----------\n";
 		}
 
-		bool _end_of_branch(node* tree) const {
-			return ((!tree->right && !tree->left) || (tree->right == _end && !tree->left));
-		}
-
 		int _get_height(node *tree) const {
 			if (!tree)
 				return -1;
@@ -235,32 +231,88 @@ namespace ft
 			return tree;
 		}
 
-		void _erase_node_two_children(node *tree) {
-			node* lower = tree->right;
-			while (lower->left)
-				lower = lower->left;
-			tree->value = lower->value;
-			if (lower->right || lower->left)
-				_erase_node_one_child(lower);
-			_delete_node(&lower);
+		void _erase_node_no_children(node *tree) {
+			if (tree->parent && tree->parent->left == tree)
+				tree->parent->left = NULL;
+			else if (tree->parent && tree->parent->right == tree)
+				tree->parent->right = NULL;
+			// special case with begin
+			if (tree == _begin && tree->parent)
+				_begin = tree->parent;
+			_delete_node(&tree);
 			_balance(_root);
 		}
 
 		void _erase_node_one_child(node *tree) {
+			// special case with root
+			// if (tree == _root) {
+			// std::cout << "special cas with root\n";
+			// 	if (tree->right) {
+			// 		_root = tree->right;
+			// 		tree->right->parent = NULL;
+			// 	}
+			// 	else if (tree->left) {
+			// 		_root = tree->left;
+			// 		tree->left->parent = NULL;
+			// 	}
+			// 	_delete_node(&tree);
+			// 	_balance(_root);
+			// 	return;
+			// }
 			if (tree->right) {
 				tree->right->parent = tree->parent;
-				if (tree->parent->right == tree)
+				if (tree->parent && tree->parent->right == tree)
 					tree->parent->right = tree->right;
-				else if (tree->parent->left == tree)
+				else if (tree->parent && tree->parent->left == tree)
 					tree->parent->left = tree->right;
 			}
 			else if (tree->left) {
 				tree->left->parent = tree->parent;
-				if (tree->parent->right == tree)
+				if (tree->parent && tree->parent->right == tree)
 					tree->parent->right = tree->left;
-				else if (tree->parent->left == tree)
+				else if (tree->parent && tree->parent->left == tree)
 					tree->parent->left = tree->left;
 			}
+			// special case with begin
+			if (tree == _begin && tree->parent)
+				_begin = tree->parent;
+			_delete_node(&tree);
+			_balance(_root);
+		}
+
+		void _swap_nodes(node* first, node* second) {
+			node* tmp(first);
+
+			first->right = second->right;
+			first->left = second->left;
+			first->parent = second->parent;
+			if (second->parent) {
+				if (second->parent->right == second)
+					second->parent->right = first;
+				else if (second->parent->left == second)
+					second->parent->left = first;
+			}
+			second->right = tmp->right;
+			second->left = tmp->left;
+			second->parent = tmp->parent;
+			if (tmp->parent) {
+				if (tmp->parent->right == tmp)
+					tmp->parent->right = second;
+				else if (tmp->parent->left == tmp)
+					tmp->parent->left = second;
+			}
+		}
+
+		void _erase_node_two_children(node *tree) {
+			std::cout << "erase_node_with_two_children\n";
+			node* lower = tree->right;
+			while (lower->left)
+				lower = lower->left;
+			_swap_nodes(tree, lower);
+			if (tree->right || tree->left)
+				_erase_node_one_child(tree);
+			else if (!tree->right && !tree->left)
+				_erase_node_no_children(tree);
 		}
 
 		void _delete_node(node** deleteNode) {
@@ -449,7 +501,11 @@ namespace ft
 			return ft::make_pair(iterator(new_node), true);
 		}
 
-		iterator insert(iterator hint, const value_type &value);
+		iterator insert(iterator hint, const value_type &value) {
+			(void)hint;
+			insert(value);
+			return iterator(find(value.first));
+		}
 
 		template <class InputIt>
 		void insert(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last) {
@@ -462,18 +518,18 @@ namespace ft
 		void erase(iterator pos) {
 			node* tree = _find_node(_root, pos->first);
 			if (tree != _end) {
-				if (tree == _begin && tree->parent) {
-					tree->parent->left = NULL;
-					_begin = tree->parent;
+				// special case with end
+				if (tree->right == _end && tree->parent) {
+					tree->parent->right = _end;
+					_end = tree->parent;
+					tree->right = NULL;
 				}
-				if (tree->right && tree->left) {
+				if (!tree->right && !tree->left)
+					_erase_node_no_children(tree);
+				else if (tree->right && tree->left)
 					_erase_node_two_children(tree);
-					return ;
-				}
-				if (tree->right || tree->left)
+				else if (tree->right || tree->left)
 					_erase_node_one_child(tree);
-				_delete_node(&tree);
-				_balance(_root);
 			}
 		}
 

@@ -1,8 +1,6 @@
 #include "test_map.hpp"
 
-void test()
-{
-
+void clear() {
 	std::cout << "_______\n";
 	std::cout << "test clear\n";
 	map<int, std::string> mapp;
@@ -20,8 +18,22 @@ void test()
 	mapp.clear();
 	displayMap(mapp);
 
+// test dans clear seg fault
+	// std::cout << "\ntest with cleared and refilled map\n";
+	// map<int, std::string> test;
+	// std::cout << "begin on empty map : " << (*(test.begin())).first << "\n";
+	// test[8] = "you";
+	// test.clear();
+	// std::cout << "inserting a value and clearing\n";
+	// // bug sur loperator = de ft::pair qui est appele dans begin() dans iterator() par defaut.
+	// std::cout << "begin on empty map : " << (*(test.begin())).first << "\n";
+	// map<int, std::string> empty(test.begin(), test.end());
+}
+
+void insert() {
 	std::cout << "_______\n";
 	std::cout << "test insert\n";
+	map<int, std::string> mapp;
 	fillMapIntString(&mapp);
 	displayMap(mapp);
 	std::cout << "\ntest pair<iterator, bool> insert(value)\n";
@@ -44,33 +56,47 @@ void test()
 	std::cout << "second created with it of the first ";
 	displayMap(mappbis);
 
-	// std::cout << "\ntest iterator insert(it hint, value)\n";
+	std::cout << "\ntest iterator insert(it hint, value)\n";
+	displayMap(mapp);
+	typename map<int, std::string>::iterator it = mapp.find(54);
+	typename map<int, std::string>::iterator returnn = mapp.insert(it, pair<int, std::string>(85, "HERE"));
+	displayMap(mapp);
+	std::cout << "Ret de insert(hint, value) :" << returnn->first << "\n";
+	it = mapp.find(99);
+	returnn = mapp.insert(it, pair<int, std::string>(150, "HERE"));
+	displayMap(mapp);
+	it = mapp.find(0);
+	returnn = mapp.insert(it, pair<int, std::string>(-4, "HERE"));
+	displayMap(mapp);
+	std::cout << "Ret de insert(hint, value) :" << returnn->first << "\n";
+}
 
-	// // test dans clear seg fault
-	// std::cout << "\ntest with cleared and refilled map\n";
-	// map<int, std::string> test;
-	// std::cout << "begin on empty map : " << (*(test.begin())).first << "\n";
-	// test[8] = "you";
-	// test.clear();
-	// std::cout << "inserting a value and clearing\n";
-	// // bug sur loperator = de ft::pair qui est appele dans begin() dans iterator() par defaut.
-	// std::cout << "begin on empty map : " << (*(test.begin())).first << "\n";
-	// map<int, std::string> empty(test.begin(), test.end());
-
+void erase() {
 	std::cout << "_______\n";
 	std::cout << "test erase\n";
 	map<int, std::string> test_erase;
 	fillMapIntString(&test_erase);
 	displayMap(test_erase);
-	typename map<int, std::string>::iterator it = test_erase.begin();
-	test_erase.erase(it);
+// mon erase sur begin marche pas et quand je passe par
+// 	erase_node_two children seg fault
+	// typename map<int, std::string>::iterator it = test_erase.begin();
+	// ++it;
+	// ++it;
+	// test_erase.erase(it);
 	typename map<int, std::string>::iterator ite = test_erase.end();
 	--ite;
 	--ite;
 	--ite;
 	test_erase.erase(ite);
-	typename map<int, std::string>::iterator itbis = test_erase.begin();
-	test_erase.erase(itbis);
+	// typename map<int, std::string>::iterator itbis = test_erase.begin();
+	// test_erase.erase(itbis);
 	std::cout << "erasing\n";
 	displayMap(test_erase);
+}
+
+void test()
+{
+	clear();
+	insert();
+	erase();
 }

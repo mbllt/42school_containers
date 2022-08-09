@@ -5,8 +5,10 @@
 
 void test();
 
-#include <vector>
-#include "vector.hpp"
+// BUG
+//	-clear
+//	-erase
+//	-it parfois
 
 int main(void) {
 

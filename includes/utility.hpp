@@ -74,22 +74,20 @@ template<class InputIt1, class InputIt2, class BinaryPredicate>
 template< class T1, class T2 >
 	struct pair {
 
-			T1	first;
-			T2	second;
+			typedef T1 first_type;
+			typedef T2 second_type;
+
+			first_type first;
+			second_type second;
 
 			pair() : first(T1()), second(T2()) {}
-
-			pair( const T1& x, const T2& y ) : first(x), second(y) {}
-
-		template< class U1, class U2 >
-			pair( U1& x, U2& y ) : first(x), second(y) {}
 
 		template<class U, class V>
 			pair (const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
 
-			pair(const pair & copy) : first(copy.first), second(copy.second) {}
+			pair (const first_type& a, const second_type& b) : first(a), second(b) {}
 
-			pair & operator=(pair const &src) {second = src.second; return *this;}
+			pair & operator=(const pair& src) {first = src.first; second = src.second; return *this;}
 
 	};
 
