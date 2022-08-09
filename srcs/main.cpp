@@ -8,7 +8,8 @@ void test();
 // BUG
 //	-clear
 //	-erase
-//	-it parfois
+//	-it parfois, ca pourrait venir du insert ?
+//	-jai pas tester les const
 
 int main(void) {
 

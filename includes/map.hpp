@@ -516,7 +516,19 @@ namespace ft
 		}
 
 		void erase(iterator pos) {
-			node* tree = _find_node(_root, pos->first);
+			erase(pos->first);
+		}
+
+		template <class InputIt>
+		void erase(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, iterator last) {
+			while (first != last) {
+				erase(first);
+				++first;
+			}
+		}
+
+		size_type erase( const Key& key ) {
+			node* tree = _find_node(_root, key);
 			if (tree != _end) {
 				// special case with end
 				if (tree->right == _end && tree->parent) {
@@ -530,31 +542,57 @@ namespace ft
 					_erase_node_two_children(tree);
 				else if (tree->right || tree->left)
 					_erase_node_one_child(tree);
+				return 1;
 			}
+			return 0;
 		}
 
-		void erase(iterator first, iterator last);
-
-		size_type erase( const Key& key );
-
-		void swap(map &other);
+		void swap(map &other) {
+			ft::swap(_allocPair, other._allocPair);
+			ft::swap(_allocNode, other._allocNode);
+			ft::swap(_comp, other._comp);
+			ft::swap(_root, other._root);
+			ft::swap(_begin, other._begin);
+			ft::swap(_end, other._end);
+			ft::swap(_size, other._size);
+			ft::swap(_height, other._height);
+		}
 
 		//	------------------------------------------------
 
 
 		//	---------------->> LOOKUP <<--------------------
 
-		size_type count(const Key &key) const;
+		size_type count(const Key &key) const {
+			size_t ret = 0;
+				const_iterator it = begin();
+
+				while (it != end())
+				{
+					if (it->first == key)
+						++ret;
+					++it;
+				}
+				return (ret);
+		}
 
 		iterator find(const Key &key) {
 			return iterator(_find_node(_root, key));
 		}
 
-		const_iterator find(const Key &key) const;
+		const_iterator find(const Key &key) const {
+			iterator& ret = const_cast<map &>(*this).find(key);
+			return ret;
+		}
 
-		pair<iterator, iterator> equal_range(const Key &key);
+		pair<iterator, iterator> equal_range(const Key &key) {
+			return pair<iterator, iterator>(lower_bound(key), upper_bound(key));
+		}
 
-		pair<const_iterator, const_iterator> equal_range(const Key &key) const;
+		pair<const_iterator, const_iterator> equal_range(const Key &key) const {
+			iterator& ret = const_cast<map &>(*this).equal_range(key);
+			return ret;
+		}
 
 		iterator lower_bound(const Key &key) {
 			iterator it = begin();

@@ -78,25 +78,58 @@ void erase() {
 	fillMapIntString(&test_erase);
 	displayMap(test_erase);
 // mon erase sur begin marche pas et quand je passe par
-// 	erase_node_two children seg fault
-	// typename map<int, std::string>::iterator it = test_erase.begin();
-	// ++it;
-	// ++it;
-	// test_erase.erase(it);
+// erase_node_two children seg fault
+	typename map<int, std::string>::iterator it = test_erase.begin();
+	++it;
+	++it;
+	test_erase.erase(it);
 	typename map<int, std::string>::iterator ite = test_erase.end();
 	--ite;
 	--ite;
 	--ite;
 	test_erase.erase(ite);
-	// typename map<int, std::string>::iterator itbis = test_erase.begin();
-	// test_erase.erase(itbis);
+	typename map<int, std::string>::iterator itbis = test_erase.begin();
+	test_erase.erase(itbis);
 	std::cout << "erasing\n";
 	displayMap(test_erase);
+}
+
+void swap() {
+	std::cout << "_______\n";
+	std::cout << "test swap\n";
+	map<int, std::string> src;
+	map<int, std::string> other;
+	fillMapIntString(&src);
+	fillMapIntString(&other);
+
+	typename map<int, std::string>::iterator it = src.begin();
+	++it;
+	typename map<int, std::string>::reference ref = *(src.begin());
+
+	std::cout << "before swap :\n";
+	std::cout << "src";
+	displayMap(src);
+	std::cout << "other";
+	displayMap(other);
+	std::cout << "iter of src :" << it->first << "\n";
+	std::cout << "ref of src :" << ref.first << "\n";
+
+	src.swap(other);
+
+	std::cout << "after swap :\n";
+	std::cout << "src";
+	displayMap(src);
+	std::cout << "other";
+	displayMap(other);
+	std::cout << "iter of src :" << it->first << "\n";
+	std::cout << "ref of src :" << ref.first << "\n";
+
 }
 
 void test()
 {
 	clear();
 	insert();
-	erase();
+	// erase();
+	swap();
 }

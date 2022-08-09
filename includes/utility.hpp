@@ -168,14 +168,23 @@ template<class T>
 
 
 template <class Pair>
-struct GenerateNodeType {
-	typedef Node<Pair> type;
-};
+	struct GenerateNodeType {
+		typedef Node<Pair> type;
+	};
 
 template <class Pair>
-struct GenerateNodeType<const Pair> {
-	typedef const Node<Pair> type;
-};
+	struct GenerateNodeType<const Pair> {
+		typedef const Node<Pair> type;
+	};
+
+template <typename T>
+	void	swap(T &a, T &b)
+	{
+		T tmp = a;
+		a = b;
+		b = tmp;
+	};
+
 }
 
 #undef IS_INTEGRAL
