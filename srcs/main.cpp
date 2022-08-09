@@ -10,6 +10,7 @@ void test();
 //	-erase
 //	-it parfois, ca pourrait venir du insert ?
 //	-jai pas tester les const
+//	-reverse it pour vec
 
 int main(void) {
 

@@ -74,9 +74,8 @@ INC_FILES=		vector.hpp\
 				map.hpp\
 				iterator_traits.hpp\
 				iterator.hpp\
-				reverse_iterator.hpp\
 				iterator_map.hpp\
-				reverse_iterator_map.hpp\
+				reverse_iterator.hpp\
 				utility.hpp\
 				tests.hpp\
 				test_vector.hpp\

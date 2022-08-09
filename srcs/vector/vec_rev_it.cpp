@@ -8,7 +8,7 @@ void test()
 	std::cout << "vec :";
 	displayVec(vec);
 
-	vector<std::string>::reverse_iterator it = vec.rbegin();
+	typename vector<std::string>::reverse_iterator it = vec.rbegin();
 
 	//	++(int)
 	std::cout << "it :" << *it << "| ";
@@ -56,9 +56,9 @@ void test()
 
 		size_t nbr = rand() % (vec.size() - 1);
 		size_t nbrbis = rand() % (vec.size() - 1);
-		vector<std::string>::reverse_iterator it1 = vec.rbegin();
+		typename vector<std::string>::reverse_iterator it1 = vec.rbegin();
 		*it1 = vec[nbr];
-		vector<std::string>::reverse_iterator it2 = vec.rbegin();
+		typename vector<std::string>::reverse_iterator it2 = vec.rbegin();
 		*it2 = vec[nbrbis];
 
 		if (*it1 == *it2)

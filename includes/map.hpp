@@ -7,7 +7,7 @@
 #include <memory>
 #include <algorithm>
 #include "iterator_map.hpp"
-#include "reverse_iterator_map.hpp"
+#include "reverse_iterator.hpp"
 #include "utility.hpp"
 
 namespace ft
@@ -39,8 +39,8 @@ namespace ft
 		typedef typename Allocator::const_pointer											const_pointer;
 		typedef ft::iterator_map<value_type>												iterator;
 		typedef ft::iterator_map<const value_type>											const_iterator;
-		typedef ft::reverse_iterator_map<iterator>											reverse_iterator;
-		typedef ft::reverse_iterator_map<const_iterator>									const_reverse_iterator;
+		typedef ft::reverse_iterator<iterator>											reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>									const_reverse_iterator;
 
 	private:
 		allocator_type _allocPair;
