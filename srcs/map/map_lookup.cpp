@@ -12,10 +12,10 @@ void count() {
 	displayMap(mapp);
 
 	std::cout << "count(50) :" << mapp.count(50) << "\n";
-	std::cout << "count(50) :" << mapp.count(-15) << "\n";
-	std::cout << "count(50) :" << mapp.count(78) << "\n";
-	std::cout << "count(50) :" << mapp.count(13) << "\n";
-	std::cout << "count(50) :" << mapp.count(3) << "\n";
+	std::cout << "count(-15) :" << mapp.count(-15) << "\n";
+	std::cout << "count(78) :" << mapp.count(78) << "\n";
+	std::cout << "count(13) :" << mapp.count(13) << "\n";
+	std::cout << "count(3) :" << mapp.count(3) << "\n";
 }
 
 void find() {

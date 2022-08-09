@@ -661,16 +661,12 @@ namespace ft
 		}
 
 		friend bool operator!=( const map& lhs, const map& rhs ) {return !(lhs == rhs); }
+		friend bool operator<( const map& lhs, const map& rhs ) {return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); }
+		friend bool operator<=( const map& lhs, const map& rhs ) {return ((lhs < rhs) || (lhs == rhs));}
+		friend bool operator>( const map& lhs, const map& rhs ) {return (!(lhs < rhs) && (lhs != rhs));}
+		friend bool operator>=( const map& lhs, const map& rhs ) {return !(lhs < rhs);}
 
-		// friend bool operator<( const std::map& lhs, const std::map& rhs );
-
-		// friend bool operator<=( const std::map& lhs, const std::map& rhs );
-
-		// friend bool operator>( const std::map& lhs, const std::map& rhs );
-
-		// friend bool operator>=( const std::map& lhs, const std::map& rhs );
-
-		// friend void swap( std::map& lhs, std::map& rhs );
+		friend void swap(map& lhs, map& rhs) {lhs.swap(rhs);}
 
 		//	------------------------------------------------
 	};

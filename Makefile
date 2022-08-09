@@ -41,7 +41,7 @@ SRCS_MAP=		map/map_general.cpp\
 				map/map_modifiers.cpp\
 				map/map_lookup.cpp\
 				map/map_rev_it.cpp\
-				map/map_observers.cpp
+				map/map_non_members.cpp
 #------------------------------------
 
 BIN_DIR=		bin
