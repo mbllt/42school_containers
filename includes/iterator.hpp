@@ -47,10 +47,6 @@ class iterator {
 		difference_type	 operator+(const iterator & src) {return p + src.p;}
 		iterator operator+(difference_type n) {return p + n;}
 		iterator operator-(difference_type n) {return p - n;}
-		// template<typename Class>
-		// 	friend iterator operator+(difference_type n, const iterator& src);
-		// template<typename Class>
-		// 	friend iterator operator-(difference_type n, const iterator& src);
 		iterator& operator+=(difference_type n) {p += n; return *this;}
 		iterator& operator-=(difference_type n) {p -= n; return *this;}
 

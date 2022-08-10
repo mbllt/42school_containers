@@ -12,14 +12,13 @@ template< class T >
 class iterator_map {
 
 	public:
-		typedef std::bidirectional_iterator_tag		iterator_category;
-		typedef T									value_type;
-		typedef std::ptrdiff_t						difference_type;
-		typedef value_type*							pointer;
-		typedef value_type&							reference;
-		// typedef Node<value_type>					node;
+		typedef std::bidirectional_iterator_tag					iterator_category;
+		typedef T												value_type;
+		typedef std::ptrdiff_t									difference_type;
+		typedef value_type*										pointer;
+		typedef value_type&										reference;
 		typedef typename GenerateNodeType<value_type>::type		node;
-		typedef node*								node_pointer;
+		typedef node*											node_pointer;
 
 	private:
 		node_pointer p;
@@ -51,10 +50,10 @@ class iterator_map {
 				}
 			}
 			else if (p->parent) {
-				node *tmp = p->parent;
-				while (tmp && (p->value).first > (tmp->value).first)
+				node *tmp = p;
+				while (tmp == tmp->parent->right)
 					tmp = tmp->parent;
-				p = tmp;
+				p = tmp->parent;
 			}
 			return *this;
 		}
@@ -74,10 +73,10 @@ class iterator_map {
 				}
 			}
 			else if (p->parent) {
-				node *tmp = p->parent;
-				while (tmp && (tmp->left == p))
+				node *tmp = p;
+				while (tmp == tmp->parent->left)
 					tmp = tmp->parent;
-				p = tmp;
+				p = tmp->parent;
 			}
 			return *this;
 		}
