@@ -31,11 +31,14 @@ void test()
 	std::cout << "--it :" << *it << "\n";
 
 	// +(int)
-	it = it + 1;
-	it = 1 + it;
-	std::cout << "it = it + 1 :" << *it << "\n";
+	it = it + 2;
+	std::cout << "it = it + 2 :" << *it << "\n";
 
-	// -(int)
+// faut - au lieu de +
+	it = 1 + it;
+	std::cout << "it = 1 + it :" << *it << "\n";
+
+	// // -(int)
 	it = it - 1;
 	std::cout << "it = it - 1 :" << *it << "\n";
 

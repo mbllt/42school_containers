@@ -95,6 +95,16 @@ class reverse_iterator {
 
 //	--------------->> NON MEMBERS <<----------------
 
+friend reverse_iterator operator+(difference_type n, reverse_iterator& it) {
+	reverse_iterator tmp = it;
+	return (tmp += n);
+}
+
+friend reverse_iterator operator-(difference_type n, reverse_iterator& it) {
+	reverse_iterator tmp = it;
+	return (tmp -= n);
+}
+
 friend bool operator== (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {return lhs._base == rhs._base;}
 friend bool operator!= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {return !(lhs._base == rhs._base);}
 friend bool operator<  (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {return lhs._base > rhs._base;}

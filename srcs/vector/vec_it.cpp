@@ -32,8 +32,9 @@ void test() {
 
 	// +(int)
 	it = it + 1;
+	std::cout << "it = it + 1 :" << *it << "\n";
 	it = 1 + it;
-			std::cout << "it = it + 1 :" << *it << "\n";
+	std::cout << "it = 1 + it :" << *it << "\n";
 
 
 	// -(int)
