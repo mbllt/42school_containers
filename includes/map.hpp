@@ -53,10 +53,15 @@ namespace ft
 		size_type _height;
 
 		void _copy(map const &copy) {
-			_size = 0;
-			_height = 0;
+			clear();
+			_allocPair = copy._allocPair;
+			_allocNode = copy._allocNode;
+			_comp = copy._comp;
 			_root = NULL;
-			_begin = NULL;
+			_begin = copy._begin;
+			_end = copy._end;
+			_size = copy._size;
+			_height = copy.height;
 			if (copy._root) {
 				--_size;
 				insert(copy.begin(), copy.end());
@@ -65,9 +70,13 @@ namespace ft
 
 		void _print_info_node(node *node) {
 			std::cout << "\n-------\n";
-			std::cout << "size of tree : " << _size << "\n";
 			if (node)
 				std::cout << "node : " << (node->value).first << "\n";
+			if (node->left)
+				std::cout << "node->left : " << (node->left->value).first << "\n";
+			if (node->right)
+				std::cout << "node->right : " << (node->right->value).first << "\n";
+			std::cout << "size of tree : " << _size << "\n";
 			if (node->parent) {
 				std::cout << "node->parent : " << (node->parent->value).first << "\n";
 				if (node->parent->right && node->parent->right != _end)
@@ -237,8 +246,12 @@ namespace ft
 			else if (tree->parent && tree->parent->right == tree)
 				tree->parent->right = NULL;
 			// special case with begin
-			if (tree == _begin && tree->parent)
-				_begin = tree->parent;
+			if (tree == _begin && tree->parent) {
+				node* tmp = tree->parent;
+				while (tmp && tmp->left)
+					tmp = tmp->left;
+				_begin = tmp;
+			}
 			_delete_node(&tree);
 			_balance(_root);
 		}
@@ -274,8 +287,12 @@ namespace ft
 					tree->parent->left = tree->left;
 			}
 			// special case with begin
-			if (tree == _begin && tree->parent)
-				_begin = tree->parent;
+			if (tree == _begin && tree->parent) {
+				node* tmp = tree->parent;
+				while (tmp && tmp->left)
+					tmp = tmp->left;
+				_begin = tmp;
+			}
 			_delete_node(&tree);
 			_balance(_root);
 		}
@@ -352,11 +369,9 @@ namespace ft
 
 		explicit map(const key_compare &comp = key_compare(),
 					 const allocator_type &alloc = allocator_type()) :
-					_allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
+					_allocPair(alloc), _allocNode(alloc), _comp(comp),
+					_root(NULL), _begin(NULL), _end(NULL), _size(0), _height(0)
 		{
-			_root = NULL;
-			_begin = NULL;
-			_end = NULL;
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _new_node(value);
 			_end = new_node;
@@ -367,11 +382,9 @@ namespace ft
 		map(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last,
 			const key_compare &comp = key_compare(),
 			const allocator_type &alloc = allocator_type()) :
-			_allocPair(alloc), _allocNode(alloc), _comp(comp), _size(0), _height(0)
+			_allocPair(alloc), _allocNode(alloc), _comp(comp),
+			_root(NULL), _begin(NULL), _end(NULL), _size(0), _height(0)
 		{
-			_root = NULL;
-			_begin = NULL;
-			_end = NULL;
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _new_node(value);
 			_end = new_node;
@@ -380,11 +393,9 @@ namespace ft
 		}
 
 		map(const map &other) :
-		_allocPair(other._allocPair), _allocNode(other._allocNode), _comp(other._comp), _size(0), _height(0)
+		_allocPair(other._allocPair), _allocNode(other._allocNode), _comp(other._comp),
+		_root(NULL), _begin(NULL), _end(NULL),_size(0), _height(0)
 		{
-			_root = NULL;
-			_begin = NULL;
-			_end = NULL;
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _new_node(value);
 			_end = new_node;
@@ -491,8 +502,9 @@ namespace ft
 				new_node->right = _end;
 				_end->parent = new_node;
 			}
-			if (_comp((new_node->value).first, (_begin->value).first))
+			if (_comp((new_node->value).first, (_begin->value).first)) {
 				_begin = new_node;
+			}
 
 			// _print_info_node(new_node);
 			_balance(_root);
