@@ -64,6 +64,7 @@ namespace ft
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _new_node(value);
 			_end = new_node;
+			std::cout << "copy :" << new_node << "\n";
 			--_size;
 			if (copy._root)
 			{
@@ -127,22 +128,9 @@ namespace ft
 
 		int _get_height(node *tree) const
 		{
-			if (!tree)
-				return -1;
-			if (tree == _end || (!tree->right && !tree->left))
+			if (!tree || tree == _end)
 				return 0;
-
-			int H = 0;
-			int Tl = 0;
-			int Tr = 0;
-
-			if (tree->left)
-				Tl += _get_height(tree->left);
-			if (tree->right)
-				Tr += _get_height(tree->right);
-
-			H = std::max(Tr, Tl) + 1;
-			return H;
+			return std::max(_get_height(tree->left), _get_height(tree->right)) + 1;
 		}
 
 		bool _is_balanced()
@@ -154,21 +142,46 @@ namespace ft
 
 		void _balance(node *tree)
 		{
-			if (_is_balanced())
-				return;
-			if (_get_height(tree->left) > _get_height(tree->right))
-			{
-				return;
-				if (tree->left && (tree->left)->right)
-					_left_rot(tree->left, (tree->left)->right);
-				_right_rot(tree, tree->left);
+			return;
+			if (!_is_balanced()) {
+				// std::cout << "\nBefore balancing" ;
+				// _printBT(_root);
+				// std::cout << "height tree->left :" << _get_height(tree->left);
+				// std::cout << " height tree->right :" << _get_height(tree->right) << "\n";
+				if (_get_height(tree->left) > _get_height(tree->right)) // leak here check when end
+				{
+					if (tree->left && (tree->value).first > (tree->left->value).first)
+						_left_rot(tree->left, tree->left->right);
+					_right_rot(tree, tree->left);
+				}
+				else
+				{
+					if (tree->right && (tree->value).first < (tree->right->value).first)
+						_right_rot(tree->right, tree->right->left);
+					_left_rot(tree, tree->right);
+				}
+				// std::cout << "\nAfter balancing" ;
+				// _printBT(_root);
+				// std::cout << "height tree->left :" << _get_height(tree->left);
+				// std::cout << " height tree->right :" << _get_height(tree->right) << "\n";
 			}
-			else if (tree->right && tree->right != _end)
-			{
-				if (tree->right && (tree->right)->left)
-					_right_rot(tree->right, (tree->right)->left);
-				_left_rot(tree, tree->right);
-			}
+			// if (_is_balanced())
+			// // _printBT(_root);
+			// // std::cout << "height tree->left :" << _get_height(tree->left);
+			// // std::cout << " height tree->right :" << _get_height(tree->right) << "\n";
+			// if (_get_height(tree->left) > _get_height(tree->right)) // leak here check when end
+			// {
+			// 	if (tree->left && (tree->left)->right)
+			// 		_left_rot(tree->left, (tree->left)->right);
+			// 	_right_rot(tree, tree->left);
+			// }
+			// else if (tree->right && tree->right != _end)
+			// {
+			// 	if (tree->right && (tree->right)->left)
+			// 		_right_rot(tree->right, (tree->right)->left);
+			// 	_left_rot(tree, tree->right);
+			// }
+			// _printBT(_root);
 		}
 
 		node *_new_node(value_type value)
@@ -391,7 +404,10 @@ namespace ft
 		{
 			if (!(*clearNode))
 				return;
-			// std::cout << "node :" << ((*clearNode)->value).first << "\n";
+			if ((*clearNode) == _end) {
+				std::cout << "node   :" << ((*clearNode)->value).first << "\n";
+				std::cout << "(addr) :" << (*clearNode) << "\n";
+			}
 			_clear_node(&(*clearNode)->left);
 			_clear_node(&(*clearNode)->right);
 			_delete_node(clearNode);
@@ -421,6 +437,7 @@ namespace ft
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _new_node(value);
 			_end = new_node;
+			std::cout << "map constucteur :" << new_node << "\n";
 			--_size;
 		}
 
@@ -510,12 +527,13 @@ namespace ft
 
 		void clear()
 		{
-			if (!this->empty())
+			// if (!this->empty())
+			if (_root != NULL)
 				_clear_node(&_root);
+			else
+				_clear_node(&_end);
 			_root = NULL;
 			_begin = NULL;
-			if (_end)
-				_end->parent = NULL;
 		}
 
 		pair<iterator, bool> insert(const value_type &value)
@@ -548,10 +566,10 @@ namespace ft
 			}
 			if(!_is_balanced())
 				_balance(_root);
-			if(!_is_balanced()) {
-				std::cout << "Not balanced\n";
-				_printBT(_root);
-			}
+			// if(!_is_balanced()) {
+			// 	std::cout << "Not balanced\n";
+			// 	_printBT(_root);
+			// }
 
 			return ft::make_pair(iterator(new_node), true);
 		}

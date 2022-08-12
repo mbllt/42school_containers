@@ -30,35 +30,35 @@ void test() {
 	std::cout << "second ";
 	displayMap(tres);
 
-	// std::cout << "_______\n";
-	// std::cout << "operator =\n";
-	// map<int, std::string> weekend;
-	// // fillMapIntString(&weekend);
-	// std::cout << "first ";
-	// displayMap(weekend);
-	// map<int, std::string> fourth;
-	// fillMapIntString(&fourth);
-	// std::cout << "second ";
-	// displayMap(fourth);
-	// weekend = fourth;
-	// std::cout << "after 'first = second'\n";
-	// std::cout << "first == second : " << (weekend == fourth) << "\n\n";
-	// fourth[70] = "test";
-	// typename map<int, std::string>::iterator it = fourth.begin();
-	// it->second = "test";
-	// std::cout << "changing first map, second one should not change\n";
-	// displayMap(weekend);
+	std::cout << "_______\n";
+	std::cout << "operator =\n";
+	map<int, std::string> weekend;
+	fillMapIntString(&weekend);
+	std::cout << "first ";
+	displayMap(weekend);
+	map<int, std::string> fourth;
+	fillMapIntString(&fourth);
+	std::cout << "second ";
+	displayMap(fourth);
+	weekend = fourth;
+	std::cout << "after 'first = second'\n";
+	std::cout << "first == second : " << (weekend == fourth) << "\n\n";
+	fourth[70] = "test";
+	typename map<int, std::string>::iterator it = fourth.begin();
+	it->second = "test";
+	std::cout << "changing first map, second one should not change\n";
+	displayMap(weekend);
 
-	// std::cout << "_______\n";
-	// std::cout << "operator = with empty map\n";
-	// std::cout << "first ";
-	// displayMap(fourth);
-	// map<int, std::string> fifth;
-	// std::cout << "second ";
-	// displayMap(fifth);
-	// fourth = fifth;
-	// std::cout << "after 'first = second'\n";
-	// std::cout << "first == second : " << (fourth == fifth) << "\n";
+	std::cout << "_______\n";
+	std::cout << "operator = with empty map\n";
+	std::cout << "first ";
+	displayMap(fourth);
+	map<int, std::string> fifth;
+	std::cout << "second ";
+	displayMap(fifth);
+	fourth = fifth;
+	std::cout << "after 'first = second'\n";
+	std::cout << "first == second : " << (fourth == fifth) << "\n";
 
 }
 
