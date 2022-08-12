@@ -84,9 +84,9 @@ void erase() {
 // leaks on erase last
 // erase_node_two children heap use after free
 	typename map<int, std::string>::iterator it = test_erase.begin();
-	// ++it;
-	// ++it;
-	// ++it;
+	++it;
+	++it;
+	++it;
 	// ++it;
 	// ++it;
 	// ++it;

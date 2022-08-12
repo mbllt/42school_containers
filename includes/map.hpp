@@ -342,6 +342,10 @@ namespace ft
 					first->parent->left = second;
 			}
 
+			if (first->right)
+				first->right->parent = second;
+			if (first->left)
+				first->left->parent = second;
 			first->right = second->right;
 			first->left = second->left;
 			first->parent = second->parent;
@@ -353,7 +357,10 @@ namespace ft
 				else if (second->parent->left == second)
 					second->parent->left = first;
 			}
-			second->right = first_right;
+			if (first_right == second)
+				second->right = first_right->right;
+			else
+				second->right = first_right;
 			second->left = first_left;
 			second->parent = first_parent;
 			if (!second->parent) // case of root
@@ -362,7 +369,6 @@ namespace ft
 
 		void _erase_node_two_children(node *tree)
 		{
-			std::cout << "erase_node_with_two_children\n";
 			node *lower = tree->right;
 			while (lower->left)
 				lower = lower->left;
@@ -588,15 +594,14 @@ namespace ft
 			node *tree = _find_node(_root, key);
 			if (tree != _end)
 			{
-				_printBT(_root);
-				// _root
+				// _printBT(_root);
 				if (!tree->right && !tree->left)
 					_erase_node_no_children(tree);
 				else if (tree->right && tree->right != _end && tree->left)
 					_erase_node_two_children(tree);
 				else if (tree->right || tree->left)
 					_erase_node_one_child(tree);
-				_printBT(_root);
+				// _printBT(_root);
 				return 1;
 			}
 			return 0;

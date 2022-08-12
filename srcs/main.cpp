@@ -7,9 +7,8 @@ void test();
 
 // BUG
 //	-op= 1 leak
-//	-erase : dans mon swap : mon erase bug completement !
-
-//	-erase le cas de root
+//	-erase dans node_two_children
+//	-erase _root two_children
 //	-faut que je teste ma fonction balance
 //	-test lucas
 

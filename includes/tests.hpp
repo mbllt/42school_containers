@@ -79,17 +79,11 @@ void fillMapIntString(Map *map) {
 							"orange", "blue", "black", "sun", "best",
 							"yes", "nine", "kakao", "lione", "search",
 							"biking", "mont-blanc", "testing", "ring", "marvelous"};
-	// for (int i = 1; i < 11; ++i) {
-	// 	int val = rand() % 20;
-	// 	int integer = rand() % 100;
-	// 	map->insert(pair<const int, std::string>(integer, str[val]));
-	// }
-	map->insert(pair<const int, std::string>(50, "test"));
-	map->insert(pair<const int, std::string>(86, "test"));
-	map->insert(pair<const int, std::string>(90, "test"));
-	map->insert(pair<const int, std::string>(100, "test"));
-	map->insert(pair<const int, std::string>(70, "test"));
-	map->insert(pair<const int, std::string>(76, "test"));
+	for (int i = 1; i < 11; ++i) {
+		int val = rand() % 20;
+		int integer = rand() % 100;
+		map->insert(pair<const int, std::string>(integer, str[val]));
+	}
 }
 
 
