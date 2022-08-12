@@ -77,7 +77,7 @@ namespace ft
 		{
 			std::cout << "\n-------\n";
 			if (node)
-				std::cout << "node : " << (node->value).first << "\n";
+				std::cout << "node : " << (node->value).first << "," << (node->value).second << "\n";
 			if (node->left)
 				std::cout << "node->left : " << (node->left->value).first << "\n";
 			if (node->right)
@@ -91,13 +91,17 @@ namespace ft
 				if (node->parent->left)
 					std::cout << "parent->left : " << (node->parent->left->value).first << "\n";
 			}
-			std::cout << "begin : " << (_begin->value).first << "\n";
-			std::cout << "last : " << (_end->parent->value).first << "\n";
-			std::cout << "_root : " << (_root->value).first << "\n";
-			if (_root->right)
-				std::cout << "_root->right : " << (_root->right->value).first << "\n";
-			if (_root->left)
-				std::cout << "_root->left : " << (_root->left->value).first << "\n";
+			if (_begin)
+				std::cout << "begin : " << (_begin->value).first << "\n";
+			if (_end->parent)
+				std::cout << "last : " << (_end->parent->value).first << "\n";
+			if (_root) {
+				std::cout << "_root : " << (_root->value).first << "\n";
+				if (_root->right)
+					std::cout << "_root->right : " << (_root->right->value).first << "\n";
+				if (_root->left)
+					std::cout << "_root->left : " << (_root->left->value).first << "\n";
+			}
 			std::cout << "-------\n";
 		}
 
@@ -402,8 +406,6 @@ namespace ft
 		{
 			if (!(*clearNode))
 				return;
-			// std::cout << "node deleted :" << ((*clearNode)->value).first << " | ";
-			// std::cout << "addr :" << (*clearNode) << "\n";
 			_clear_node(&(*clearNode)->left);
 			_clear_node(&(*clearNode)->right);
 			_delete_node(clearNode);
@@ -480,7 +482,8 @@ namespace ft
 		T &operator[](const Key &key)
 		{
 			value_type value = ft::make_pair<const Key, T>(key, mapped_type());
-			return (insert(value).first)->second;
+			iterator ret = insert(value).first;
+			return ret->second;
 		}
 
 		T &at(const Key &key)
@@ -595,7 +598,7 @@ namespace ft
 		}
 
 		template <class InputIt>
-		void erase(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, iterator last)
+		void erase(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last)
 		{
 			while (first != last)
 			{

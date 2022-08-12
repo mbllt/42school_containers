@@ -24,13 +24,13 @@ void clear() {
 
 	std::cout << "\ntest with cleared and refilled map\n";
 	map<int, std::string> test;
-	test.begin()->first;
-	std::cout << "begin on empty map : " << test.begin()->first << "\n";
-	test[8] = "you";
-	test.clear();
-	std::cout << "inserting a value and clearing\n";
-	std::cout << "begin on empty map : " << test.begin()->first << "\n";
-	map<int, std::string> empty(test.begin(), test.end());
+	// // iterator() par defaut marche pas
+	// std::cout << "begin on empty map : " << test.begin()->first << "\n";
+	// test[8] = "you";
+	// test.clear();
+	// std::cout << "inserting a value and clearing\n";
+	// std::cout << "begin on empty map : " << test.begin()->first << "\n";
+	// map<int, std::string> empty(test.begin(), test.end());
 }
 
 void insert() {
@@ -72,6 +72,25 @@ void insert() {
 	returnn = mapp.insert(it, pair<int, std::string>(-4, "HERE"));
 	displayMap(mapp);
 	std::cout << "Ret de insert(hint, value) :" << returnn->first << "\n";
+
+	map<int, std::string> l;
+	l[3] = "8";
+	l[0] = "0";
+	l[4] = "4";
+	l[2] = "2";
+	l[1] = "1";
+	std::cout << "Should be ordered : ";
+	displayMap(l);
+
+// // operator sur T (value_type.second) ne marche pas avec des int...
+// 	map<int, int> m;
+	// m[3] = 3;
+	// m[0] = 0;
+	// m[4] = 4;
+	// m[2] = 2;
+	// m[1] = 1;
+	// std::cout << "Should be ordered : ";
+	// displayMap(m);
 }
 
 void erase() {
@@ -133,8 +152,8 @@ void swap() {
 
 void test()
 {
-	// clear();
-	// insert();
+	clear();
+	insert();
 	erase();
-	// swap();
+	swap();
 }

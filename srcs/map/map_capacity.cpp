@@ -1,7 +1,7 @@
 #include "test_map.hpp"
 
-void test() {
-	
+void size() {
+
 	std::cout << "_______\n";
 	std::cout << "test size\n";
 	map<int, std::string> mapp;
@@ -14,12 +14,15 @@ void test() {
 	mapp[-3] = "here we go";
 	std::cout << "size map refilled : " << mapp.size() << "\n";
 
-// test erase and check size after
-	// mapp.erase(it);
-
 	mapp.clear();
 	std::cout << "size map cleared : " << mapp.size() << "\n";
+}
 
+void empty() {
+
+	map<int, std::string> mapp;
+	fillMapIntString(&mapp);
+	mapp.clear();
 	std::cout << "_______\n";
 	std::cout << "test empty\n";
 	std::cout << "map is empty : " << mapp.empty() << " - yes\n";
@@ -32,4 +35,8 @@ void test() {
 	fillMapIntString(&mapp);
 	std::cout << "map is empty : " << mapp.empty() << " - no\n";
 	displayMap(mapp);
+}
+void test() {
+	size();
+	empty();
 }
