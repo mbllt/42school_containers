@@ -50,7 +50,6 @@ namespace ft
 		Node<value_type> *_begin;
 		Node<value_type> *_end;
 		size_type _size;
-		size_type _height;
 
 		void _copy(map const &copy)
 		{
@@ -61,7 +60,6 @@ namespace ft
 			_begin = NULL;
 			_end = NULL;
 			_size = 0;
-			_height = 0;
 
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _new_node(value);
@@ -295,7 +293,6 @@ namespace ft
 			if (tree == _begin)
 				_case_with_begin(tree);
 			_delete_node(&tree);
-			// _balance(_root);
 		}
 
 		void _erase_node_one_child(node *tree)
@@ -325,7 +322,6 @@ namespace ft
 			else if (tree == _begin)
 				_case_with_begin(tree);
 			_delete_node(&tree);
-			// _balance(_root);
 		}
 
 		void _swap_nodes(node *first, node *second)
@@ -420,7 +416,7 @@ namespace ft
 
 		explicit map(const key_compare &comp = key_compare(),
 					 const allocator_type &alloc = allocator_type()) : _allocPair(alloc), _allocNode(alloc), _comp(comp),
-																	   _root(NULL), _begin(NULL), _end(NULL), _size(0), _height(0)
+																	   _root(NULL), _begin(NULL), _end(NULL), _size(0)
 		{
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _new_node(value);
@@ -432,7 +428,7 @@ namespace ft
 		map(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last,
 			const key_compare &comp = key_compare(),
 			const allocator_type &alloc = allocator_type()) : _allocPair(alloc), _allocNode(alloc), _comp(comp),
-															  _root(NULL), _begin(NULL), _end(NULL), _size(0), _height(0)
+															  _root(NULL), _begin(NULL), _end(NULL), _size(0)
 		{
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _new_node(value);
@@ -442,7 +438,7 @@ namespace ft
 		}
 
 		map(const map &other) : _allocPair(other._allocPair), _allocNode(other._allocNode), _comp(other._comp),
-								_root(NULL), _begin(NULL), _end(NULL), _size(0), _height(0)
+								_root(NULL), _begin(NULL), _end(NULL), _size(0)
 		{
 			_copy(other);
 		}
@@ -550,10 +546,12 @@ namespace ft
 			{
 				_begin = new_node;
 			}
-
-			// _print_info_node(new_node);
-			// _balance(_root);
-			// _printBT(_root);
+			if(!_is_balanced())
+				_balance(_root);
+			if(!_is_balanced()) {
+				std::cout << "Not balanced\n";
+				_printBT(_root);
+			}
 
 			return ft::make_pair(iterator(new_node), true);
 		}
@@ -594,14 +592,14 @@ namespace ft
 			node *tree = _find_node(_root, key);
 			if (tree != _end)
 			{
-				// _printBT(_root);
 				if (!tree->right && !tree->left)
 					_erase_node_no_children(tree);
 				else if (tree->right && tree->right != _end && tree->left)
 					_erase_node_two_children(tree);
 				else if (tree->right || tree->left)
 					_erase_node_one_child(tree);
-				// _printBT(_root);
+				if (!_is_balanced())
+					_balance(_root);
 				return 1;
 			}
 			return 0;
@@ -616,7 +614,6 @@ namespace ft
 			ft::swap(_begin, other._begin);
 			ft::swap(_end, other._end);
 			ft::swap(_size, other._size);
-			ft::swap(_height, other._height);
 		}
 
 		//	------------------------------------------------
