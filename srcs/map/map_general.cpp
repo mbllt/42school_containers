@@ -61,6 +61,3 @@ void test() {
 	std::cout << "first == second : " << (fourth == fifth) << "\n";
 
 }
-
-// try to use a valid map with items in it and then clear it
-//	and then refill and use it. I fear that my _end is not going to work

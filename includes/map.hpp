@@ -402,6 +402,8 @@ namespace ft
 		{
 			if (!(*clearNode))
 				return;
+			// std::cout << "node deleted :" << ((*clearNode)->value).first << " | ";
+			// std::cout << "addr :" << (*clearNode) << "\n";
 			_clear_node(&(*clearNode)->left);
 			_clear_node(&(*clearNode)->right);
 			_delete_node(clearNode);
@@ -465,8 +467,6 @@ namespace ft
 		map &operator=(map const &other)
 		{
 			clear();
-			// if (this->_end)
-			// 	_delete_node(&_end);
 			_copy(other);
 			return *this;
 		}
@@ -520,13 +520,13 @@ namespace ft
 
 		void clear()
 		{
-			// if (!this->empty())
 			if (_root != NULL)
 				_clear_node(&_root);
 			else
 				_clear_node(&_end);
 			_root = NULL;
 			_begin = NULL;
+			_end = NULL;
 		}
 
 		pair<iterator, bool> insert(const value_type &value)
@@ -539,6 +539,11 @@ namespace ft
 
 			if (!_root)
 			{
+				if (!_end) {
+					value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
+					node* new_end = _new_node(value);
+					_end = new_end;
+				}
 				_end->parent = new_node;
 				new_node->right = _end;
 				_root = new_node;
