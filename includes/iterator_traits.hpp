@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iterator>
+
 namespace ft {
 
 template< class Iter >
@@ -15,8 +17,8 @@ template< class Iter >
 template< class T >
 	struct iterator_traits<T*> {
 
-		typedef std::random_access_iterator_tag		iterator_category; // i have to recode it
-		typedef std::ptrdiff_t						difference_type; // maybe this one as well
+		typedef std::random_access_iterator_tag		iterator_category;
+		typedef std::ptrdiff_t						difference_type;
 		typedef T 									value_type;
 		typedef value_type *						pointer;
 		typedef value_type &						reference;

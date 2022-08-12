@@ -65,12 +65,18 @@ class iterator {
 			return (tmp -= n);
 		}
 
-		friend bool operator==(const iterator<T> src, const iterator<T> cmp) {return (src.getP() == cmp.getP());}
-		friend bool operator!=(const iterator src, const iterator cmp) {return (src.getP() != cmp.getP());}
-		friend bool operator<(const iterator src, const iterator cmp) {return (src.getP() < cmp.getP());}
-		friend bool operator<=(const iterator src, const iterator cmp) {return (src.getP() <= cmp.getP());}
-		friend bool operator>(const iterator src, const iterator cmp) {return (src.getP() > cmp.getP());}
-		friend bool operator>=(const iterator src, const iterator cmp) {return (src.getP() >= cmp.getP());}
+		template<class A>
+		friend bool operator==(const iterator src, const iterator<A> cmp) {return (src.getP() == cmp.getP());}
+		template<class A>
+		friend bool operator!=(const iterator src, const iterator<A> cmp) {return (src.getP() != cmp.getP());}
+		template<class A>
+		friend bool operator<(const iterator src, const iterator<A> cmp) {return (src.getP() < cmp.getP());}
+		template<class A>
+		friend bool operator<=(const iterator src, const iterator<A> cmp) {return (src.getP() <= cmp.getP());}
+		template<class A>
+		friend bool operator>(const iterator src, const iterator<A> cmp) {return (src.getP() > cmp.getP());}
+		template<class A>
+		friend bool operator>=(const iterator src, const iterator<A> cmp) {return (src.getP() >= cmp.getP());}
 
 };
 

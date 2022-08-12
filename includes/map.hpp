@@ -64,7 +64,6 @@ namespace ft
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _new_node(value);
 			_end = new_node;
-			std::cout << "copy :" << new_node << "\n";
 			--_size;
 			if (copy._root)
 			{
@@ -390,7 +389,6 @@ namespace ft
 
 		void _delete_node(node **deleteNode)
 		{
-			// if (!(*deleteNode) || *deleteNode == _end)
 			if (!(*deleteNode))
 				return;
 			_allocNode.destroy((*deleteNode));
@@ -404,10 +402,6 @@ namespace ft
 		{
 			if (!(*clearNode))
 				return;
-			if ((*clearNode) == _end) {
-				std::cout << "node   :" << ((*clearNode)->value).first << "\n";
-				std::cout << "(addr) :" << (*clearNode) << "\n";
-			}
 			_clear_node(&(*clearNode)->left);
 			_clear_node(&(*clearNode)->right);
 			_delete_node(clearNode);
@@ -437,7 +431,6 @@ namespace ft
 			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
 			node *new_node = _new_node(value);
 			_end = new_node;
-			std::cout << "map constucteur :" << new_node << "\n";
 			--_size;
 		}
 
