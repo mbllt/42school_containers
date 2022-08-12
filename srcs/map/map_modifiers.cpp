@@ -83,7 +83,7 @@ void erase() {
 
 // leaks on erase last
 // erase_node_two children heap use after free
-	// typename map<int, std::string>::iterator it = test_erase.begin();
+	typename map<int, std::string>::iterator it = test_erase.begin();
 	// ++it;
 	// ++it;
 	// ++it;
@@ -91,17 +91,17 @@ void erase() {
 	// ++it;
 	// ++it;
 	// ++it;
-	// std::cout << "erasing " << it->first << "\n";
-	// test_erase.erase(it);
+	std::cout << "erasing " << it->first << "\n";
+	test_erase.erase(it);
 	// typename map<int, std::string>::iterator ite = test_erase.end();
 	// --ite;
 	// --ite;
 	// --ite;
 	// std::cout << "erasing " << ite->first << "\n";
 	// test_erase.erase(ite);
-	typename map<int, std::string>::iterator itbis = test_erase.begin();
-	std::cout << "erasing " << itbis->first << "\n";
-	test_erase.erase(itbis);
+	// typename map<int, std::string>::iterator itbis = test_erase.begin();
+	// std::cout << "erasing " << itbis->first << "\n";
+	// test_erase.erase(itbis);
 	displayMap(test_erase);
 }
 

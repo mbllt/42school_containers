@@ -260,7 +260,11 @@ namespace ft
 		}
 
 		void _case_with_begin(node* tree) {
-				tree = tree->parent;
+				
+				if (tree->parent)
+					tree = tree->parent;
+				else if (!tree->parent)
+					tree = tree->right;
 				while (tree && tree->left)
 					tree = tree->left;
 				_begin = tree;
@@ -288,10 +292,10 @@ namespace ft
 				tree->parent->right = NULL;
 			if (tree->right == _end)
 				_case_with_end(tree);
-			if (tree == _begin && tree->parent)
+			if (tree == _begin)
 				_case_with_begin(tree);
 			_delete_node(&tree);
-			_balance(_root);
+			// _balance(_root);
 		}
 
 		void _erase_node_one_child(node *tree)
@@ -303,6 +307,8 @@ namespace ft
 					tree->parent->right = tree->right;
 				else if (tree->parent && tree->parent->left == tree)
 					tree->parent->left = tree->right;
+				else if (!tree->parent) // case of root
+					_root = tree->right;
 			}
 			if (tree->left)
 			{
@@ -311,18 +317,19 @@ namespace ft
 					tree->parent->right = tree->left;
 				else if (tree->parent && tree->parent->left == tree)
 					tree->parent->left = tree->left;
+				else if (!tree->parent) // case of root
+					_root = tree->left;
 			}
 			if (tree->right == _end)
 				_case_with_end(tree);
-			else if (tree == _begin && tree->parent)
+			else if (tree == _begin)
 				_case_with_begin(tree);
 			_delete_node(&tree);
-			_balance(_root);
+			// _balance(_root);
 		}
 
 		void _swap_nodes(node *first, node *second)
 		{
-			// node* tmp = first;
 			node* first_left = first->left;
 			node* first_right = first->right;
 			node* first_parent = first->parent;
@@ -349,6 +356,8 @@ namespace ft
 			second->right = first_right;
 			second->left = first_left;
 			second->parent = first_parent;
+			if (!second->parent) // case of root
+				_root = second;
 		}
 
 		void _erase_node_two_children(node *tree)
@@ -579,15 +588,15 @@ namespace ft
 			node *tree = _find_node(_root, key);
 			if (tree != _end)
 			{
+				_printBT(_root);
 				// _root
-				// _printBT(_root);
 				if (!tree->right && !tree->left)
 					_erase_node_no_children(tree);
 				else if (tree->right && tree->right != _end && tree->left)
 					_erase_node_two_children(tree);
 				else if (tree->right || tree->left)
 					_erase_node_one_child(tree);
-				// _printBT(_root);
+				_printBT(_root);
 				return 1;
 			}
 			return 0;
