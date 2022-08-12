@@ -1,37 +1,36 @@
 #include "test_map.hpp"
 
 void clear() {
-	// std::cout << "_______\n";
-	// std::cout << "test clear\n";
-	// map<int, std::string> mapp;
-	// fillMapIntString(&mapp);
-	// displayMap(mapp);
+	std::cout << "_______\n";
+	std::cout << "test clear\n";
+	map<int, std::string> mapp;
+	fillMapIntString(&mapp);
+	displayMap(mapp);
 
-	// std::cout << "clearing map\n";
-	// mapp.clear();
-	// displayMap(mapp);
+	std::cout << "clearing map\n";
+	mapp.clear();
+	displayMap(mapp);
 
-	// std::cout << "refilling map with []\n";
-	// mapp[9] = "test";
+	std::cout << "refilling map with []\n";
+	mapp[9] = "test";
 
-	// std::cout << "clearing map\n";
-	// mapp.clear();
-	// displayMap(mapp);
+	std::cout << "clearing map\n";
+	mapp.clear();
+	displayMap(mapp);
 
-	// std::cout << "clearing map\n";
-	// mapp.clear();
-	// displayMap(mapp);
+	std::cout << "clearing map\n";
+	mapp.clear();
+	displayMap(mapp);
 
-// seg fault dans begin() dans iterator() par defaut.
 	std::cout << "\ntest with cleared and refilled map\n";
 	map<int, std::string> test;
 	test.begin()->first;
-	// std::cout << "begin on empty map : " << test.begin()->first << "\n";
-	// test[8] = "you";
-	// test.clear();
-	// std::cout << "inserting a value and clearing\n";
-	// std::cout << "begin on empty map : " << test.begin()->first << "\n";
-	// map<int, std::string> empty(test.begin(), test.end());
+	std::cout << "begin on empty map : " << test.begin()->first << "\n";
+	test[8] = "you";
+	test.clear();
+	std::cout << "inserting a value and clearing\n";
+	std::cout << "begin on empty map : " << test.begin()->first << "\n";
+	map<int, std::string> empty(test.begin(), test.end());
 }
 
 void insert() {
@@ -82,20 +81,27 @@ void erase() {
 	fillMapIntString(&test_erase);
 	displayMap(test_erase);
 
-// mon erase seg fault sur begin
-// erase_node_two children seg fault
+// leaks on erase last
+// erase_node_two children heap use after free
 	// typename map<int, std::string>::iterator it = test_erase.begin();
 	// ++it;
 	// ++it;
+	// ++it;
+	// ++it;
+	// ++it;
+	// ++it;
+	// ++it;
+	// std::cout << "erasing " << it->first << "\n";
 	// test_erase.erase(it);
 	// typename map<int, std::string>::iterator ite = test_erase.end();
 	// --ite;
 	// --ite;
 	// --ite;
+	// std::cout << "erasing " << ite->first << "\n";
 	// test_erase.erase(ite);
 	typename map<int, std::string>::iterator itbis = test_erase.begin();
+	std::cout << "erasing " << itbis->first << "\n";
 	test_erase.erase(itbis);
-	std::cout << "erasing\n";
 	displayMap(test_erase);
 }
 
