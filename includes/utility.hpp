@@ -146,28 +146,24 @@ template< class Arg1, class Arg2, class Result >
 template<class T>
 	struct Node {
 		Node() :
-			value(T()), left(NULL), right(NULL), parent(NULL), height_l(0), height_r(0) {}
+			value(T()), left(NULL), right(NULL), parent(NULL) {}
 		Node(T val) :
-			value(val), left(NULL), right(NULL), parent(NULL), height_l(0), height_r(0) {}
+			value(val), left(NULL), right(NULL), parent(NULL) {}
 		template< class A>
 		Node(const Node<A>& copy) :
-			value(copy.value), left(copy.left), right(copy.right), parent(copy.parent), height_l(copy.height_l), height_r(copy.height_r) {}
+			value(copy.value), left(copy.left), right(copy.right), parent(copy.parent) {}
 
 		Node& operator=(const Node& src) {
 			value = src.value;
 			left = src.left;
 			right = src.right;
 			parent = src.parent;
-			height_l = src.height_l;
-			height_r = src.height_r;
 			return *this;
 		}
 		T			value;
 		Node*		left;
 		Node*		right;
 		Node*		parent;
-		int			height_l;
-		int			height_r;
 	};
 
 
