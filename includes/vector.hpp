@@ -302,8 +302,9 @@ namespace ft
 		iterator erase(iterator pos)
 		{
 			pointer pos_ptr = pos.getP();
+
 			if (pos_ptr == _tab + _size)
-				return end();
+				return _tab + _size;
 
 			pointer tmp = pos_ptr;
 
@@ -318,25 +319,26 @@ namespace ft
 
 		iterator erase(iterator first, iterator last)
 		{
-			if (first == last)
-				return last;
-			if (first == end())
-				return end();
+			pointer first_ptr = first.getP();
+			pointer last_ptr = last.getP();
 
-			iterator tmp = first;
+			if (first_ptr == last_ptr)
+				return last;
+			if (first_ptr == _tab + _size)
+				return _tab + _size;
+
+			pointer tmp = first_ptr;
 			unsigned int deleted = dist_it(first, last);
 
-			while (last != end())
+			while (last_ptr != _tab + _size)
 			{
-				*first = *last;
-				++first;
-				++last;
+				*first_ptr = *last_ptr;
+				++first_ptr;
+				++last_ptr;
 			}
 			while (deleted--)
-			{
 				_alloc.destroy(&(_tab[--_size]));
-			}
-			return tmp;
+			return iterator(tmp);
 		}
 
 		void push_back(const T &value)
