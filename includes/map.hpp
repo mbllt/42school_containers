@@ -589,10 +589,10 @@ namespace ft
 		template <class InputIt>
 		void erase(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last)
 		{
-			while (first != last)
-			{
-				erase(first);
-				++first;
+			iterator current;
+			while (first != last) {
+				iterator current = first++;
+				this->erase(current);
 			}
 		}
 

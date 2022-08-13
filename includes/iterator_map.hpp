@@ -33,7 +33,6 @@ class iterator_map {
 		~iterator_map() {}
 
 		node* getP() const { return p; }
-		value_type getValue() const { return (p->value); }
 
 //	------------------------------------------------
 

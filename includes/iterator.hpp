@@ -28,7 +28,7 @@ class iterator {
 		iterator(iterator const & copy) : p(copy.p) {}
 		~iterator() {}
 
-		pointer getP() const { return (this->p); }
+		pointer getP() const { return p; }
 
 //	------------------------------------------------
 

@@ -105,6 +105,26 @@ void erase() {
 	std::cout << "erasing " << itbis->first << "\n";
 	test_erase.erase(itbis);
 	displayMap(test_erase);
+	
+	map<int, int> m;
+
+	for (int i = 0; i < 10; ++i) {
+		m[i] = i;
+	}
+	std::cout << "m.erase(2) = " << m.erase(2) << std::endl;
+	displayMap(m);
+	std::cout << "m.erase(2) = " << m.erase(2) << std::endl;
+	displayMap(m);
+	m.erase(m.begin());
+	m.erase(--(m.end()));
+	displayMap(m);
+	map<int, int>::iterator pouet = m.begin();
+	map<int, int>::iterator pouete = m.end();
+	pouet++;pouet++;
+	pouete--;pouete--;
+	m.erase(pouet, pouete);
+	displayMap(m);
+	std::cout << "size = " << m.size() << std::endl;
 }
 
 void swap() {
