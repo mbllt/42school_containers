@@ -180,131 +180,91 @@ namespace ft
 		}
 
 //------ AVL ------
-		// void _right_rot(node *a, node *b)
-		// {
-		// 	a->left = b->right;
-		// 	if (b->right)
-		// 		(b->right)->parent = a;
-		// 	b->right = a;
-		// 	b->parent = a->parent;
+		int _heightTree(node *tree, int height) {
+			if (!tree || tree == _end)
+				return height - 1;
 
-		// 	//	if a parent exists they have to point to the good child
-		// 	if (a->parent && a->parent->right == a)
-		// 		a->parent->right = b;
-		// 	else if (a->parent)
-		// 		a->parent->left = b;
+			int leftHeight = _heightTree(tree->left, height + 1);
+			int rightHeight = _heightTree(tree->right, height + 1);
 
-		// 	//	updtae of root if we switched it
-		// 	a->parent = b;
-		// 	if (!b->parent)
-		// 		_root = b;
-		// }
+			return leftHeight > rightHeight ? leftHeight : rightHeight;
+		}
 
-		// void _left_rot(node *a, node *b)
-		// {
-		// 	a->right = b->left;
-		// 	if (b->left)
-		// 		(b->left)->parent = a;
-		// 	b->left = a;
-		// 	b->parent = a->parent;
-		// 	if (b->parent && b->parent->right == a)
-		// 		b->parent->right = a;
-		// 	else if (b->parent)
-		// 		b->parent->left = a;
-		// 	a->parent = b;
-		// 	if (!b->parent)
-		// 		_root = b;
-		// }
+		int _balanceOfSubtrees(node* node) {
+			if (!node)
+				return 0;
+			return _heightTree(node->left, 1) - _heightTree(node->right, 1);
+		}
 
-			int heightTree(node *tree, int height)
+		void _rotateRight(node** root, node* nodeGoingDown) {
+
+			node* nodeGoingUp = nodeGoingDown->left;
+
+			nodeGoingDown->left = nodeGoingUp->right;
+
+			if (nodeGoingUp->right)
+				nodeGoingUp->right->parent = nodeGoingDown;
+
+			nodeGoingUp->right = nodeGoingDown;
+
+			nodeGoingUp->parent = nodeGoingDown->parent;
+
+			if (nodeGoingDown->parent && nodeGoingDown->parent->left == nodeGoingDown)
+				nodeGoingDown->parent->left = nodeGoingUp;
+			else if (nodeGoingDown->parent)
+				nodeGoingDown->parent->right = nodeGoingUp;
+
+			nodeGoingDown->parent = nodeGoingUp;
+
+			if (!nodeGoingUp->parent)
+				*root = nodeGoingUp;
+		}
+
+		void _rotateLeft(node** root, node* nodeGoingDown) {
+			node* nodeGoingUp = nodeGoingDown->right;
+
+			nodeGoingDown->right = nodeGoingUp->left;
+
+			if (nodeGoingUp->left)
+				nodeGoingUp->left->parent = nodeGoingDown;
+
+			nodeGoingUp->left = nodeGoingDown;
+
+			nodeGoingUp->parent = nodeGoingDown->parent;
+
+			if (nodeGoingDown->parent && nodeGoingDown->parent->left == nodeGoingDown)
+				nodeGoingDown->parent->left = nodeGoingUp;
+			else if (nodeGoingDown->parent)
+				nodeGoingDown->parent->right = nodeGoingUp;
+
+			nodeGoingDown->parent = nodeGoingUp;
+
+			if (!nodeGoingUp->parent)
+				*root = nodeGoingUp;
+		}
+
+		void _balanceTree(node** root, node* node)
+		{
+			while (node)
 			{
-				if (!tree || tree == _end)
-					return height - 1;
-
-				int leftHeight = heightTree(tree->left, height + 1);
-				int rightHeight = heightTree(tree->right, height + 1);
-
-				return leftHeight > rightHeight ? leftHeight : rightHeight;
-			}
-
-			int _balanceOfSubtrees(node* node)
-			{
-				if (!node)
-					return 0;
-				return heightTree(node->left, 1) - heightTree(node->right, 1);
-			}
-
-			void rotateRight(node** root, node* nodeGoingDown)
-			{
-
-				node* nodeGoingUp = nodeGoingDown->left;
-
-				nodeGoingDown->left = nodeGoingUp->right;
-
-				if (nodeGoingUp->right)
-					nodeGoingUp->right->parent = nodeGoingDown;
-
-				nodeGoingUp->right = nodeGoingDown;
-
-				nodeGoingUp->parent = nodeGoingDown->parent;
-
-				if (nodeGoingDown->parent && nodeGoingDown->parent->left == nodeGoingDown)
-					nodeGoingDown->parent->left = nodeGoingUp;
-				else if (nodeGoingDown->parent)
-					nodeGoingDown->parent->right = nodeGoingUp;
-
-				nodeGoingDown->parent = nodeGoingUp;
-
-				if (!nodeGoingUp->parent)
-					*root = nodeGoingUp;
-			}
-
-			void rotateLeft(node** root, node* nodeGoingDown)
-			{
-				node* nodeGoingUp = nodeGoingDown->right;
-
-				nodeGoingDown->right = nodeGoingUp->left;
-
-				if (nodeGoingUp->left)
-					nodeGoingUp->left->parent = nodeGoingDown;
-
-				nodeGoingUp->left = nodeGoingDown;
-
-				nodeGoingUp->parent = nodeGoingDown->parent;
-
-				if (nodeGoingDown->parent && nodeGoingDown->parent->left == nodeGoingDown)
-					nodeGoingDown->parent->left = nodeGoingUp;
-				else if (nodeGoingDown->parent)
-					nodeGoingDown->parent->right = nodeGoingUp;
-
-				nodeGoingDown->parent = nodeGoingUp;
-
-				if (!nodeGoingUp->parent)
-					*root = nodeGoingUp;
-			}
-
-			void _balanceTree(node** root, node* node)
-			{
-				while (node)
+				int balance;
+				if ((balance = _balanceOfSubtrees(node)) < -1 && _balanceOfSubtrees(node->right) < 0)
+					_rotateLeft(root, node);
+				else if (balance < -1 && _balanceOfSubtrees(node->right) >= 0)
 				{
-					int balance;
-					if ((balance = _balanceOfSubtrees(node)) < -1 && _balanceOfSubtrees(node->right) < 0)
-						rotateLeft(root, node);
-					else if (balance < -1 && _balanceOfSubtrees(node->right) >= 0)
-					{
-						rotateRight(root, node->right);
-						rotateLeft(root, node);
-					}
-					else if (balance > 1 && _balanceOfSubtrees(node->left) > 0)
-						rotateRight(root, node);
-					else if (balance > 1 && _balanceOfSubtrees(node->left) <= 0)
-					{
-						rotateLeft(root, node->left);
-						rotateRight(root, node);
-					}
-					node = node->parent;
+					_rotateRight(root, node->right);
+					_rotateLeft(root, node);
 				}
-			}
+				else if (balance > 1 && _balanceOfSubtrees(node->left) > 0)
+					_rotateRight(root, node);
+				else if (balance > 1 && _balanceOfSubtrees(node->left) <= 0)
+				{
+					_rotateLeft(root, node->left);
+					_rotateRight(root, node);
+				}
+				node = node->parent;
+				}
+		}
 //-----------------
 
 		void _case_with_begin(node* tree) {
