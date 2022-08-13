@@ -290,6 +290,7 @@ namespace ft
 			{
 				_alloc.construct(_tab + save_pos, *first);
 				++save_pos;
+				++first;
 			}
 			size_type i = save_pos;
 			save_pos = save_pos - count;

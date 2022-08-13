@@ -1,7 +1,7 @@
 #include "test_vector.hpp"
 
-void test() {
 
+void test() {
 	std::cout << "vec(n, int())" << std::endl;
 	vector<int> vec(20, int());
 	fillVecInt(&vec);
@@ -56,4 +56,15 @@ void test() {
 	std::cout << "after assign(assignbis.begin(), assignbis.end()) :" << std::endl;
 	std::cout << "size :" << assign.size() << " - capacity :" << assign.capacity() << "\n";
 	displayVec(assign);
+
+	vector<int> m;
+	int str[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+	std::cout << "before m empty(assignbis.begin(), assignbis.end()) :" << std::endl;
+	displayVec(m);
+	std::cout << "size :" << m.size() << " - capacity :" << m.capacity() << "\n";
+	m.assign(str, str + 10);
+	std::cout << "after m(str.begin(), str.end()) :" << std::endl;
+	std::cout << "size :" << m.size() << " - capacity :" << m.capacity() << "\n";
+	displayVec(m);
 }
