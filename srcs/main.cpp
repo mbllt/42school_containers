@@ -6,10 +6,8 @@
 void test();
 
 // BUG
-// -test size de lucas, comprends pas
-//	-insert et tout le reste marche pas avec int, int or int, double...
-//	-clear marche pas car iterator() par defaut marche pas
 //	-vitesse
+//	-change getP to p in iterator
 
 int main(void) {
 

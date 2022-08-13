@@ -32,7 +32,8 @@ class iterator_map {
 		iterator_map(const iterator_map& copy) : p(copy.p) {}
 		~iterator_map() {}
 
-		value_type getP() const { return (p->value); }
+		node* getP() const { return p; }
+		value_type getValue() const { return (p->value); }
 
 //	------------------------------------------------
 
@@ -88,17 +89,13 @@ class iterator_map {
 			return tmp;
 		}
 
-		friend bool operator==(const iterator_map src, const iterator_map cmp) {return (src.p == cmp.p);}
+		template<class A>
+		friend bool operator==(const iterator_map src, const iterator_map<A> cmp) {return (src.getP() == cmp.getP());}
 
-		friend bool operator!=(const iterator_map src, const iterator_map cmp) {return !(src == cmp);}
+		template<class A>
+		friend bool operator!=(const iterator_map src, const iterator_map<A> cmp) {return !(src == cmp);}
 
 };
-
-		template<typename A, typename B>
-			bool operator==(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return (src.p == cmp.p);}
-
-		template<typename A, typename B>
-			bool operator!=(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return (src.p != cmp.p);}
 
 }
 
