@@ -41,10 +41,8 @@ namespace ft
 		{
 			if (_size)
 			{
-				while (_size--)
-				{
-					_alloc.destroy(&_tab[_size]);
-				}
+				for (size_type i = 0;i < _size;++i)
+					_alloc.destroy(&_tab[i]);
 			}
 			_alloc.deallocate(_tab, _cap);
 		}
