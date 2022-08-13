@@ -712,26 +712,11 @@ namespace ft
 
 		friend bool operator==(const map &lhs, const map &rhs)
 		{
-			iterator itr = rhs._begin;
-			iterator itl = lhs._begin;
-			iterator itel = lhs._end;
-
-			if (rhs.empty() && lhs.empty())
-				return true;
-			if (rhs.empty() || lhs.empty())
-				return false;
-
-			while (itl != itel)
-			{
-				if (itr != itl)
+			if (lhs.empty() && rhs.empty())
+					return true;
+				else if (lhs.size() != rhs.size() )
 					return false;
-				++itr;
-				++itl;
-			}
-			if (itr == rhs.end())
-				return true;
-			return false;
-			return lhs._root == rhs._root;
+				return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 		}
 
 		friend bool operator!=(const map &lhs, const map &rhs) { return !(lhs == rhs); }

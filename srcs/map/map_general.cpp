@@ -20,6 +20,12 @@ void test() {
 	displayMap(bis);
 
 	std::cout << "_______\n";
+	std::cout << "constructor value\n";
+	pair<map<int, std::string>::iterator, bool> ret = bis.insert(pair<const int, std::string>(70, "fail"));
+	std::cout << "inserting value who already exists\n";
+	std::cout << "ret->second of insert" << ret.second << "\n";
+
+	std::cout << "_______\n";
 	std::cout << "constructor map(copy)\n";
 	map<int, std::string> tres(bis);
 	displayMap(tres);
@@ -42,11 +48,14 @@ void test() {
 	displayMap(fourth);
 	weekend = fourth;
 	std::cout << "after 'first = second'\n";
-	std::cout << "first == second : " << (weekend == fourth) << "\n\n";
+	std::cout << "first == second : " << (weekend == fourth) << "\n";
+	displayMap(weekend);
+	displayMap(fourth);
+
 	fourth[70] = "test";
 	typename map<int, std::string>::iterator it = fourth.begin();
 	it->second = "test";
-	std::cout << "changing first map, second one should not change\n";
+	std::cout << "\nchanging first map, second one should not change\n";
 	displayMap(weekend);
 
 	std::cout << "_______\n";
