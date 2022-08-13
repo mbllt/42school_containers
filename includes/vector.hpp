@@ -301,7 +301,19 @@ namespace ft
 
 		iterator erase(iterator pos)
 		{
-			return erase(pos, pos + 1);
+			pointer pos_ptr = pos.getP();
+			if (pos_ptr == _tab + _size)
+				return end();
+
+			pointer tmp = pos_ptr;
+
+			while (pos_ptr != _tab + _size - 1)
+			{
+				*pos_ptr = *(pos_ptr+1);
+				++pos_ptr;
+			}
+			_alloc.destroy(&(_tab[--_size]));
+			return iterator(tmp);
 		}
 
 		iterator erase(iterator first, iterator last)
