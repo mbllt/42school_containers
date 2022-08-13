@@ -88,17 +88,17 @@ class iterator_map {
 			return tmp;
 		}
 
-		friend bool operator==(const iterator_map src, const iterator_map cmp) {return (src.getP() == cmp.getP());}
+		friend bool operator==(const iterator_map src, const iterator_map cmp) {return (src.p == cmp.p);}
 
 		friend bool operator!=(const iterator_map src, const iterator_map cmp) {return !(src == cmp);}
 
 };
 
 		template<typename A, typename B>
-			bool operator==(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return (src.getP() == cmp.getP());}
+			bool operator==(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return (src.p == cmp.p);}
 
 		template<typename A, typename B>
-			bool operator!=(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return (src.getP() != cmp.getP());}
+			bool operator!=(const ft::iterator_map<A> src, const ft::iterator_map<B> cmp) {return (src.p != cmp.p);}
 
 }
 
