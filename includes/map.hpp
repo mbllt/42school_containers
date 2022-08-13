@@ -51,6 +51,7 @@ namespace ft
 		Node<value_type> *_end;
 		size_type _size;
 
+//----- UTILS -----
 		void _copy(map const &copy)
 		{
 			_allocPair = copy._allocPair;
@@ -128,64 +129,7 @@ namespace ft
 			_printBT("", node, false);
 			std::cout << "\n----------\n";
 		}
-
-		int _get_height(node *tree) const
-		{
-			if (!tree || tree == _end)
-				return 0;
-			return std::max(_get_height(tree->left), _get_height(tree->right)) + 1;
-		}
-
-		bool _is_balanced()
-		{
-			return (_get_height(_root->right) - _get_height(_root->left) <= 1 && _get_height(_root->right) - _get_height(_root->left) >= -1)
-					   ? true
-					   : false;
-		}
-
-		void _balance(node *tree)
-		{
-			return;
-			if (!_is_balanced()) {
-				// std::cout << "\nBefore balancing" ;
-				// _printBT(_root);
-				// std::cout << "height tree->left :" << _get_height(tree->left);
-				// std::cout << " height tree->right :" << _get_height(tree->right) << "\n";
-				if (_get_height(tree->left) > _get_height(tree->right)) // leak here check when end
-				{
-					if (tree->left && (tree->value).first > (tree->left->value).first)
-						_left_rot(tree->left, tree->left->right);
-					_right_rot(tree, tree->left);
-				}
-				else
-				{
-					if (tree->right && (tree->value).first < (tree->right->value).first)
-						_right_rot(tree->right, tree->right->left);
-					_left_rot(tree, tree->right);
-				}
-				// std::cout << "\nAfter balancing" ;
-				// _printBT(_root);
-				// std::cout << "height tree->left :" << _get_height(tree->left);
-				// std::cout << " height tree->right :" << _get_height(tree->right) << "\n";
-			}
-			// if (_is_balanced())
-			// // _printBT(_root);
-			// // std::cout << "height tree->left :" << _get_height(tree->left);
-			// // std::cout << " height tree->right :" << _get_height(tree->right) << "\n";
-			// if (_get_height(tree->left) > _get_height(tree->right)) // leak here check when end
-			// {
-			// 	if (tree->left && (tree->left)->right)
-			// 		_left_rot(tree->left, (tree->left)->right);
-			// 	_right_rot(tree, tree->left);
-			// }
-			// else if (tree->right && tree->right != _end)
-			// {
-			// 	if (tree->right && (tree->right)->left)
-			// 		_right_rot(tree->right, (tree->right)->left);
-			// 	_left_rot(tree, tree->right);
-			// }
-			// _printBT(_root);
-		}
+//-----------------
 
 		node *_new_node(value_type value)
 		{
@@ -215,42 +159,6 @@ namespace ft
 			return tree;
 		}
 
-		void _right_rot(node *a, node *b)
-		{
-			a->left = b->right;
-			if (b->right)
-				(b->right)->parent = a;
-			b->right = a;
-			b->parent = a->parent;
-
-			//	if a parent exists they have to point to the good child
-			if (a->parent && a->parent->right == a)
-				a->parent->right = b;
-			else if (a->parent)
-				a->parent->left = b;
-
-			//	updtae of root if we switched it
-			a->parent = b;
-			if (!b->parent)
-				_root = b;
-		}
-
-		void _left_rot(node *a, node *b)
-		{
-			a->right = b->left;
-			if (b->left)
-				(b->left)->parent = a;
-			b->left = a;
-			b->parent = a->parent;
-			if (b->parent && b->parent->right == a)
-				b->parent->right = a;
-			else if (b->parent)
-				b->parent->left = a;
-			a->parent = b;
-			if (!b->parent)
-				_root = b;
-		}
-
 		node *_insert_node(node *tree, const value_type &value, node *parent)
 		{
 			if (!tree || tree == _end)
@@ -272,6 +180,95 @@ namespace ft
 				tree = _insert_node(tree->right, value, tree);
 			return tree;
 		}
+
+//------ AVL ------
+		void _check_height (node* tmp) {
+			_update_height(tmp);
+			if (std::abs(tmp->height_l - tmp->height_r) > 1) {
+				 _balance(tmp);
+				return;
+			}
+			if (tmp == _root)
+				return ;
+			if (tmp == tmp->parent->left)
+				_check_height(tmp->parent);
+			else if (tmp == tmp->parent->right)
+				_check_height(tmp->parent);
+		}
+
+		void _update_height(node* to_update) {
+			if (!to_update->left || to_update->left == _begin)
+				to_update->height_l = 0;
+			else
+				to_update->height_l = 1 + std::max(to_update->left->height_l, to_update->left->height_r);
+			if (!to_update->right || to_update->right == _end)
+				to_update->height_r = 0;
+			else
+				to_update->height_r = 1 + std::max(to_update->right->height_l, to_update->right->height_r);
+		}
+
+		void _right_rot(node *a, node *b)
+		{
+			a->left = b->right;
+			if (b->right)
+				(b->right)->parent = a;
+			b->right = a;
+			b->parent = a->parent;
+
+			//	if a parent exists they have to point to the good child
+			if (a->parent && a->parent->right == a)
+				a->parent->right = b;
+			else if (a->parent)
+				a->parent->left = b;
+
+			//	updtae of root if we switched it
+			a->parent = b;
+			if (!b->parent)
+				_root = b;
+			_update_height(a);
+			_update_height(b);
+		}
+
+		void _left_rot(node *a, node *b)
+		{
+			a->right = b->left;
+			if (b->left)
+				(b->left)->parent = a;
+			b->left = a;
+			b->parent = a->parent;
+			if (b->parent && b->parent->right == a)
+				b->parent->right = a;
+			else if (b->parent)
+				b->parent->left = a;
+			a->parent = b;
+			if (!b->parent)
+				_root = b;
+			_update_height(a);
+			_update_height(b);
+		}
+
+		int _is_balanced(node* tree) {
+			int ret = tree->height_l - tree->height_r;
+			return (ret > 1 || ret < -1) ? false : true;
+		}
+
+		void _balance(node *tree) {
+			if (!_is_balanced(tree)) {
+				if (tree->right && tree->height_l - tree->height_r < -1) {					// left heavy
+					if (tree->left->height_l - tree->left->height_r > 0) {					// child has an opposite heavyniess
+						_left_rot(tree->right, tree->right->left);
+					}
+					_right_rot(tree, tree->right);
+				}
+				else if (tree->left && tree->height_l - tree->height_r > 1) {				// right heavy
+					if (tree->left && tree->right->height_l - tree->right->height_r < 0) {	// child has an opposite heavyniess
+						_right_rot(tree->left, tree->left->right);
+					}
+					_left_rot(tree, tree->left);
+				}
+			}
+		}
+//-----------------
 
 		void _case_with_begin(node* tree) {
 				
@@ -309,6 +306,7 @@ namespace ft
 			if (tree == _begin)
 				_case_with_begin(tree);
 			_delete_node(&tree);
+			_check_height(tree);
 		}
 
 		void _erase_node_one_child(node *tree)
@@ -338,6 +336,7 @@ namespace ft
 			else if (tree == _begin)
 				_case_with_begin(tree);
 			_delete_node(&tree);
+			_check_height(tree);
 		}
 
 		void _swap_nodes(node *first, node *second)
@@ -345,6 +344,8 @@ namespace ft
 			node* first_left = first->left;
 			node* first_right = first->right;
 			node* first_parent = first->parent;
+			int first_height_l = first->height_l;
+			int first_height_r = first->height_r;
 
 			if (first->parent)
 			{
@@ -361,6 +362,8 @@ namespace ft
 			first->right = second->right;
 			first->left = second->left;
 			first->parent = second->parent;
+			first->height_l = second->height_l;
+			first->height_r = second->height_r;
 
 			if (second->parent)
 			{
@@ -375,6 +378,8 @@ namespace ft
 				second->right = first_right;
 			second->left = first_left;
 			second->parent = first_parent;
+			second->height_l = first_height_l;
+			second->height_r = first_height_r;
 			if (!second->parent) // case of root
 				_root = second;
 		}
@@ -552,6 +557,7 @@ namespace ft
 				_root = new_node;
 				_begin = new_node;
 			}
+			_check_height(_root);
 
 			//	reset _begin _end if needed
 			if (_comp((_end->parent->value).first, (new_node->value).first))
@@ -565,12 +571,12 @@ namespace ft
 			{
 				_begin = new_node;
 			}
-			if(!_is_balanced())
+			if(!_is_balanced(_root))
 				_balance(_root);
-			// if(!_is_balanced()) {
-			// 	std::cout << "Not balanced\n";
-			// 	_printBT(_root);
-			// }
+			if(!_is_balanced(_root)) {
+				std::cout << "Not balanced\n";
+			}
+				_printBT(_root);
 
 			return ft::make_pair(iterator(new_node), true);
 		}
@@ -617,8 +623,8 @@ namespace ft
 					_erase_node_two_children(tree);
 				else if (tree->right || tree->left)
 					_erase_node_one_child(tree);
-				if (!_is_balanced())
-					_balance(_root);
+				// if (!_is_balanced())
+				// 	_balance(_root);
 				return 1;
 			}
 			return 0;

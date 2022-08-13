@@ -90,7 +90,7 @@ void bound_range() {
 
 void test() {
 
-	count();
-	find();
+	// count();
+	// find();
 	bound_range();
 }

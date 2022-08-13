@@ -6,11 +6,11 @@
 void test();
 
 // BUG
-//	-op= 1 leak
-//	-erase dans node_two_children
-//	-erase _root two_children
-//	-faut que je teste ma fonction balance
-//	-test lucas
+//	-balance
+//	-insert et tout le reste marche pas avec int, int or int, double...
+//	-clear marche pas car iterator() par defaut marche pas
+//	-vitesse
+//	-
 
 int main(void) {
 
