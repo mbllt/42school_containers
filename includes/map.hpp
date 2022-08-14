@@ -157,7 +157,7 @@ namespace ft
 			return tree;
 		}
 
-		node *_insert_node(node *tree, const value_type &value, node *parent)
+		pair<node*, bool> _insert_node(node *tree, const value_type &value, node *parent)
 		{
 			if (!tree || tree == _end)
 			{
@@ -165,18 +165,23 @@ namespace ft
 				if (_root)
 				{
 					new_node->parent = parent;
-					if (_comp((parent->value).first, (new_node->value).first))
+					if (_comp((parent->value).first, value.first))
 						new_node->parent->right = new_node;
 					else
 						new_node->parent->left = new_node;
 				}
-				return new_node;
+				return ft::make_pair<node*, bool>(new_node, true);
 			}
-			if (_comp(value.first, (tree->value).first))
-				tree = _insert_node(tree->left, value, tree);
+			pair<node*, bool> ret;
+
+			// already there
+			if (value.first == (tree->value).first)
+				return ft::make_pair<node*, bool>(tree, false);
+			else if (_comp(value.first, (tree->value).first))
+				ret = _insert_node(tree->left, value, tree);
 			else if (_comp((tree->value).first, value.first))
-				tree = _insert_node(tree->right, value, tree);
-			return tree;
+				ret = _insert_node(tree->right, value, tree);
+			return ret;
 		}
 
 //------ AVL ------
@@ -475,9 +480,15 @@ namespace ft
 
 		T &operator[](const Key &key)
 		{
-			value_type value = ft::make_pair<const Key, T>(key, mapped_type());
-			iterator ret = insert(value).first;
-			return ret->second;
+			iterator find_or_insert = find(key);
+			if (find_or_insert != end()) {
+				return find_or_insert->second;
+			}
+			else {
+				value_type value = ft::make_pair<const Key, T>(key, mapped_type());
+				iterator ret = insert(value).first;
+				return ret->second;
+			}
 		}
 
 		T &at(const Key &key)
@@ -528,11 +539,10 @@ namespace ft
 
 		pair<iterator, bool> insert(const value_type &value)
 		{
-			node *found = _find_node(_root, value.first);
-			if (found != _end)
-				return ft::make_pair(iterator(found), false);
-
-			node *new_node = _insert_node(_root, value, _root);
+			pair<node*, bool> ret = _insert_node(_root, value, _root);
+			node *new_node = ret.first;
+			if (!ret.second)
+				return ft::make_pair(iterator(new_node), false);
 
 			if (!_root)
 			{
@@ -556,9 +566,7 @@ namespace ft
 				_end->parent = new_node;
 			}
 			if (_comp((new_node->value).first, (_begin->value).first))
-			{
 				_begin = new_node;
-			}
 			_balanceTree(&_root, new_node);
 
 			return ft::make_pair(iterator(new_node), true);
