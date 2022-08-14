@@ -105,7 +105,7 @@ void erase() {
 	std::cout << "erasing " << itbis->first << "\n";
 	test_erase.erase(itbis);
 	displayMap(test_erase);
-	
+
 	map<int, int> m;
 
 	for (int i = 0; i < 10; ++i) {
@@ -118,11 +118,10 @@ void erase() {
 	m.erase(m.begin());
 	m.erase(--(m.end()));
 	displayMap(m);
-	map<int, int>::iterator pouet = m.begin();
-	map<int, int>::iterator pouete = m.end();
-	pouet++;pouet++;
-	pouete--;pouete--;
-	m.erase(pouet, pouete);
+	map<int, int>::iterator it_test[2] = {m.begin(), m.end()};
+	it_test[0]++; it_test[0]++;
+	it_test[1]--; it_test[1]--;
+	m.erase(it_test[0], it_test[1]);
 	displayMap(m);
 	std::cout << "size = " << m.size() << std::endl;
 }

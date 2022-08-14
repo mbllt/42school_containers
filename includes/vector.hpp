@@ -258,9 +258,7 @@ namespace ft
 		template <class InputIt>
 		void insert(iterator pos, typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last)
 		{
-			pointer first_ptr = first.getP();
-			pointer last_ptr = last.getP();
-			if (first_ptr == last_ptr)
+			if (first == last)
 				return;
 			size_type count = 0;
 			while (first != last)

@@ -89,4 +89,14 @@ void test()
 		else
 			std::cout << "*it1 >= *it2 : false\n";
 	}
+
+	vector<int> vect;
+
+	for (int i = 0; i < 10; ++i)
+	  vect.push_back(i);
+	typedef vector<int>::iterator m;
+	reverse_iterator<m> rit(vect.begin());
+	reverse_iterator<m> rite(vect.end());
+
+	std::cout << "it(" << *rit << ") - ite(" << *rite << " : " << (rit - rite) << "\n";
 }

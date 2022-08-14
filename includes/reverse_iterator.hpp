@@ -41,7 +41,6 @@ class reverse_iterator {
 		reference operator*() const {
 			iterator_type tmp = _base;
 			return *--tmp;
-			// return *tmp;
 		}
 
 		reverse_iterator operator+ (difference_type n) {
@@ -118,7 +117,7 @@ friend reverse_iterator<Iterator> operator+ (typename reverse_iterator<Iterator>
 friend typename reverse_iterator<Iterator>::difference_type operator- (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) {
 	Iterator l = lhs._base;
 	Iterator r = rhs._base;
-	return l - r;
+	return r - l;
 }
 
 };

@@ -19,20 +19,25 @@ MAP_EXE_MINE_SAN=	$(SRCS_MAP:%.cpp=bin/%_mine_san)
 #------------- SRCS -----------------
 SRCS_DIR=		srcs
 SRCS_PATH=		vector stack map
-SRCS_VEC=		vector/vec_general.cpp\
-				vector/vec_ope.cpp\
-				vector/vec_it.cpp\
-				vector/vec_rev_it.cpp\
-				vector/vec_capacity.cpp\
-				vector/vec_accessors.cpp\
-				vector/vec_resize.cpp\
-				vector/vec_push_back.cpp\
-				vector/vec_pop_back.cpp\
-				vector/vec_swap.cpp\
-				vector/vec_clear.cpp\
-				vector/vec_erase.cpp\
-				vector/vec_insert.cpp
+
+SRCS_VEC=	vector/vec_rev_it.cpp
+
+# SRCS_VEC=		vector/vec_general.cpp\
+# 				vector/vec_ope.cpp\
+# 				vector/vec_it.cpp\
+# 				vector/vec_rev_it.cpp\
+# 				vector/vec_capacity.cpp\
+# 				vector/vec_accessors.cpp\
+# 				vector/vec_resize.cpp\
+# 				vector/vec_push_back.cpp\
+# 				vector/vec_pop_back.cpp\
+# 				vector/vec_swap.cpp\
+# 				vector/vec_clear.cpp\
+# 				vector/vec_erase.cpp\
+# 				vector/vec_insert.cpp
+
 SRCS_STACK=		stack/stack_all.cpp
+
 
 SRCS_MAP=		map/map_general.cpp\
 				map/map_accessors.cpp\
