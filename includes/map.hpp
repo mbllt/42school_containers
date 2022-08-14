@@ -586,8 +586,7 @@ namespace ft
 			erase(pos->first);
 		}
 
-		template <class InputIt>
-		void erase(typename enable_if<!is_integral<InputIt>::value, InputIt>::type first, InputIt last)
+		void erase(iterator first, iterator last)
 		{
 			iterator current;
 			while (first != last) {
