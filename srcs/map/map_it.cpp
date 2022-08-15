@@ -90,15 +90,14 @@ void test() {
 	displayMapNode(itbis);
 	std::cout << "\n";
 
-	mapp.clear();
-	std::cout << "clearing map\n";
-	std::cout << "--itbis : ";
+	map<int, std::string>::const_iterator cit = mapp.begin();
+	std::cout << "const it == itbis :" << (cit == itbis) << "\n";
 	displayMapNode(itbis);
 	std::cout << "\n";
 
 	mapp.clear();
-	std::cout << "clearing map";
-	std::cout << "itbis : ";
+	std::cout << "clearing map\n";
+	std::cout << "--itbis : ";
 	displayMapNode(itbis);
 	std::cout << "\n";
 }
