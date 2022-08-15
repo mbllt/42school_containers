@@ -6,7 +6,6 @@
 void test();
 
 // BUG
-//	-deep copy check speed vec
 //	-swap function should not move data but only pointers
 //	-it comp const_it
 

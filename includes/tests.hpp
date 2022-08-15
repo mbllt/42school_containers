@@ -66,8 +66,8 @@ void displayMap(Map& map) {
 		return ;
 	}
 	std::cout << "map : { ";
-	// for (typename Map::const_iterator it = map.begin(); it != map.end();++it) {
-	for (typename Map::iterator it = map.begin(); it != map.end();++it) {
+	// for (typename Map::iterator it = map.begin(); it != map.end();++it) {
+	for (typename Map::const_iterator it = map.begin(); it != map.end();++it) {
 		displayMapNode(it);
 	}
 	std::cout << "}\n";

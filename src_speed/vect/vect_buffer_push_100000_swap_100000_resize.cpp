@@ -6,4 +6,8 @@ void test() {
     vector_buffer.push_back(Buffer());
   }
   vector<Buffer>().swap(vector_buffer);
+  vector_buffer.clear();
+  for (int i =0;i <100000;++i) {
+    vector_buffer.resize(i, Buffer());
+  }
 }

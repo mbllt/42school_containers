@@ -21,25 +21,25 @@ namespace ft
 	{
 
 	public:
-		typedef Key key_type;
-		typedef T mapped_type;
-		typedef ft::pair<const Key, T> value_type;
-		typedef typename Allocator::size_type size_type;
-		typedef typename Allocator::difference_type difference_type;
+		typedef Key																		key_type;
+		typedef T																		mapped_type;
+		typedef ft::pair<const Key, T>													value_type;
+		typedef typename Allocator::size_type											size_type;
+		typedef typename Allocator::difference_type										difference_type;
 		typedef Compare key_compare;
-		typedef Allocator allocator_type;
-		typedef Node<value_type> node;
-		typedef typename Allocator::template rebind<Node<value_type> >::other alloc_node;
+		typedef Allocator																allocator_type;
+		typedef Node<value_type>														node;
+		typedef typename Allocator::template rebind<Node<value_type> >::other			alloc_node;
 		//	->mon allocator de base est fait pour allouer des ft::pair. Pour changer ca,
 		//	jutilise rebind, cest un typedef template que tous les allocators ont.
-		typedef typename Allocator::reference reference;
-		typedef typename Allocator::const_reference const_reference;
-		typedef typename Allocator::pointer pointer;
-		typedef typename Allocator::const_pointer const_pointer;
-		typedef ft::iterator_map<value_type> iterator;
-		typedef ft::iterator_map<const value_type> const_iterator;
-		typedef ft::reverse_iterator<iterator> reverse_iterator;
-		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+		typedef typename Allocator::reference											reference;
+		typedef typename Allocator::const_reference										const_reference;
+		typedef typename Allocator::pointer												pointer;
+		typedef typename Allocator::const_pointer										const_pointer;
+		typedef ft::iterator_map<value_type>											iterator;
+		typedef ft::iterator_map<const value_type>										const_iterator;
+		typedef ft::reverse_iterator<iterator>											reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>									const_reverse_iterator;
 
 	private:
 		allocator_type _allocPair;
