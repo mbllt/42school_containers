@@ -20,7 +20,6 @@ MAP_EXE_MINE_SAN=	$(SRCS_MAP:%.cpp=bin/%_mine_san)
 SRCS_DIR=		srcs
 SRCS_PATH=		vector stack map
 
-
 SRCS_VEC=		vector/vec_general.cpp\
 				vector/vec_ope.cpp\
 				vector/vec_it.cpp\
@@ -37,7 +36,6 @@ SRCS_VEC=		vector/vec_general.cpp\
 
 SRCS_STACK=		stack/stack_all.cpp
 
-# SRCS_MAP=		map/map_general.cpp
 
 SRCS_MAP=		map/map_general.cpp\
 				map/map_accessors.cpp\
@@ -47,6 +45,13 @@ SRCS_MAP=		map/map_general.cpp\
 				map/map_lookup.cpp\
 				map/map_rev_it.cpp\
 				map/map_non_members.cpp
+#------------------------------------
+
+#-------------- SPEED ---------------
+SUBDIRS_SPEED = $(shell find src_speed -mindepth 1 -type d | grep -v ".dSYM" | cut -d/ -f2-)
+TEST_SPEED_SRCS = $(shell find src_speed -mindepth 2 -type f | grep -v ".dSYM")
+SUBDIRS_TEST_SPEED = $(addprefix test_speed/, $(SUBDIRS_SPEED))
+TESTS_SPEED =	$(TEST_SPEED_SRCS:src_speed/%.cpp=test_speed/%)
 #------------------------------------
 
 BIN_DIR=		bin
@@ -95,9 +100,7 @@ RM=				/bin/rm -rf
 #------------------------------------
 
 
-#------------------------------------------------------------------------
-
-
+#--------------TESTS-----------------
 all:							make_dir vector stack map
 
 vector:							make_dir $(VEC_EXE_STD) $(VEC_EXE_MINE) $(VEC_EXE_STD_SAN) $(VEC_EXE_MINE_SAN)
@@ -112,6 +115,13 @@ re_stack:						fclean stack
 
 re_map:							fclean map
 
+speed:							$(TESTS_SPEED)
+
+speedv:							$(filter test_speed/vect/%, $(TESTS_SPEED))
+
+speedm:							$(filter test_speed/map/%, $(TESTS_SPEED))
+#------------------------------------
+
 #-------------- EXE -----------------
 $(BIN_DIR)/%_std:				$(OBJS_DIR)/%_std.o
 									$(CC) $(FLAGS) $(OBJS_DIR)/main.o $< -o $@
@@ -124,6 +134,17 @@ $(BIN_DIR)/%_std_san:			$(OBJS_DIR)/%_std.o
 
 $(BIN_DIR)/%_mine_san:			$(OBJS_DIR)/%_mine.o
 									$(CC) $(FLAGS) $(SAN) $(OBJS_DIR)/main.o $< -o $@
+
+test_speed/%:					src_speed/main.cpp src_speed/%.cpp | $(SUBDIRS_TEST_SPEED)
+									$(CC) $^ -o $@_mine $(FLAGS) -D MINE
+									@echo -en "$(erase)"
+									$(CC) $^ -o $@_std $(FLAGS)
+									@bash test_speed.sh $@
+
+$(SUBDIRS_TEST_SPEED):
+	rm test_speed/map/* test_speed/vect/*
+	mkdir -p test_speed
+	mkdir -p $(SUBDIRS_TEST_SPEED)
 #------------------------------------
 
 
@@ -153,7 +174,7 @@ clean:
 
 fclean:						clean
 									@echo "$(green)$(bold)Deleting$(end) executables and directories res bin .objs$(end)"
-									@$(RM) $(BIN_DIR) res
+									@$(RM) $(BIN_DIR) res test_speed
 
 re:							fclean all
 
