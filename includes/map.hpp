@@ -140,6 +140,7 @@ namespace ft
 			new_node->parent = NULL;
 			new_node->right = NULL;
 			new_node->left = NULL;
+			new_node->height = 0;
 			++_size;
 			return new_node;
 		}
@@ -170,6 +171,8 @@ namespace ft
 					else
 						new_node->parent->left = new_node;
 				}
+				_balanceTree(tree);
+				// _balance_after_insert(tree);
 				return ft::make_pair<node*, bool>(new_node, true);
 			}
 			pair<node*, bool> ret;
@@ -185,6 +188,10 @@ namespace ft
 		}
 
 //------ AVL ------
+		// void _balance_after_insert(node* tree) {
+			
+		// }
+
 		int _heightTree(node *tree, int height) {
 			if (!tree || tree == _end)
 				return height - 1;
@@ -201,7 +208,7 @@ namespace ft
 			return _heightTree(node->left, 1) - _heightTree(node->right, 1);
 		}
 
-		void _rotateRight(node** root, node* nodeGoingDown) {
+		void _rotateRight(node* nodeGoingDown) {
 
 			node* nodeGoingUp = nodeGoingDown->left;
 
@@ -222,10 +229,10 @@ namespace ft
 			nodeGoingDown->parent = nodeGoingUp;
 
 			if (!nodeGoingUp->parent)
-				*root = nodeGoingUp;
+				_root = nodeGoingUp;
 		}
 
-		void _rotateLeft(node** root, node* nodeGoingDown) {
+		void _rotateLeft(node* nodeGoingDown) {
 			node* nodeGoingUp = nodeGoingDown->right;
 
 			nodeGoingDown->right = nodeGoingUp->left;
@@ -245,29 +252,29 @@ namespace ft
 			nodeGoingDown->parent = nodeGoingUp;
 
 			if (!nodeGoingUp->parent)
-				*root = nodeGoingUp;
+				_root = nodeGoingUp;
 		}
 
-		void _balanceTree(node** root, node* node)
+		void _balanceTree(node* tree)
 		{
-			while (node)
+			while (tree)
 			{
 				int balance;
-				if ((balance = _balanceOfSubtrees(node)) < -1 && _balanceOfSubtrees(node->right) < 0)
-					_rotateLeft(root, node);
-				else if (balance < -1 && _balanceOfSubtrees(node->right) >= 0)
+				if ((balance = _balanceOfSubtrees(tree)) < -1 && _balanceOfSubtrees(tree->right) < 0)
+					_rotateLeft(tree);
+				else if (balance < -1 && _balanceOfSubtrees(tree->right) >= 0)
 				{
-					_rotateRight(root, node->right);
-					_rotateLeft(root, node);
+					_rotateRight(tree->right);
+					_rotateLeft(tree);
 				}
-				else if (balance > 1 && _balanceOfSubtrees(node->left) > 0)
-					_rotateRight(root, node);
-				else if (balance > 1 && _balanceOfSubtrees(node->left) <= 0)
+				else if (balance > 1 && _balanceOfSubtrees(tree->left) > 0)
+					_rotateRight(tree);
+				else if (balance > 1 && _balanceOfSubtrees(tree->left) <= 0)
 				{
-					_rotateLeft(root, node->left);
-					_rotateRight(root, node);
+					_rotateLeft(tree->left);
+					_rotateRight(tree);
 				}
-				node = node->parent;
+				tree = tree->parent;
 				}
 		}
 //-----------------
@@ -344,6 +351,7 @@ namespace ft
 			node* first_left = first->left;
 			node* first_right = first->right;
 			node* first_parent = first->parent;
+			int first_height = first->height;
 
 			if (first->parent)
 			{
@@ -360,6 +368,7 @@ namespace ft
 			first->right = second->right;
 			first->left = second->left;
 			first->parent = second->parent;
+			first->height = second->height;
 
 			if (second->parent)
 			{
@@ -374,6 +383,7 @@ namespace ft
 				second->right = first_right;
 			second->left = first_left;
 			second->parent = first_parent;
+			second->height = first_height;
 			if (!second->parent) // case of root
 				_root = second;
 		}
@@ -567,7 +577,7 @@ namespace ft
 			}
 			if (_comp((new_node->value).first, (_begin->value).first))
 				_begin = new_node;
-			_balanceTree(&_root, new_node);
+			// _balanceTree(new_node);
 
 			return ft::make_pair(iterator(new_node), true);
 		}
@@ -614,7 +624,7 @@ namespace ft
 					_erase_node_two_children(tree);
 				else if (tree->right || tree->left)
 					_erase_node_one_child(tree);
-				_balanceTree(&_root, balance);
+				_balanceTree(balance);
 				return 1;
 			}
 			return 0;
