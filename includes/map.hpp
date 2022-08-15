@@ -26,7 +26,7 @@ namespace ft
 		typedef ft::pair<const Key, T>													value_type;
 		typedef typename Allocator::size_type											size_type;
 		typedef typename Allocator::difference_type										difference_type;
-		typedef Compare key_compare;
+		typedef Compare																	key_compare;
 		typedef Allocator																allocator_type;
 		typedef Node<value_type>														node;
 		typedef typename Allocator::template rebind<Node<value_type> >::other			alloc_node;

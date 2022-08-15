@@ -28,7 +28,8 @@ class iterator_map {
 
 		iterator_map() : p() {}
 		iterator_map(const node_pointer new_node) : p(new_node) {}
-		iterator_map(const iterator_map& copy) : p(copy.p) {}
+		template<class A>
+		iterator_map(const iterator_map<A>& copy) : p(copy.getP()) {}
 		~iterator_map() {}
 
 		node* getP() const { return p; }

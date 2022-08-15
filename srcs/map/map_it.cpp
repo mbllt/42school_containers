@@ -95,4 +95,10 @@ void test() {
 	std::cout << "--itbis : ";
 	displayMapNode(itbis);
 	std::cout << "\n";
+
+	mapp.clear();
+	std::cout << "clearing map";
+	std::cout << "itbis : ";
+	displayMapNode(itbis);
+	std::cout << "\n";
 }

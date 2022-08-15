@@ -36,7 +36,6 @@ SRCS_VEC=		vector/vec_general.cpp\
 
 SRCS_STACK=		stack/stack_all.cpp
 
-
 SRCS_MAP=		map/map_general.cpp\
 				map/map_accessors.cpp\
 				map/map_it.cpp\
