@@ -466,14 +466,14 @@ namespace ft
 
 		T &operator[](const Key &key)
 		{
-			iterator find_or_insert = find(key);
-			if (find_or_insert != end()) {
-				return find_or_insert->second;
-			}
-			else {
+			node* find_or_insert = _find_node(_root, key);
+			if (find_or_insert == _end) {
 				value_type value = ft::make_pair<const Key, T>(key, mapped_type());
 				iterator ret = insert(value).first;
 				return ret->second;
+			}
+			else {
+				return iterator(find_or_insert)->second;
 			}
 		}
 
@@ -493,8 +493,8 @@ namespace ft
 
 		iterator begin() { return _begin != NULL ? iterator(_begin) : iterator(); }
 		const_iterator begin() const { return _begin != NULL ? const_iterator(_begin) : const_iterator(); }
-		iterator end() { return iterator(_end); }
-		const_iterator end() const { return const_iterator(_end); }
+		iterator end() { return _size ? iterator(_end) : iterator(); }
+		const_iterator end() const { return _size ? const_iterator(_end) : const_iterator(); }
 		reverse_iterator rbegin() { return reverse_iterator(end()); }
 		const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
 		reverse_iterator rend() { return reverse_iterator(begin()); }
