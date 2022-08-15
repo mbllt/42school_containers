@@ -102,12 +102,16 @@ RM=				/bin/rm -rf
 
 #--------------TESTS-----------------
 all:							make_dir vector stack map
+									./tester.sh
 
 vector:							make_dir $(VEC_EXE_STD) $(VEC_EXE_MINE) $(VEC_EXE_STD_SAN) $(VEC_EXE_MINE_SAN)
+									./tester.sh
 
 stack:							make_dir $(STACK_EXE_STD) $(STACK_EXE_MINE) $(STACK_EXE_STD_SAN) $(STACK_EXE_MINE_SAN)
+									./tester.sh
 
 map:							make_dir $(MAP_EXE_STD) $(MAP_EXE_MINE) $(MAP_EXE_STD_SAN) $(MAP_EXE_MINE_SAN)
+									./tester.sh
 
 re_vector:						fclean vector
 
@@ -142,7 +146,6 @@ test_speed/%:					src_speed/main.cpp src_speed/%.cpp | $(SUBDIRS_TEST_SPEED)
 									@bash test_speed.sh $@
 
 $(SUBDIRS_TEST_SPEED):
-	rm test_speed/map/* test_speed/vect/*
 	mkdir -p test_speed
 	mkdir -p $(SUBDIRS_TEST_SPEED)
 #------------------------------------
