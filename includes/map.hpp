@@ -52,27 +52,6 @@ namespace ft
 		size_type _size;
 
 //----- UTILS -----
-		void _copy(map const &copy)
-		{
-			_allocPair = copy._allocPair;
-			_allocNode = copy._allocNode;
-			_comp = copy._comp;
-			_root = NULL;
-			_begin = NULL;
-			_end = NULL;
-			_size = 0;
-
-			value_type value = ft::make_pair<const Key, T>(key_type(), mapped_type());
-			node *new_node = _new_node(value);
-			_end = new_node;
-			--_size;
-			if (copy._root)
-			{
-				for (const_iterator it = copy.begin(); it != copy.end(); it++)
-					insert(*it);
-			}
-		}
-
 		void _print_info_node(node *node)
 		{
 			std::cout << "\n-------\n";
@@ -127,6 +106,31 @@ namespace ft
 			_printBT("", node, false);
 			std::cout << "\n----------\n";
 		}
+
+		node* _copy(map const& map, node* const &copy, node* copy_parent)
+		{
+			if (copy == NULL)
+				return NULL;
+
+			_allocPair = map._allocPair;
+			_allocNode = map._allocNode;
+
+			node* root = _new_node(copy->value);
+			if (copy == map._begin)
+				_begin = root;
+			if (copy == map._end)
+				_end = root;
+
+			root->parent = copy_parent;
+			root->left = _copy(map, copy->left, root);
+			root->right = _copy(map, copy->right, root);
+
+			_comp = map._comp;
+			_root = root;
+			_size = map._size;
+
+			return root;
+		}	
 //-----------------
 
 		node *_new_node(value_type value)
@@ -140,7 +144,7 @@ namespace ft
 			new_node->parent = NULL;
 			new_node->right = NULL;
 			new_node->left = NULL;
-			new_node->height = 0;
+			new_node->root = _root;
 			++_size;
 			return new_node;
 		}
@@ -351,7 +355,7 @@ namespace ft
 			node* first_left = first->left;
 			node* first_right = first->right;
 			node* first_parent = first->parent;
-			int first_height = first->height;
+			node* first_root = first->root;
 
 			if (first->parent)
 			{
@@ -368,7 +372,7 @@ namespace ft
 			first->right = second->right;
 			first->left = second->left;
 			first->parent = second->parent;
-			first->height = second->height;
+			first->root = second->root;
 
 			if (second->parent)
 			{
@@ -383,7 +387,7 @@ namespace ft
 				second->right = first_right;
 			second->left = first_left;
 			second->parent = first_parent;
-			second->height = first_height;
+			second->root = first_root;
 			if (!second->parent) // case of root
 				_root = second;
 		}
@@ -463,7 +467,7 @@ namespace ft
 		map(const map &other) : _allocPair(other._allocPair), _allocNode(other._allocNode), _comp(other._comp),
 								_root(NULL), _begin(NULL), _end(NULL), _size(0)
 		{
-			_copy(other);
+			_root = _copy(other, other._root, NULL);
 		}
 
 		~map()
@@ -478,7 +482,7 @@ namespace ft
 		map &operator=(map const &other)
 		{
 			clear();
-			_copy(other);
+			_root = _copy(other, other._root, NULL);
 			return *this;
 		}
 
