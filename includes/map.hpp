@@ -83,29 +83,6 @@ namespace ft
 			std::cout << "-------\n";
 		}
 
-		void _printBT(const std::string &prefix, const node *node, bool isLeft)
-		{
-			if (node && node != _end)
-			{
-				std::cout << prefix;
-
-				std::cout << (isLeft ? "├──" : "└──");
-
-				std::cout << (node->value).first << std::endl;
-
-				// enter the next tree level - left and right branch
-				_printBT(prefix + (isLeft ? "│   " : "	"), node->left, true);
-				_printBT(prefix + (isLeft ? "│   " : "	"), node->right, false);
-			}
-		}
-
-		void _printBT(const node *node)
-		{
-			std::cout << "\n----------\n";
-			_printBT("", node, false);
-			std::cout << "\n----------\n";
-		}
-
 		node* _copy(map const& map, node* const &copy, node* copy_parent)
 		{
 			if (copy == NULL)
@@ -175,7 +152,6 @@ namespace ft
 						new_node->parent->left = new_node;
 				}
 				_balanceTree(tree);
-				// _balance_after_insert(tree);
 				return ft::make_pair<node*, bool>(new_node, true);
 			}
 			pair<node*, bool> ret;
@@ -191,9 +167,6 @@ namespace ft
 		}
 
 //------ AVL ------
-		// void _balance_after_insert(node* tree) {
-			
-		// }
 
 		int _heightTree(node *tree, int height) {
 			if (!tree || tree == _end)
@@ -580,7 +553,6 @@ namespace ft
 			}
 			if (_comp((new_node->value).first, (_begin->value).first))
 				_begin = new_node;
-			// _balanceTree(new_node);
 
 			return ft::make_pair(iterator(new_node), true);
 		}

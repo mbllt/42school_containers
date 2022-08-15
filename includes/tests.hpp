@@ -8,6 +8,12 @@
 #include <time.h>
 #include "utility.hpp"
 
+template <typename C>
+void displayStack(C & c) {
+	for (; !(c.empty()); c.pop())
+		std::cout << c.top() << "|" << std::flush;
+	std::cout << std::endl << "size = " << c.size() << std::endl;
+}
 
 template<typename Vec>
 void displayVec(Vec& vec) {
@@ -60,6 +66,7 @@ void displayMap(Map& map) {
 		return ;
 	}
 	std::cout << "map : { ";
+	// for (typename Map::const_iterator it = map.begin(); it != map.end();++it) {
 	for (typename Map::iterator it = map.begin(); it != map.end();++it) {
 		displayMapNode(it);
 	}

@@ -6,8 +6,9 @@
 void test();
 
 // BUG
-//	-vitesse
-//	-change getP to p in iterator
+//	-deep copy check speed vec
+//	-swap function should not move data but only pointers
+//	-it comp const_it
 
 int main(void) {
 
