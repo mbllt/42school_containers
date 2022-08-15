@@ -52,7 +52,7 @@ void test() {
 	displayMap(fourth);
 
 	fourth[70] = "test";
-	typename map<int, std::string>::iterator it = fourth.begin();
+	map<int, std::string>::iterator it = fourth.begin();
 	it->second = "test";
 	std::cout << "\nchanging first map, second one should not change\n";
 	displayMap(weekend);

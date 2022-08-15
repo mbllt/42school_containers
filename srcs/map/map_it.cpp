@@ -8,7 +8,7 @@ void test() {
 	fillMapIntString(&mapp);
 	displayMap(mapp);
 
-	typename map<int, std::string>::iterator it = mapp.begin();
+	map<int, std::string>::iterator it = mapp.begin();
 
 	//	it++
 	std::cout << "it : ";
@@ -52,7 +52,7 @@ void test() {
 	fillMapIntString(&bis);
 	displayMap(bis);
 
-	typename map<int, std::string>::iterator itbis = bis.begin();
+	map<int, std::string>::iterator itbis = bis.begin();
 
 	//	it++
 	std::cout << "itbis : ";

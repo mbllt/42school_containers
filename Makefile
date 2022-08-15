@@ -72,7 +72,7 @@ PATH_OBJS=		vector stack map
 
 #------------- COMPILER -------------
 FLAGS=			-Wall -Werror -Wextra -std=c++98 -Iincludes/ -g
-CC=				c++
+CC=				clang++
 SAN=			-fsanitize=address -g3
 #------------------------------------
 

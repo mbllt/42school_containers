@@ -51,8 +51,8 @@ void insert() {
 
 	std::cout << "\ntest iterator insert(it hint, value)\n";
 	displayMap(mapp);
-	typename map<int, std::string>::iterator it = mapp.find(54);
-	typename map<int, std::string>::iterator returnn = mapp.insert(it, pair<int, std::string>(85, "HERE"));
+	map<int, std::string>::iterator it = mapp.find(54);
+	map<int, std::string>::iterator returnn = mapp.insert(it, pair<int, std::string>(85, "HERE"));
 	displayMap(mapp);
 	std::cout << "Ret de insert(hint, value) :" << returnn->first << "\n";
 	it = mapp.find(99);
@@ -89,19 +89,19 @@ void erase() {
 	fillMapIntString(&test_erase);
 	displayMap(test_erase);
 
-	typename map<int, std::string>::iterator it = test_erase.begin();
+	map<int, std::string>::iterator it = test_erase.begin();
 	++it;
 	++it;
 	++it;
 	std::cout << "erasing " << it->first << "\n";
 	test_erase.erase(it);
-	typename map<int, std::string>::iterator ite = test_erase.end();
+	map<int, std::string>::iterator ite = test_erase.end();
 	--ite;
 	--ite;
 	--ite;
 	std::cout << "erasing " << ite->first << "\n";
 	test_erase.erase(ite);
-	typename map<int, std::string>::iterator itbis = test_erase.begin();
+	map<int, std::string>::iterator itbis = test_erase.begin();
 	std::cout << "erasing " << itbis->first << "\n";
 	test_erase.erase(itbis);
 	displayMap(test_erase);
@@ -134,9 +134,9 @@ void swap() {
 	fillMapIntString(&src);
 	fillMapIntString(&other);
 
-	typename map<int, std::string>::iterator it = src.begin();
+	map<int, std::string>::iterator it = src.begin();
 	++it;
-	typename map<int, std::string>::reference ref = *(src.begin());
+	map<int, std::string>::reference ref = *(src.begin());
 
 	std::cout << "before swap :\n";
 	std::cout << "src";

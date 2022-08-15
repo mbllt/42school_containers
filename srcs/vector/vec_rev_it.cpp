@@ -2,13 +2,12 @@
 
 void test()
 {
-
 	vector<std::string> vec(20, std::string());
 	fillVecString(&vec);
 	std::cout << "vec :";
 	displayVec(vec);
 
-	typename vector<std::string>::reverse_iterator it = vec.rbegin();
+	vector<std::string>::reverse_iterator it = vec.rbegin();
 
 	//	++(int)
 	std::cout << "it :" << *it << "| ";
@@ -59,9 +58,9 @@ void test()
 
 		size_t nbr = rand() % (vec.size() - 1);
 		size_t nbrbis = rand() % (vec.size() - 1);
-		typename vector<std::string>::reverse_iterator it1 = vec.rbegin();
+		vector<std::string>::reverse_iterator it1 = vec.rbegin();
 		*it1 = vec[nbr];
-		typename vector<std::string>::reverse_iterator it2 = vec.rbegin();
+		vector<std::string>::reverse_iterator it2 = vec.rbegin();
 		*it2 = vec[nbrbis];
 
 		if (*it1 == *it2)
@@ -98,5 +97,7 @@ void test()
 	reverse_iterator<m> rit(vect.begin());
 	reverse_iterator<m> rite(vect.end());
 
-	std::cout << "it(" << *rit << ") - ite(" << *rite << " : " << (rit - rite) << "\n";
+	++rit;
+
+	std::cout << "it(" << *rit << ") - ite(" << *rite << ") : " << (rit - rite) << ")" << "\n";
 }

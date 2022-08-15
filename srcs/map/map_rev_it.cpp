@@ -8,7 +8,7 @@ void test() {
 	fillMapIntString(&mapp);
 	displayMap(mapp);
 
-	typename map<int, std::string>::reverse_iterator it = mapp.rbegin();
+	map<int, std::string>::reverse_iterator it = mapp.rbegin();
 	(void)it;
 
 	//	it++
@@ -55,7 +55,7 @@ void test() {
 	fillMapIntString(&bis);
 	displayMap(bis);
 
-	typename map<int, std::string>::reverse_iterator itbis = bis.rbegin();
+	map<int, std::string>::reverse_iterator itbis = bis.rbegin();
 
 	//	it++
 	std::cout << "itbis : ";

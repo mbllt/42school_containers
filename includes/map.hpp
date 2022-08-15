@@ -12,7 +12,6 @@
 
 namespace ft
 {
-
 	template <
 		class Key,
 		class T,
@@ -509,7 +508,7 @@ namespace ft
 		{
 			iterator it = find(key);
 			if (it == end())
-				throw std::out_of_range("map::at");
+				throw std::out_of_range("map::at:  key not found");
 			return it->second;
 		}
 

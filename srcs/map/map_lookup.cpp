@@ -29,11 +29,11 @@ void find() {
 	mapp[50] = "test";
 	displayMap(mapp);
 
-	typename map<int, std::string>::iterator it1 = mapp.find(50);
-	typename map<int, std::string>::iterator it2 = mapp.find(-14);
-	typename map<int, std::string>::iterator it3 = mapp.find(78);
-	typename map<int, std::string>::iterator it4 = mapp.find(13);
-	typename map<int, std::string>::iterator it5 = mapp.find(3);
+	map<int, std::string>::iterator it1 = mapp.find(50);
+	map<int, std::string>::iterator it2 = mapp.find(-14);
+	map<int, std::string>::iterator it3 = mapp.find(78);
+	map<int, std::string>::iterator it4 = mapp.find(13);
+	map<int, std::string>::iterator it5 = mapp.find(3);
 
 	if (it1 != mapp.end())
 		std::cout << "find(50) :1\n";
@@ -68,11 +68,11 @@ void bound_range() {
 	mapp[80] = "test";
 	mapp[90] = "test";
 	mapp[50] = "test";
-	typename map<int, std::string>::iterator it1 = mapp.lower_bound(7);
-	typename map<int, std::string>::iterator it2 = mapp.lower_bound(55);
-	typename map<int, std::string>::iterator it3 = mapp.upper_bound(5);
-	typename map<int, std::string>::iterator it4 = mapp.upper_bound(80);
-	typename map<int, std::string>::iterator it5 = mapp.upper_bound(50);
+	map<int, std::string>::iterator it1 = mapp.lower_bound(7);
+	map<int, std::string>::iterator it2 = mapp.lower_bound(55);
+	map<int, std::string>::iterator it3 = mapp.upper_bound(5);
+	map<int, std::string>::iterator it4 = mapp.upper_bound(80);
+	map<int, std::string>::iterator it5 = mapp.upper_bound(50);
 	std::cout << "lower_bound(7) :" << it1->first << "\n";
 	std::cout << "lower_bound(55) :" << it2->first << "\n";
 	std::cout << "upper_bound(5) :" << it3->first << "\n";
@@ -80,8 +80,8 @@ void bound_range() {
 	std::cout << "upper_bound(50) :" << it5->first << "\n";
 	displayMap(mapp);
 
-	pair<typename map<int, std::string>::iterator, \
-		typename map<int, std::string>::iterator> \
+	pair<map<int, std::string>::iterator, \
+		map<int, std::string>::iterator> \
 		equal = mapp.equal_range(8);
 
 	std::cout << "return equal_range(8)->first_it->first :" << (equal.first)->first << "\n";
